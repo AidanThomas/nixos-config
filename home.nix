@@ -11,6 +11,8 @@ let
 		".config" = "cd ~/.config";
 	};
 in {
+	nixpkgs.config.allowUnfree = true;
+
 	home.username = "aidant";
 	home.homeDirectory = "/home/aidant";
 
@@ -26,6 +28,7 @@ in {
 		pkgs.rustup
 		pkgs.kitty
 		pkgs.cinnamon.nemo
+		#pkgs.google-chrome
 
 		# Theming
 		pkgs.capitaine-cursors
