@@ -28,5 +28,9 @@
 				modules = [ ./home.nix ];
 			};
 		};
+
+		devShells.${system} = {
+			development = (import ./shells/development.nix { inherit pkgs; });
+		};
 	};
 }

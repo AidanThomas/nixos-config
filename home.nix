@@ -3,6 +3,7 @@ let
 	aliases = {
 		switch-system = "sudo nixos-rebuild switch --flake ~/.dotfiles";
 		switch-home = "home-manager switch --flake ~/.dotfiles";
+		develop = "nix develop ~/.dotfiles#development";
 
 		ll = "ls -la";
 		".." = "cd ..";
