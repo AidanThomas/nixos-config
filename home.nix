@@ -30,6 +30,7 @@ in {
 		pkgs.kitty
 		pkgs.cinnamon.nemo
 		#pkgs.google-chrome
+		pkgs.vscode
 
 		# Theming
 		pkgs.capitaine-cursors
@@ -211,6 +212,11 @@ in {
 		userName = "Aidan Thomas";
 		aliases = {
 			cl = "!f(){ git clone git@github.com:\${1} \${2}; };f";
+		};
+		extraConfig = {
+			init = {
+				defaultBranch = "master";
+			};
 		};
 	};
 

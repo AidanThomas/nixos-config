@@ -15,6 +15,12 @@
 	networking.hostName = "nixos"; # Define your hostname.
 	networking.hosts = {
 		"192.168.1.254" = [ "router.admin.com" ];
+		"192.168.122.243" = [
+			"providers.local.com"
+			"services.local.com"
+			"admin.local.com"
+			#"aidan.portal-agylia.com"
+		];
 	};
 	# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -102,7 +108,7 @@
 	users.users.aidant = {
 		isNormalUser = true;
 		description = "Aidan Thomas";
-		extraGroups = [ "networkmanager" "wheel" ];
+		extraGroups = [ "networkmanager" "wheel" "docker" ];
 		packages = with pkgs; [];
 	};
 
@@ -118,6 +124,10 @@
 		git
 		dconf
 	];
+
+	virtualisation.docker = {
+		enable = true;
+	};
 
 	# Some programs need SUID wrappers, can be configured further or are
 	# started in user sessions.
