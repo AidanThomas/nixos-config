@@ -31,6 +31,7 @@ in {
 		pkgs.cinnamon.nemo
 		#pkgs.google-chrome
 		pkgs.vscode
+		pkgs.discord
 
 		# Theming
 		pkgs.capitaine-cursors
@@ -69,7 +70,7 @@ in {
 		# - Qogir-dark
 		name = "Qogir";
 		package = pkgs.qogir-icon-theme;
-		size = 36;
+		size = 24;
 		gtk.enable = true;
 		x11.enable = true;
 	};
@@ -84,7 +85,7 @@ in {
 		cursorTheme = {
 			name = "Qogir";
 			package = pkgs.qogir-icon-theme;
-			size = 36;
+			size = 24;
 		};
 		# Themes:
 		# - la-capitaine-icon-theme
