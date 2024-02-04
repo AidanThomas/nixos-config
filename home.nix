@@ -105,7 +105,7 @@ in {
 
 	# Configure services
 	services.picom = {
-		enable = false;
+		enable = true;
 		backend = "glx";
 
 		shadow = true;

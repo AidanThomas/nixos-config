@@ -8,9 +8,11 @@
 	imports = [ ./hardware-configuration.nix ];
 
 	# Bootloader.
-	boot.loader.grub.enable = true;
-	boot.loader.grub.device = "/dev/vda";
-	boot.loader.grub.useOSProber = true;
+	# boot.loader.grub.enable = true;
+	# boot.loader.grub.device = "/dev/vda";
+	# boot.loader.grub.useOSProber = true;
+	boot.loader.systemd-boot.enable = true;
+	boot.loader.efi.canTouchEfiVariables = true;
 
 	networking.hostName = "nixos"; # Define your hostname.
 	networking.hosts = {
@@ -49,10 +51,16 @@
 		LC_TIME = "en_GB.UTF-8";
 	};
 
-	hardware.opengl.enable = true;
+	# Enable OpenGL
+	hardware.opengl = {
+		enable = true;
+		driSupport = true;
+		driSupport32Bit = true;
+	};
 
 	services.xserver = {
 		enable = true;
+		videoDrivers = [ "nvidia" ];
 
 		displayManager = {
 			sddm.enable = true;
@@ -79,6 +87,22 @@
 				luadbi-mysql
 			];
 		};
+	};
+
+	hardware.nvidia = {
+		# Modesetting is required
+		modesetting.enable = true;
+
+		powerManagement.enable = false;
+		powerManagement.finegrained = false;
+
+		# Don't use the open source kernel module
+		open = false;
+
+		# Enable the Nvidia settings menu (`nvidia-settings`)
+		nvidiaSettings = true;
+
+		package = config.boot.kernelPackages.nvidiaPackages.production;
 	};
 
 	sound.enable = true;
