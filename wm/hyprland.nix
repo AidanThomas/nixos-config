@@ -7,6 +7,7 @@
             "$mod" = "SUPER";
             bind = [
                 "$mod, RETURN, exec, kitty"
+                "$mod, T, exec, WAYLAND_DISPLAY=1 wezterm"
                 "$mod, Q, exec, hyprctl dispatch exit"
                 "$mod, R, exec, wofi --show drun"
                 "$mod, C, killactive,"

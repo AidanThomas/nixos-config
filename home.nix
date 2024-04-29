@@ -12,7 +12,10 @@ let
 		".config" = "cd ~/.config";
 	};
 in {
-    imports = [ ./wm/hyprland.nix ];
+    imports = [ 
+        ./wm/hyprland.nix
+        ./terminals/kitty.nix
+    ];
 
 	nixpkgs.config.allowUnfree = true;
     nixpkgs.config.permittedInsecurePackages = [ "electron-25.9.0"];
@@ -32,6 +35,7 @@ in {
 		pkgs.gccgo13
 		pkgs.rustup
 		pkgs.kitty
+        pkgs.wezterm
 		pkgs.cinnamon.nemo
 		pkgs.discord
         pkgs.neofetch
@@ -230,26 +234,6 @@ in {
 			init = {
 				defaultBranch = "master";
 			};
-		};
-	};
-
-	programs.kitty = {
-		enable = true;
-		font = {
-			name = "RobotoMono Nerd Font";
-			size = 12;
-		};
-		shellIntegration = {
-			enableBashIntegration = true;
-			enableZshIntegration = true;
-		};
-		theme = "Catppuccin-Mocha";
-		settings = {
-			background_opacity = "1.0";
-			confirm_os_window_close = 0;
-			window_border_width = 0;
-			window_padding_width = 0;
-			window_padding_height = 0;
 		};
 	};
 
