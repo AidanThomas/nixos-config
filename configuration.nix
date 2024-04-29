@@ -8,11 +8,14 @@
 	imports = [ ./hardware-configuration.nix ];
 
 	# Bootloader.
-	# boot.loader.grub.enable = true;
-	# boot.loader.grub.device = "/dev/vda";
-	# boot.loader.grub.useOSProber = true;
-	boot.loader.systemd-boot.enable = true;
-	boot.loader.efi.canTouchEfiVariables = true;
+    boot.loader.grub = {
+      enable = true;
+      device = "nodev";
+      useOSProber = true;
+      efiSupport = true;
+    };
+    boot.loader.efi.canTouchEfiVariables = true;
+    boot.kernelPackages = pkgs.linuxPackages_latest;
 
 	networking.hostName = "nixos"; # Define your hostname.
 	networking.hosts = {
@@ -25,10 +28,6 @@
 		];
 	};
 	# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-	# Configure network proxy if necessary
-	# networking.proxy.default = "http://user:password@proxy:port/";
-	# networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
 	# Enable networking
 	networking.networkmanager.enable = true;
@@ -58,61 +57,26 @@
 		driSupport32Bit = true;
 	};
 
+    # hyprland
+    programs.hyprland.enable = true;
+
 	services.xserver = {
 		enable = true;
-		videoDrivers = [ "nvidia" ];
+		# videoDrivers = [ "nvidia" ];
 
-		displayManager = {
-			sddm.enable = true;
-			defaultSession = "none+awesome";
-		};
-		
-		windowManager.awesome = {
-			enable = true;
-			package = pkgs.awesome.overrideAttrs (old: {
-				version = "e6f5c7980862b7c3ec6c50c643b15ff2249310cc";
-				src = pkgs.fetchFromGitHub {
-					owner = "awesomeWM";
-					repo = "awesome";
-					rev = "e6f5c7980862b7c3ec6c50c643b15ff2249310cc";
-					sha256 = "sha256-afviu5b86JDWd5F12Ag81JPTu9qbXi3fAlBp9tv58fI=";
-				};
-				patches = [ ];
-				postPatch = ''
-					patchShebangs tests/examples/_postprocess.lua
-				'';
-			});
-			luaModules = with pkgs.luaPackages; [
-				luarocks
-				luadbi-mysql
-			];
-		};
-	};
-
-	hardware.nvidia = {
-		# Modesetting is required
-		modesetting.enable = true;
-
-		powerManagement.enable = false;
-		powerManagement.finegrained = false;
-
-		# Don't use the open source kernel module
-		open = false;
-
-		# Enable the Nvidia settings menu (`nvidia-settings`)
-		nvidiaSettings = true;
-
-		package = config.boot.kernelPackages.nvidiaPackages.production;
+        displayManager.gdm.enable = true;
+        desktopManager.gnome.enable = true;
 	};
 
 	sound.enable = true;
+    hardware.pulseaudio.enable = false;
 	security.rtkit.enable = true;
 	services.pipewire = {
 		enable = true;
 		alsa.enable = true;
 		alsa.support32Bit = true;
 		pulse.enable = true;
-		jack.enable = true;
+		# jack.enable = true;
 	};
 
 	# Configure default shells
@@ -136,6 +100,14 @@
 		packages = with pkgs; [];
 	};
 
+    users.users.nixosvmtest = {
+      isSystemUser = true;
+      initialPassword = "test";
+    };
+
+    users.users.nixosvmtest.group = "nixosvmtest";
+    users.groups.nixosvmtest = {};
+
 	# Allow unfree packages
 	nixpkgs.config.allowUnfree = true;
 	nixpkgs.config.allowUnfreePredicate = _: true;
@@ -146,7 +118,6 @@
 		neovim
 		wget
 		git
-		dconf
 	];
 
 	virtualisation.docker = {
