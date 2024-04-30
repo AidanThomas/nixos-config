@@ -15,6 +15,7 @@ in {
     imports = [ 
         ./wm/hyprland.nix
         ./terminals/kitty.nix
+        ./terminals/starship.nix
     ];
 
 	nixpkgs.config.allowUnfree = true;
@@ -170,58 +171,6 @@ in {
         initExtra = "EDITOR=nvim\nNIXOS_OZONE_WL=1";
 	};
 
-	programs.starship = {
-		enable = true;
-		enableBashIntegration = true;
-		enableZshIntegration = true;
-		settings = {
-			format = builtins.concatStringsSep "" [
-				"[  ](bg:#a3aed2 fg:#090c0c)"
-				"$nix_shell"
-				"[](bg:#769ff0 fg:#a3aed2)"
-				"$directory"
-				"[](fg:#769ff0 bg:#394260)"
-				"$git_branch"
-				"$git_status"
-				"[](fg:#394260 bg:#1d2230)"
-				"$time"
-				"[ ](fg:#1d2230)"
-				"$line_break"
-				"$character"
-			];
-			add_newline = false;
-			character = {
-				success_symbol = "[ 󰜴](bold green)";
-				error_symbol = "[ 󰜴](bold red)";
-			};
-			directory = {
-				style = "bold fg:#1a1b26 bg:#769ff0";
-				format = "[ $path ]($style)";
-				truncation_length = 3;
-				truncation_symbol = "…/";
-			};
-			git_branch = {
-				symbol = "";
-				style = "bg:#394260";
-				format = "[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)";
-			};
-			git_status = {
-				style = "bg:#394260";
-				format = "[[($all_status$ahead_behind )](fg:#769ff0 bg:#394260)]($style)";
-			};
-			time = {
-				disabled = false;
-				time_format = "%R"; # Hour:Minute format
-				style = "bg:#1d2230";
-				format = "[[  $time ](fg:#a0a9cb bg:#1d2230)]($style)";
-			};
-			nix_shell = {
-				disabled = false;
-				style = "bold bg:#a3aed2 fg:#090c0c";
-				format = "[ (\($name\)) ]($style)";
-			};
-		};
-	};
 
 	programs.git = {
 		enable = true;
