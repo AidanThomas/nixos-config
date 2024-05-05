@@ -328,9 +328,6 @@ in {
         };
     };
 
-    programs.waybar = {
-        enable = true;
-    };
 
 	# Let home manager manage itself
 	programs.home-manager.enable = true;

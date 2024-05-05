@@ -1,5 +1,10 @@
 { pkgs, ... }:
 {
+    imports = [
+        ./statusbars/waybar.nix
+        ./statusbars/eww.nix
+    ];
+
     wayland.windowManager.hyprland = {
         enable = true;
         xwayland.enable = true;
@@ -61,12 +66,6 @@
                 force_zero_scaling = true
             }
         '';
-    };
-
-    programs.eww = {
-        enable = true;
-        package = pkgs.eww-wayland;
-        configDir = ./eww;
     };
 
     home.packages = [
