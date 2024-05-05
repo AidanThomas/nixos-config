@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
     wayland.windowManager.hyprland = {
         enable = true;
@@ -28,7 +28,10 @@
                 )
                 10)
             );
-            exec-once = "waybar";
+            exec-once = [
+                "waybar"
+                "mpvpaper -f -o \"no-audio loop\" eDP-1 ~/.wallpapers/AnimatedCosmereWallpaper.mp4"
+            ];
 
             general = {
                 gaps_out = 10;
@@ -47,6 +50,11 @@
                 workspace_swipe_fingers = 3;
             };
 
+            misc = {
+                disable_hyprland_logo = true;
+                disable_splash_rendering = true;
+            };
+
         };
         extraConfig = ''
             xwayland {
@@ -54,4 +62,14 @@
             }
         '';
     };
+
+    programs.eww = {
+        enable = true;
+        package = pkgs.eww-wayland;
+        configDir = ./eww;
+    };
+
+    home.packages = [
+        pkgs.mpvpaper
+    ];
 }

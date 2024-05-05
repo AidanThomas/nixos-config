@@ -45,6 +45,7 @@ in {
         pkgs.fd
         pkgs.wofi
         pkgs.obsidian
+        pkgs.discord
 
 		# Theming
 		pkgs.capitaine-cursors
@@ -67,6 +68,7 @@ in {
         "/home/aidant/.config/electron-flags.conf".text = ''
             --enable-featureUseOzonePlatform --ozone-platform=wayland
         '';
+        "/home/aidant/.wallpapers".source = ./wallpapers;
     };
 
 	# Configure X
@@ -179,6 +181,7 @@ in {
 		aliases = {
 			cl = "!f(){ git clone git@github.com:\${1} \${2}; };f";
 		};
+        lfs.enable = true;
 		extraConfig = {
 			init = {
 				defaultBranch = "master";
