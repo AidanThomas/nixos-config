@@ -46,6 +46,10 @@ in {
         pkgs.wofi
         pkgs.obsidian
         pkgs.discord
+        pkgs.dunst
+        pkgs.libnotify
+        pkgs.socat
+        pkgs.jq
 
 		# Theming
 		pkgs.capitaine-cursors

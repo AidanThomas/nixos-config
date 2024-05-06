@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
     imports = [
-        ./statusbars/waybar.nix
+        # ./statusbars/waybar.nix
         ./statusbars/eww.nix
     ];
 
@@ -34,7 +34,7 @@
                 10)
             );
             exec-once = [
-                "waybar"
+                # "waybar"
                 "mpvpaper -f -o \"no-audio loop\" eDP-1 ~/.wallpapers/AnimatedCosmereWallpaper.mp4"
             ];
 
@@ -47,7 +47,8 @@
             };
 
             input = {
-                kb_layout = "gb";
+                kb_layout = "gb,us";
+                kb_options = "grp:caps_toggle";
             };
 
             gestures = {
