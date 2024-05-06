@@ -2,7 +2,8 @@
 
 spaces (){
     WORKSPACE_WINDOWS=$(hyprctl workspaces -j | jq 'map({key: .id | tostring, value: .windows}) | from_entries')
-	seq 1 9 | jq --argjson windows "${WORKSPACE_WINDOWS}" --slurp -Mc 'map(tostring) | map({id: ., windows: ($windows[.]//0)})'
+    NUMBER=$(echo "$WORKSPACE_WINDOWS" | jq --slurp '.[] | length')
+    seq 1 $NUMBER | jq --argjson windows "${WORKSPACE_WINDOWS}" --slurp -Mc 'map(tostring) | map({id: ., windows: ($windows[.]//0)})'
 }
 
 spaces
