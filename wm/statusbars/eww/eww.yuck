@@ -21,7 +21,7 @@
       (box :orientation "horizontal"
            :halign "end"
            :hexpand true
-           (label :text "${EWW_BATTERY.BAT0.capacity}"))))
+           (battery))))
 
 (defpoll time 
          :interval "1s"
@@ -42,3 +42,6 @@
       (image :path "icons/radio_button_${workspace.id == current_workspace ? "on" : "off" }.svg"
              :image-height 20
              :image-width 20)))))))
+
+(defwidget battery []
+ (label :text "${EWW_BATTERY.BAT0.capacity}"))

@@ -17,6 +17,10 @@
 			window_padding_width = 0;
 			window_padding_height = 0;
 		};
+        keybindings = {
+            "kitty_mod+]" = "next_tab";
+            "kitty_mod+[" = "previous_tab";
+        };
         extraConfig = ''
             # vim:ft=kitty
 
