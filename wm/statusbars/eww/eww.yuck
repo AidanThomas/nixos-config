@@ -21,7 +21,8 @@
       (box :orientation "horizontal"
            :halign "end"
            :hexpand true
-           (battery))))
+           (battery :capacity {EWW_BATTERY.BAT0.capacity}
+                    :status {EWW_BATTERY.BAT0.status}))))
 
 (defpoll time 
          :interval "1s"
@@ -43,5 +44,14 @@
              :image-height 20
              :image-width 20)))))))
 
-(defwidget battery []
- (label :text "${EWW_BATTERY.BAT0.capacity}"))
+(defwidget battery [capacity status]
+ (box :orientation "horizontal"
+      (label :text "${capacity}")
+      (image :path "icons/battery_${status == 'Charging' ? "charging" :
+        capacity > 80 ? "100" :
+        capacity > 60 ? "80" :
+        capacity > 40 ? "60" :
+        capacity > 20 ? "40" : "20"}.png"
+             :image-height 20
+             :image-width 20)))
+
