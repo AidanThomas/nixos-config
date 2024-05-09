@@ -21,12 +21,18 @@
       (box :orientation "horizontal"
            :halign "end"
            :hexpand true
+           (metric :label ""
+                   :value volume
+                   :onchange "amixer sset Master {}%")
            (battery :capacity {EWW_BATTERY.BAT0.capacity}
                     :status {EWW_BATTERY.BAT0.status}))))
 
 (defpoll time 
          :interval "1s"
  `date +%H:%M:%S`)
+
+(defpoll volume :interval "1s"
+ "scripts/get-volume.sh")
 
 (deflisten workspaces :initial "[]" "bash ~/.config/eww/scripts/get-workspaces.sh")
 (deflisten current_workspace :intial "..." "bash ~/.config/eww/scripts/get-active-workspace.sh")
@@ -54,4 +60,15 @@
         capacity > 20 ? "40" : "20"}.png"
              :image-height 20
              :image-width 20)))
+
+(defwidget metric [label value onchange]
+ (box :orientation "h"
+      :class "metric"
+      :space-evenly false
+  (box :class "label" label)
+  (scale :min 0
+         :max 101
+         :active {onchange != ""}
+         :value value
+         :onchange onchange)))
 
