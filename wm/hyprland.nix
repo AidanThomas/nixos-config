@@ -35,7 +35,8 @@
             );
             exec-once = [
                 # "waybar"
-                "mpvpaper -f -o \"no-audio loop\" eDP-1 ~/.wallpapers/AnimatedCosmereWallpaper.mp4"
+                # "mpvpaper -f -o \"no-audio loop\" eDP-1 ~/.wallpapers/AnimatedCosmereWallpaper.mp4"
+                "swww init && swww img ~/.wallpapers/dawn-lake.jpg"
             ];
 
             general = {
@@ -71,5 +72,6 @@
 
     home.packages = [
         pkgs.mpvpaper
+        pkgs.swww
     ];
 }
