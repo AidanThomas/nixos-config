@@ -5,7 +5,7 @@
 (defpoll volume_percent :interval "3s" "amixer sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
 (defpoll mic_percent :interval "3s" "amixer sget Capture | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
 (defpoll brightness_percent :interval "3s" "brightnessctl -m -d acpi_video0 | awk -F, '{ print substr($4, 0, length($4)-1)} | tr -d '%'")
-(defpoll caldenar_day :interval "20h" "date '+%_d'")
+(defpoll calendar_day :interval "20h" "date '+%_d'")
 (defpoll calendar_year :interval "20h" "date '+%Y")
 (defpoll COL_WLAN :interval "1m" "~/.config/eww/scripts/wifi.sh --COL")
 (defpoll ESSID_WLAN :interval "1m" "~/.config/eww/scripts/wifi.sh --ESSID")
@@ -75,14 +75,15 @@
 (defwidget clock_module []
  (eventbox :onhover "eww update time_reveal=true"
            :onhoverlost "eww update time_reveal=false"
-  (box :space-evenly "false" :orientation "h" :spacing "3"
-   (label :text clock_hour)
-   (label :text ":")
-   (label :text clock_minute)
+  (box :space-evenly false :orientation "h" :spacing "3"
+   (label :text clock_hour :class "clock_hour")
+   (label :text ":" :class "clock_time_sep")
+   (label :text clock_minute :class "clock_minute")
    (revealer :transition "slideleft"
              :reveal time_reveal
              :duration "350ms"
-             (label :text clock_date)))))
+    (button :class "clock_date_class"
+               :onclick "$HOME/.config/eww/scripts/pop.sh calendar && eww update time_reveal=false" clock_date)))))
 
 (defwidget bright []
  (eventbox :onhover "eww update br_reveal=true" :onhoverlost "eww update br_reveal=false"
@@ -103,7 +104,7 @@
  (eventbox :onhover "eww update vol_reveal=true"
            :onhoverlost "eww update vol_reveal=false"
   (box :space-evenly false :orientation "h" :spacing "3"
-   (button :onclick "~/.config/eww/scripts/pop.sh audio_ctl" "")
+   (button :onclick "~/.config/eww/scripts/pop.sh audio_ctl && eww update vol_reveal=false" "")
    (revealer :transition "slideleft"
              :reveal vol_reveal
              :duration "350ms"
@@ -120,7 +121,7 @@
            :onhoverlost "eww update wifi_reveal=false"
   (box :vexpand false :hexpand false :space-evenly false
    (button :class "module-wifi"
-           :onclick "networkmanager_dmenu"
+           :onclick "networkmanager_dmenu && wifi_reveal=false"
            :wrap false
            :limit-width 12
            :style "color: ${COL_WLAN};" WLAN_ICON)
@@ -194,3 +195,18 @@
                                          :width "280px"
                                          :height "60px")
  (audio))
+
+(defwidget cal []
+ (box :class "cal" :orientation "v"
+  (box :class "cal-in"
+   (calendar :class "cal"
+             :day calendar_day
+             :year calendar_year))))
+
+(defwindow calendar :monitor 0
+                    :geometry (geometry :x "-20px"
+                                        :y "7%"
+                                        :anchor "top center"
+                                        :width "270px"
+                                        :height "60px")
+ (cal))
