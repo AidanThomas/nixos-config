@@ -1,5 +1,5 @@
 ;; Variables
-(defpoll clock_hour :interval "5m" "date +\%I")
+(defpoll clock_hour :interval "5m" "date +\%H")
 (defpoll clock_minute :interval "5s" "date +\%M")
 (defpoll clock_date :interval "10h" "date +'%a %_d %b'")
 (defpoll volume_percent :interval "3s" "amixer sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
