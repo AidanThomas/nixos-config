@@ -11,6 +11,9 @@
 (defpoll ESSID_WLAN :interval "1m" "~/.config/eww/scripts/wifi.sh --ESSID")
 (defpoll WLAN_ICON :interval "1m" "~/.config/eww/scripts/wifi.sh --ICON")
 (defpoll memory :interval "15s" "~/.config/eww/scripts/memory.sh")
+(defpoll memory_used_mb :interval "2m" "~/.config/eww/scripts/mem-ad.sh used")
+(defpoll memory_total_mb :interval "2m" "~/.config/eww/scripts/mem-ad.sh total")
+(defpoll memory_free_mb :interval "2m" "~/.config/eww/scripts/mem-ad.sh free")
 (defvar br_reveal false)
 (defvar vol_reveal false)
 (defvar wifi_reveal false)
@@ -210,3 +213,75 @@
                                         :width "270px"
                                         :height "60px")
  (cal))
+
+(defwidget system [capacity status]
+ (box :class "sys_win" :orientation "v" :space-evenly false :hexpand false :vexpand false :spacing 0
+  (box :class "sys_bat_box" :orientation "h" :space-evenly "false"
+   (circular-progress :value capacity
+                      :class "sys-bat"
+                      :thickness 9
+                      :start-at 75
+    (label :text "${status == 'Charging' ? "󱐋" : "⏻"}"
+           :class "sys_icon_bat"
+           :limit-width 2
+           :show_truncated false
+           :wrap false))
+   (box :orientation "v" :space-evenly false :spacing 0 :hexpand false :vexpand false
+    (label :text "battery"
+           :halign "start"
+           :class "sys_text_bat"
+           :limit-width 9
+           :show_truncated false
+           :wrap false)
+    (label :text "${capacity}%"
+           :halign "start"
+           :class "sys_text_bat_sub"
+           :limit-width 22
+           :show_truncated false
+           :wrap false)
+    (label :text "${status}"
+           :halign "start"
+           :class "sys_text_bat_sub"
+           :limit-width 22
+           :show_truncated false
+           :wrap false)))
+  (label :text "" :class  "sys_sep" :halign "center")
+  (box :class "sys_mem_box" :orientation "h" :space-evenly false :halign "start"
+   (circular-progress :value memory
+                      :class "sys-mem"
+                      :thickness 9
+                      :start-at 75
+    (label :text ""
+           :class "sys_icon_mem"
+           :limit-width 2
+           :show_truncated false
+           :wrap false
+           :angle 0.0))
+   (box :orientation "v" :space-evenly false :spacing 0 :hexpand false :vexpand false
+    (label :text "memory"
+           :halign "start"
+           :class "sys_text_mem"
+           :limit-width 9
+           :show_truncated false
+           :wrap false)
+    (label :text "${memory_used_mb} | ${memory_total_mb}mb "
+           :halign "start"
+           :class "sys_text_mem_sub"
+           :limit-width 22
+           :show_truncated false
+           :wrap false)
+    (label :text "${memory_free_mb}mb free"
+           :halign "start"
+           :class "sys_text_mem_sub"
+           :limit-width 22
+           :show_truncated false
+           :wrap false)))))
+
+(defwindow system :monitor 0
+                  :geometry (geometry :x "-20px"
+                                      :y "7%"
+                                      :anchor "top right"
+                                      :width "290px"
+                                      :height "120px")
+ (system :capacity "${EWW_BATTERY.BAT0.capacity}"
+         :status "${EWW_BATTERY.BAT0.status}"))
