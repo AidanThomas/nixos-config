@@ -10,6 +10,7 @@
 (defpoll COL_WLAN :interval "1m" "~/.config/eww/scripts/wifi.sh --COL")
 (defpoll ESSID_WLAN :interval "1m" "~/.config/eww/scripts/wifi.sh --ESSID")
 (defpoll WLAN_ICON :interval "1m" "~/.config/eww/scripts/wifi.sh --ICON")
+(defpoll memory :interval "15s" "~/.config/eww/scripts/memory.sh")
 (defvar br_reveal false)
 (defvar vol_reveal false)
 (defvar wifi_reveal false)
@@ -31,22 +32,27 @@
  :stacking "fg"
  :exclusive true
  :focusable false
- (box :orientation "horizontal"
-      :halign "fill"
-      :hexpand true
-      (box :orientation "horizontal"
+ (box :orientation "h"
+      :class "status_bar"
+      (box :orientation "h"
            :halign "start"
-           (_workspaces))
-      (box :orientation "horizontal"
-           :halign "center"
-           (clock_module))
-      (box :orientation "horizontal"
-           :halign "end"
-           :hexpand false
            :space-evenly false
+           :class "left-modules"
+           (_workspaces))
+      (box :orientation "h"
+           :halign "center"
+           :space-evenly false
+           :class "center-modules"
+           (clock_module))
+      (box :orientation "h"
+           :halign "end"
+           :space-evenly false
+           :class "right-modules"
            (bright)
            (volume)
            (wifi)
+           (sep)
+           (mem)
            (bat :capacity "${EWW_BATTERY.BAT0.capacity}"
                 :status "${EWW_BATTERY.BAT0.status}"))))
 
@@ -125,9 +131,24 @@
              :text ESSID_WLAN
              :orientation "h")))))
 
+(defwidget mem []
+ (box :class "mem_module" :vexpand false :hexpand false
+  (circular-progress :value memory
+                     :start-at 75
+                     :class "membar"
+                     :thickness 4
+   (button :class "iconmem"
+           :limit-width 2
+           :tooltip "using ${memory}% ram"
+           :onclick "$HOME/.config/eww/scripts/pop.sh system"
+           :show_truncated false
+           :wrap false
+           ""))))
+
 (defwidget bat [capacity status]
  (box :class "bat_module" :vexpand false :hexpand false
   (circular-progress :value capacity
+                     :start-at 75
                      :class "batbar"
                      :thickness 4
    (button :class "iconbat"
