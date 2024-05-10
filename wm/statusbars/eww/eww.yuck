@@ -47,8 +47,8 @@
            (bright)
            (volume)
            (wifi)
-           (battery :capacity {EWW_BATTERY.BAT0.capacity}
-                    :status {EWW_BATTERY.BAT0.status}))))
+           (bat :capacity "${EWW_BATTERY.BAT0.capacity}"
+                :status "${EWW_BATTERY.BAT0.status}"))))
 
 (defwidget sep []
  (box :vexpand false :hexpand false
@@ -62,9 +62,9 @@
    (for workspace in workspaces
     (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}"
      (box :class "workspace-entry ${workspace.id == current_workspace ? "current" : ""} ${workspace.windows > 0 ? "occupied" : "empty"} ${workspace.id == urgent_workspace ? "urgent" : ""}"
-      (image :path "icons/radio_button_${workspace.id == current_workspace ? "on" : "off" }.svg"
-             :image-height 20
-             :image-width 20)))))))
+          :spacing 3
+      (label :text "${workspace.id == current_workspace ? " " : " " }"
+             :class "workspace-icon")))))))
 
 (defwidget clock_module []
  (eventbox :onhover "eww update time_reveal=true"
@@ -125,16 +125,18 @@
              :text ESSID_WLAN
              :orientation "h")))))
 
-(defwidget battery [capacity status]
- (box :orientation "horizontal"
-      (label :text "${capacity}")
-      (image :path "icons/battery_${status == 'Charging' ? "charging" :
-        capacity > 80 ? "100" :
-        capacity > 60 ? "80" :
-        capacity > 40 ? "60" :
-        capacity > 20 ? "40" : "20"}.png"
-             :image-height 20
-             :image-width 20)))
+(defwidget bat [capacity status]
+ (box :class "bat_module" :vexpand false :hexpand false
+  (circular-progress :value capacity
+                     :class "batbar"
+                     :thickness 4
+   (button :class "iconbat"
+           :limit-width 2
+           :tooltip "battery on ${capacity}%"
+           :show_truncated false
+           :onclick "$HOME/.config/eww/scripts/pop.sh system"
+           :wrap false
+           "${status == 'Charging' ? "󱐋" : ""}"))))
 
 (defwidget audio []
  (box :class "audio-box" :orientation "v" :space-evenly false :vexpand false :hexpand false
