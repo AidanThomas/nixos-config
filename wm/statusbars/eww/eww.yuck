@@ -147,7 +147,7 @@
            :onclick "$HOME/.config/eww/scripts/pop.sh system"
            :show_truncated false
            :wrap false
-           ""))))
+           "󰇅"))))
 
 (defwidget bat [capacity status]
  (box :class "bat_module" :vexpand false :hexpand false
@@ -161,7 +161,7 @@
            :show_truncated false
            :onclick "$HOME/.config/eww/scripts/pop.sh system"
            :wrap false
-           "${status == 'Charging' ? "󱐋" : ""}"))))
+           "${status == 'Charging' ? "󰚥" : "󱐋"}"))))
 
 (defwidget audio []
  (box :class "audio-box" :orientation "v" :space-evenly false :vexpand false :hexpand false
@@ -221,7 +221,7 @@
                       :class "sys_bat"
                       :thickness 9
                       :start-at 75
-    (label :text "${status == 'Charging' ? "󱐋" : "⏻"}"
+    (label :text "${status == 'Charging' ? "󰚥" : "󱐋"}"
            :class "sys_icon_bat"
            :limit-width 2
            :show_truncated false
@@ -251,7 +251,7 @@
                       :class "sys_mem"
                       :thickness 9
                       :start-at 75
-    (label :text ""
+    (label :text "󰇅"
            :class "sys_icon_mem"
            :limit-width 2
            :show_truncated false
