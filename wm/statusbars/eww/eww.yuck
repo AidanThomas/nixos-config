@@ -4,7 +4,7 @@
 (defpoll clock_date :interval "10h" "date +'%a %_d %b'")
 (defpoll volume_percent :interval "3s" "amixer sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
 (defpoll mic_percent :interval "3s" "amixer sget Capture | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
-(defpoll brightness_percent :interval "3s" "brightnessctl -m -d acpi_video0 | awk -F, '{ print substr($4, 0, length($4)-1)} | tr -d '%'")
+(defpoll brightness_percent :interval "3s" "brightnessctl -m -d acpi_video0 | awk -F, '{ print $4 }' | tr -d '%'")
 (defpoll calendar_day :interval "20h" "date '+%_d'")
 (defpoll calendar_year :interval "20h" "date '+%Y")
 (defpoll COL_WLAN :interval "1m" "~/.config/eww/scripts/wifi.sh --COL")
@@ -28,8 +28,8 @@
 (defwindow statusbar
  :monitor 0
  :geometry (geometry :x "0%"
-                     :y "9px"
-                     :width "98%"
+                     :y "1%"
+                     :width "99%"
                      :height "30px"
                      :anchor "top center")
  :stacking "fg"
@@ -43,11 +43,6 @@
            :class "left_modules"
            (_workspaces))
       (box :orientation "h"
-           :halign "center"
-           :space-evenly false
-           :class "center_modules"
-           (clock_module))
-      (box :orientation "h"
            :halign "end"
            :space-evenly false
            :class "right_modules"
@@ -57,30 +52,35 @@
            (sep)
            (mem)
            (bat :capacity "${EWW_BATTERY.BAT0.capacity}"
-                :status "${EWW_BATTERY.BAT0.status}"))))
+                :status "${EWW_BATTERY.BAT0.status}")
+           (sep)
+           (clock_module))))
 
 (defwidget sep []
- (box :class "module-2" :vexpand false :hexpand false
-  (label :class "separ" :text "|")))
+ (box :class "module-2" :vexpand true :hexpand false
+  (label :class "separ" :text "" :valign "center")))
 
 (defwidget _workspaces []
  (eventbox :onscroll "bash ~/.config/ewww/scripts/change-current-workspace.sh {} ${current_workspace}"
            :class "workspaces-widget"
-  (box :space-evenly true
+           :vexpand false
+  (box :space-evenly false :vexpand false
    (label :text "${workspaces}${current_workspace}${urgent_workspace}" :visible false)
    (for workspace in workspaces
-    (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}"
+    (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}" :vexpand false
      (box :class "workspace-entry ${workspace.id == current_workspace ? "current" : ""} ${workspace.windows > 0 ? "occupied" : "empty"} ${workspace.id == urgent_workspace ? "urgent" : ""}"
-          :spacing 3
-      (label :text "${workspace.id == current_workspace ? " " : " " }"
+          :vexpand false
+          :valign "center"
+          :hexpand false
+      (label :text "${workspace.id == current_workspace ? "" : "" }"
              :class "workspace-icon")))))))
 
 (defwidget clock_module []
  (eventbox :onhover "eww update time_reveal=true"
            :onhoverlost "eww update time_reveal=false"
-  (box :class "module" :space-evenly false :orientation "h" :spacing "3"
+  (box :class "module" :space-evenly false :orientation "h"
    (label :text clock_hour :class "clock_hour")
-   (label :text ":" :class "clock_time_sep")
+   ;; (label :text ":" :class "clock_time_sep")
    (label :text clock_minute :class "clock_minute")
    (revealer :transition "slideleft"
              :reveal time_reveal
@@ -90,7 +90,7 @@
 
 (defwidget bright []
  (eventbox :onhover "eww update br_reveal=true" :onhoverlost "eww update br_reveal=false"
-  (box :class "module-2" :space-evenly false :orientation "h" :spacing "3"
+  (box :space-evenly false :orientation "h"
     (label :text " " :class "bright_icon" :tooltip "brightness")
     (revealer :transition "slideleft"
               :reveal br_reveal
@@ -207,9 +207,9 @@
              :year calendar_year))))
 
 (defwindow calendar :monitor 0
-                    :geometry (geometry :x "-20px"
-                                        :y "7%"
-                                        :anchor "top center"
+                    :geometry (geometry :x "6px"
+                                        :y "1%"
+                                        :anchor "top right"
                                         :width "270px"
                                         :height "60px")
  (cal))

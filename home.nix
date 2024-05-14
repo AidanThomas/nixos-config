@@ -50,6 +50,9 @@ in {
         pkgs.libnotify
         pkgs.socat
         pkgs.jq
+        pkgs.wl-clipboard
+        pkgs.grim
+        pkgs.slurp
 
 		# Theming
 		pkgs.capitaine-cursors
