@@ -1,14 +1,15 @@
-{ pkgs, ... }:
+{ pkgs, usr, ... }:
 {
     imports = [
-        # ./statusbars/waybar.nix
-        ./statusbars/eww.nix
-    ];
+
+    ] ++ (if usr.display.wm.statusbar == "waybar" then [ ./statusbars/waybar.nix] else 
+         (if usr.display.wm.statusbar == "eww" then [ ./statusbars/eww.nix] else []));
 
     wayland.windowManager.hyprland = {
         enable = true;
         xwayland.enable = true;
         settings = {
+            "monitor" = "Unknown-1,disable";
             "$mod" = "SUPER";
             bind = [
                 "$mod, RETURN, exec, kitty"
@@ -37,7 +38,11 @@
                 # "waybar"
                 # "mpvpaper -f -o \"no-audio loop\" eDP-1 ~/.wallpapers/AnimatedCosmereWallpaper.mp4"
                 "swww init && swww img ~/.wallpapers/dawn-lake.jpg"
-            ];
+            ] ++ (if usr.display.wm.wallpaperengine == "mpvpaper" then
+                 [ "mpvpaper -f -o \"no-audio loop\" eDP-1 ~/.wallpapers/AnimatedCosmereWallpaper.mp4" ] else 
+                 (if usr.display.wm.wallpaperengine == "swww" then
+                 [ "sww init && swww img ~/.wallpapers/dawn-lake.jpg"] else []))
+              ++ (if usr.display.wm.statusbar == "waybar" then [ "waybar" ] else []);
 
             general = {
                 gaps_out = 10;
@@ -71,7 +76,12 @@
     };
 
     home.packages = [
-        pkgs.mpvpaper
-        pkgs.swww
-    ];
+        pkgs.wl-clipboard
+        pkgs.grim
+        pkgs.slurp
+        pkgs.xdg-desktop-portal-hyprland
+        pkgs.wofi
+        pkgs.dunst
+    ] ++ (if usr.display.wm.wallpaperengine == "mpvpaper" then [ pkgs.mpvpaper ] else
+         (if usr.display.wm.wallpaperengine == "swww" then [ pkgs.swww ] else []));
 }

@@ -9,6 +9,8 @@
     home.packages = [
         pkgs.networkmanager_dmenu
         pkgs.brightnessctl
+        pkgs.socat
+        pkgs.jq
     ];
 
     home.file = {

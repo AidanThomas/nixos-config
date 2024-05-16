@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, sys, usr, ... }:
 
 {
 	imports = [ ./hardware-configuration.nix ];
@@ -15,9 +15,9 @@
       efiSupport = true;
     };
     boot.loader.efi.canTouchEfiVariables = true;
-    boot.kernelPackages = pkgs.linuxPackages_latest;
+    boot.kernelPackages = pkgs.linuxPackages;
 
-	networking.hostName = "nixos"; # Define your hostname.
+	networking.hostName = sys.hostname;
 	networking.hosts = {
 		"192.168.1.254" = [ "router.admin.com" ];
 		"192.168.122.243" = [
@@ -57,12 +57,21 @@
 		driSupport32Bit = true;
 	};
 
+    hardware.nvidia = (if sys.hardware.nvidia then {
+        modesetting.enable = true;
+        powerManagement.enable = false;
+        powerManagement.finegrained = false;
+        open = false;
+        nvidiaSettings = true;
+        package = config.boot.kernelPackages.nvidiaPackages.production;
+    } else {});
+
     # hyprland
     programs.hyprland.enable = true;
 
 	services.xserver = {
 		enable = true;
-		# videoDrivers = [ "nvidia" ];
+		videoDrivers = [ ] ++ (if sys.hardware.nvidia then [ "nvidia" ] else []);
 
         displayManager.gdm.enable = true;
         desktopManager.gnome.enable = true;
@@ -85,8 +94,10 @@
 
 	# Configure keymap in X11
 	services.xserver = {
-		layout = "gb";
-		xkbVariant = "";
+        xkb = {
+            layout = "gb";
+            variant = "";
+        };
 	};
 
 	# Configure console keymap
@@ -97,7 +108,7 @@
 		isNormalUser = true;
 		description = "Aidan Thomas";
 		extraGroups = [ "networkmanager" "wheel" "docker" ];
-		packages = with pkgs; [];
+		packages = []; 
 	};
 
     users.users.nixosvmtest = {
@@ -114,10 +125,12 @@
 
 	# List packages installed in system profile. To search, run:
 	# $ nix search wget
-	environment.systemPackages = with pkgs; [
-		neovim
-		wget
-		git
+	environment.systemPackages = [
+		pkgs.neovim
+		pkgs.wget
+		pkgs.git
+        pkgs.firefox
+        pkgs.libnotify
 	];
 
 	virtualisation.docker = {
