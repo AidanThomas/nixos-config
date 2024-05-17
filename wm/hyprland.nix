@@ -67,6 +67,9 @@
                 disable_splash_rendering = true;
             };
 
+            env = [
+                "ELECTRON_OZONE_PLATFORM_HINT,auto"
+            ];
         };
         extraConfig = ''
             xwayland {

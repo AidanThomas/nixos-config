@@ -38,6 +38,8 @@ in {
         pkgs.fd
         pkgs.obsidian
         pkgs.discord
+        pkgs.gimp
+        pkgs.spotify
 
 		# Theming
 		pkgs.capitaine-cursors
@@ -51,6 +53,7 @@ in {
             --enable-featureUseOzonePlatform --ozone-platform=wayland
         '' else '''');
         "/home/aidant/.wallpapers".source = ./wallpapers;
+        "/home/aidant/.local/share/applications".source = ./applications;
     };
 
 	# Configure X

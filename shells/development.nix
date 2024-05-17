@@ -12,6 +12,6 @@ pkgs.mkShell {
 	];
 
 	shellHook = ''
-        rustupd default stable
+        rustup default stable
 	'';
 }
