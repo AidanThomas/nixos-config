@@ -2,7 +2,7 @@
 (defpoll clock_hour :interval "5m" "date +\%H")
 (defpoll clock_minute :interval "5s" "date +\%M")
 (defpoll clock_date :interval "10h" "date +'%a %_d %b'")
-(defpoll volume_percent :interval "3s" "amixer sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
+(defpoll volume_percent :interval "3s" "amixer sget Master | grep 'Front Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
 (defpoll mic_percent :interval "3s" "amixer sget Capture | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
 (defpoll brightness_percent :interval "3s" "brightnessctl -m -d acpi_video0 | awk -F, '{ print $4 }' | tr -d '%'")
 (defpoll calendar_day :interval "20h" "date '+%_d'")
@@ -91,7 +91,7 @@
 (defwidget bright []
  (eventbox :onhover "eww update br_reveal=true" :onhoverlost "eww update br_reveal=false"
   (box :space-evenly false :orientation "h"
-    (label :text " " :class "bright_icon" :tooltip "brightness")
+    (label :text "" :class "bright_icon" :tooltip "brightness")
     (revealer :transition "slideleft"
               :reveal br_reveal
               :duration "350ms"
@@ -177,7 +177,6 @@
             :tooltip "volume on ${volume_percent}%"
             :max 100
             :min 0))))
-  (label :text "" :class "audio_sep" :halign "center")
   (box :halign "v" :space-evenly false :hexpand false :vexpand false
    (box :class "mic_icon" :orientation "v")
    (box :orientation "v" :halign "center" :vexpand false :hexpand false
@@ -192,10 +191,10 @@
             :min 0))))))
 
 (defwindow audio_ctl :monitor 0
-                     :geometry (geometry :x "-20px"
-                                         :y "7%"
+                     :geometry (geometry :x "6px"
+                                         :y "1%"
                                          :anchor "top right"
-                                         :width "280px"
+                                         :width "235px"
                                          :height "60px")
  (audio))
 
@@ -245,7 +244,6 @@
            :limit-width 22
            :show_truncated false
            :wrap false)))
-  (label :text "" :class  "sys_sep" :halign "center")
   (box :class "sys_mem_box" :orientation "h" :space-evenly false :halign "start"
    (circular-progress :value memory
                       :class "sys_mem"
@@ -278,10 +276,10 @@
            :wrap false)))))
 
 (defwindow system :monitor 0
-                  :geometry (geometry :x "-20px"
-                                      :y "7%"
+                  :geometry (geometry :x "6px"
+                                      :y "1%"
                                       :anchor "top right"
-                                      :width "290px"
+                                      :width "260px"
                                       :height "120px")
  (system :capacity "${EWW_BATTERY.BAT0.capacity}"
          :status "${EWW_BATTERY.BAT0.status}"))
