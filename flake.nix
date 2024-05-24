@@ -23,11 +23,11 @@
             username = "aidant";
             display = {
                 wm = {
-                    name = "hyprland";
+                    name = "awesome";
                     statusbar = "eww";
-                    wallpaperengine = "swww";
+                    wallpaperengine = "awesome";
                 };
-                backend = "wayland";
+                backend = "x11";
                 dpi = 109; # Calculate using https://dpi.lv/
             };
             theme = {
@@ -57,8 +57,8 @@
 				inherit pkgs;
 				modules = [ 
                     ./home.nix
-                    hyprland.homeManagerModules.default
-                    {wayland.windowManager.hyprland.enable = true;}
+                    # hyprland.homeManagerModules.default
+                    # {wayland.windowManager.hyprland.enable = true;}
                 ];
                 extraSpecialArgs = {
                     inherit usr;

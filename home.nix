@@ -8,13 +8,12 @@ let
 		ll = "ls -la";
 		".." = "cd ..";
 		c = "clear";
-		".dotfiles" = "cd ~/.dotfiles";
-		".config" = "cd ~/.config";
 	};
 in {
     imports = [ 
         ./terminals/starship.nix
-    ] ++ (if usr.display.wm.name == "hyprland" then [ ./wm/hyprland.nix ] else [])
+    ] ++ (if usr.display.wm.name == "hyprland" then [ ./wm/hyprland.nix ] else
+         (if usr.display.wm.name == "awesome" then [ ./wm/awesome.nix ] else []))
       ++ (if usr.terminal == "kitty" then [ ./terminals/kitty.nix] else []);
 
 	nixpkgs.config.allowUnfree = true;
@@ -26,6 +25,10 @@ in {
 	# You should not change this value, even if you update Home Manager
 	home.stateVersion = "23.11";
 
+    home.shellAliases = {
+        sd = "cd && cd $(fd -t directory --hidden | fzf)";
+    };
+
 	home.packages = [
         # Font
 		(pkgs.nerdfonts.override { fonts = [ "RobotoMono" ]; })
@@ -36,6 +39,7 @@ in {
         pkgs.neofetch
         pkgs.ripgrep
         pkgs.fd
+        pkgs.fzf
         pkgs.obsidian
         pkgs.discord
         pkgs.gimp
@@ -46,6 +50,11 @@ in {
 		pkgs.la-capitaine-icon-theme
 		pkgs.qogir-theme # GTK theme
 		pkgs.qogir-icon-theme # Icons and cursors
+
+        # Shell scripts
+        # (pkgs.writeShellScriptBin "sd" ''
+        #     cd && cd $(fd -t directory --hidden | fzf)
+        # '')
 	];
 
 	home.file = {
@@ -113,7 +122,6 @@ in {
         enableCompletion = true;
         initExtra = ''
             EDITOR=nvim
-            NIXOS_OZONE_WL=1
             clear && neofetch
         '';
 	};

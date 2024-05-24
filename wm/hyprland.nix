@@ -3,11 +3,11 @@
     imports = [
 
     ] ++ (if usr.display.wm.statusbar == "waybar" then [ ./statusbars/waybar.nix] else 
-         (if usr.display.wm.statusbar == "eww" then [ ./statusbars/eww.nix] else []));
+         (if usr.display.wm.statusbar == "eww" then [ ./statusbars/hyprland/eww.nix] else []));
 
     wayland.windowManager.hyprland = {
         enable = true;
-        xwayland.enable = true;
+        xwayland.enable = false;
         settings = {
             "monitor" = "Unknown-1,disable";
             "$mod" = "SUPER";

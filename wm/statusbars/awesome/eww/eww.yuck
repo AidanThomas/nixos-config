@@ -1,0 +1,284 @@
+;; Variables
+(defpoll time :interval "1s" "~/.config/eww/scripts/get-time.sh")
+(defpoll volume_percent :interval "3s" "amixer sget Master | grep 'Front Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
+(defpoll mic_percent :interval "3s" "amixer sget Capture | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
+(defpoll brightness_percent :interval "3s" "brightnessctl -m -d acpi_video0 | awk -F, '{ print $4 }' | tr -d '%'")
+(defpoll calendar_day :interval "20h" "date '+%_d'")
+(defpoll calendar_year :interval "20h" "date '+%Y")
+(defpoll COL_WLAN :interval "1m" "~/.config/eww/scripts/wifi.sh --COL")
+(defpoll ESSID_WLAN :interval "1m" "~/.config/eww/scripts/wifi.sh --ESSID")
+(defpoll WLAN_ICON :interval "1m" "~/.config/eww/scripts/wifi.sh --ICON")
+(defpoll memory :interval "15s" "~/.config/eww/scripts/memory.sh")
+(defpoll memory_used_mb :interval "2m" "~/.config/eww/scripts/mem-ad.sh used")
+(defpoll memory_total_mb :interval "2m" "~/.config/eww/scripts/mem-ad.sh total")
+(defpoll memory_free_mb :interval "2m" "~/.config/eww/scripts/mem-ad.sh free")
+(defvar br_reveal false)
+(defvar vol_reveal false)
+(defvar wifi_reveal false)
+(defvar time_reveal false)
+(defpoll workspaces :interval "10h" "~/.config/eww/blah/scripts/get-workspaces.sh")
+(deflisten current_workspace :intial "..." "bash ~/.config/eww/scripts/get-active-workspace.sh")
+(deflisten urgent_workspace :intial "..." "bash ~/.config/eww/scripts/get-urgent-workspaces.sh")
+
+
+(defvar eww "eww -c $HOME/.config/eww")
+
+(defwindow statusbar
+ :monitor 0
+ :geometry (geometry :x "0%"
+                     :y "1%"
+                     :width "99%"
+                     :height "30px"
+                     :anchor "top center")
+ :reserve (struts :distance "50px" :side "top")
+ :stacking "fg"
+ :exclusive true
+ :focusable false
+ (box :orientation "h"
+      :class "status_bar"
+      (box :orientation "h"
+           :halign "start"
+           :space-evenly false
+           :class "left_modules"
+           (_workspaces))
+      (box :orientation "h"
+           :halign "end"
+           :space-evenly false
+           :class "right_modules"
+           (bright)
+           (volume)
+           (wifi)
+           (sep)
+           (mem)
+           (bat :capacity "${EWW_BATTERY.BAT0.capacity}"
+                :status "${EWW_BATTERY.BAT0.status}")
+           (sep)
+           (clock_module))))
+
+(defwidget sep []
+ (box :class "module-2" :vexpand true :hexpand false
+  (label :class "separ" :text "" :valign "center")))
+
+(defwidget _workspaces []
+ (eventbox :onscroll "bash ~/.config/ewww/scripts/change-current-workspace.sh {} ${current_workspace}"
+           :class "workspaces-widget"
+           :vexpand false
+  (box :space-evenly false :vexpand false
+   (label :text "${workspaces}${current_workspace}${urgent_workspace}" :visible false)
+   (for workspace in workspaces
+    (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}" :vexpand false
+     (box :class "workspace-entry ${workspace.id == current_workspace ? "current" : ""} ${workspace.focused ? "occupied" : "empty"} ${workspace.id == urgent_workspace ? "urgent" : ""}"
+          :vexpand false
+          :valign "center"
+          :hexpand false
+      (label :text "${workspace.id == current_workspace ? "" : "" }"
+             :class "workspace-icon")))))))
+
+(defwidget clock_module []
+ (eventbox :onhover "eww update time_reveal=true"
+           :onhoverlost "eww update time_reveal=false"
+  (box :class "module" :space-evenly false :orientation "h"
+   (label :text "${time.hour}" :class "clock_hour")
+   ;; (label :text ":" :class "clock_time_sep")
+   (label :text "${time.minute}" :class "clock_minute")
+   (revealer :transition "slideleft"
+             :reveal time_reveal
+             :duration "350ms"
+    (button :class "clock_date_class"
+               :onclick "$HOME/.config/eww/scripts/pop.sh calendar && eww update time_reveal=false" "${time.date}")))))
+
+(defwidget bright []
+ (eventbox :onhover "eww update br_reveal=true" :onhoverlost "eww update br_reveal=false"
+  (box :space-evenly false :orientation "h"
+    (label :text "" :class "bright_icon" :tooltip "brightness")
+    (revealer :transition "slideleft"
+              :reveal br_reveal
+              :duration "350ms"
+     (scale :class "brightbar"
+            :value brightness_percent
+            :orientation "h"
+            :tooltip "${brightness_percent}%"
+            :max 100
+            :min 0
+            :onchange "brightnessctl set {}%")))))
+
+(defwidget volume []
+ (eventbox :onhover "eww update vol_reveal=true"
+           :onhoverlost "eww update vol_reveal=false"
+  (box :class "module-2" :space-evenly false :orientation "h" :spacing "3"
+   (button :onclick "~/.config/eww/scripts/pop.sh audio_ctl && eww update vol_reveal=false" :class "volume_icon" "")
+   (revealer :transition "slideleft"
+             :reveal vol_reveal
+             :duration "350ms"
+    (scale :class "volbar"
+           :value volume_percent
+           :orientation "h"
+           :tooltip "${volume_percent}%"
+           :max 100
+           :min 0
+           :onchange "amixer sset Master {}%")))))
+
+(defwidget wifi []
+ (eventbox :onhover "eww update wifi_reveal=true"
+           :onhoverlost "eww update wifi_reveal=false"
+  (box :vexpand false :hexpand false :space-evenly false
+   (button :class "module-wifi"
+           :onclick "networkmanager_dmenu && wifi_reveal=false"
+           :wrap false
+           :limit-width 12
+           :style "color: ${COL_WLAN};" WLAN_ICON)
+   (revealer :transition "slideright"
+             :reveal wifi_reveal
+             :duration "350ms"
+      (label :class "module_essid"
+             :text ESSID_WLAN
+             :orientation "h")))))
+
+(defwidget mem []
+ (box :class "mem_module" :vexpand false :hexpand false
+  (circular-progress :value memory
+                     :start-at 75
+                     :class "membar"
+                     :thickness 4
+   (button :class "iconmem"
+           :limit-width 2
+           :tooltip "using ${memory}% ram"
+           :onclick "$HOME/.config/eww/scripts/pop.sh system"
+           :show_truncated false
+           :wrap false
+           "󰇅"))))
+
+(defwidget bat [capacity status]
+ (box :class "bat_module" :vexpand false :hexpand false
+  (circular-progress :value capacity
+                     :start-at 75
+                     :class "batbar"
+                     :thickness 4
+   (button :class "iconbat"
+           :limit-width 2
+           :tooltip "battery on ${capacity}%"
+           :show_truncated false
+           :onclick "$HOME/.config/eww/scripts/pop.sh system"
+           :wrap false
+           "${status == 'Charging' ? "󰚥" : "󱐋"}"))))
+
+(defwidget audio []
+ (box :class "audio-box" :orientation "v" :space-evenly false :vexpand false :hexpand false
+  (box :halign "v" :space-evenly false :hexpand false :vexpand false
+   (box :class "speaker_icon" :orientation "v")
+   (box :orientation "v" :halign "center" :vexpand false :hexpand false
+    (label :class "speaker_text" :text "speaker" :valign "center" :halign "left")
+    (box :class "speaker_bar" :halign "center" :vexpand false :hexpand false
+     (scale :value volume_percent
+            :space-evenly false
+            :orientation "h"
+            :onchange "amixer sset Master {}%"
+            :tooltip "volume on ${volume_percent}%"
+            :max 100
+            :min 0))))
+  (box :halign "v" :space-evenly false :hexpand false :vexpand false
+   (box :class "mic_icon" :orientation "v")
+   (box :orientation "v" :halign "center" :vexpand false :hexpand false
+    (label :class "mic_text" :text "mic" :valign "center" :halign "left")
+    (box :class "mic_bar" :halign "center" :vexpand false :hexpand false
+     (scale :value mic_percent
+            :space-evenly false
+            :orientation "h"
+            :tooltip "mic on ${mic_percent}%"
+            :onchange "amixer sset Capture {}%"
+            :max 100
+            :min 0))))))
+
+(defwindow audio_ctl :monitor 0
+                     :geometry (geometry :x "6px"
+                                         :y "1%"
+                                         :anchor "top right"
+                                         :width "235px"
+                                         :height "60px")
+ (audio))
+
+(defwidget cal []
+ (box :class "cal" :orientation "v"
+  (box :class "cal-in"
+   (calendar :class "cal"
+             :day calendar_day
+             :year calendar_year))))
+
+(defwindow calendar :monitor 0
+                    :geometry (geometry :x "6px"
+                                        :y "1%"
+                                        :anchor "top right"
+                                        :width "270px"
+                                        :height "60px")
+ (cal))
+
+(defwidget system [capacity status]
+ (box :class "sys_win" :orientation "v" :space-evenly false :hexpand false :vexpand false :spacing 0
+  (box :class "sys_bat_box" :orientation "h" :space-evenly "false"
+   (circular-progress :value capacity
+                      :class "sys_bat"
+                      :thickness 9
+                      :start-at 75
+    (label :text "${status == 'Charging' ? "󰚥" : "󱐋"}"
+           :class "sys_icon_bat"
+           :limit-width 2
+           :show_truncated false
+           :wrap false))
+   (box :orientation "v" :space-evenly false :spacing 0 :hexpand false :vexpand false
+    (label :text "battery"
+           :halign "start"
+           :class "sys_text_bat"
+           :limit-width 9
+           :show_truncated false
+           :wrap false)
+    (label :text "${capacity}%"
+           :halign "start"
+           :class "sys_text_bat_sub"
+           :limit-width 22
+           :show_truncated false
+           :wrap false)
+    (label :text "${status}"
+           :halign "start"
+           :class "sys_text_bat_sub"
+           :limit-width 22
+           :show_truncated false
+           :wrap false)))
+  (box :class "sys_mem_box" :orientation "h" :space-evenly false :halign "start"
+   (circular-progress :value memory
+                      :class "sys_mem"
+                      :thickness 9
+                      :start-at 75
+    (label :text "󰇅"
+           :class "sys_icon_mem"
+           :limit-width 2
+           :show_truncated false
+           :wrap false
+           :angle 0.0))
+   (box :orientation "v" :space-evenly false :spacing 0 :hexpand false :vexpand false
+    (label :text "memory"
+           :halign "start"
+           :class "sys_text_mem"
+           :limit-width 9
+           :show_truncated false
+           :wrap false)
+    (label :text "${memory_used_mb} | ${memory_total_mb}mb "
+           :halign "start"
+           :class "sys_text_mem_sub"
+           :limit-width 22
+           :show_truncated false
+           :wrap false)
+    (label :text "${memory_free_mb}mb free"
+           :halign "start"
+           :class "sys_text_mem_sub"
+           :limit-width 22
+           :show_truncated false
+           :wrap false)))))
+
+(defwindow system :monitor 0
+                  :geometry (geometry :x "6px"
+                                      :y "1%"
+                                      :anchor "top right"
+                                      :width "260px"
+                                      :height "120px")
+ (system :capacity "${EWW_BATTERY.BAT0.capacity}"
+         :status "${EWW_BATTERY.BAT0.status}"))
