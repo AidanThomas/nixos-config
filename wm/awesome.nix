@@ -1,8 +1,8 @@
-{ pkgs, usr, ... }:
+{ pkgs, settings, ... }:
 {
     imports = [
 
-    ] ++ (if usr.display.wm.statusbar == "eww" then [ ./statusbars/awesome/eww.nix ] else []);
+    ] ++ (if settings.usr.display.statusbar == "eww" then [ ./statusbars/awesome/eww.nix ] else []);
 
     xsession.windowManager.awesome = {
         enable = true;

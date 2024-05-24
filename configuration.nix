@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, sys, ... }:
+{ config, pkgs, settings, ... }:
 
 {
 	imports = [ ./hardware-configuration.nix ];
@@ -16,7 +16,7 @@
     boot.loader.efi.canTouchEfiVariables = true;
     boot.kernelPackages = pkgs.linuxPackages;
 
-	networking.hostName = sys.hostname;
+	networking.hostName = settings.sys.hostname;
 	networking.hosts = {
 		"192.168.1.254" = [ "router.admin.com" ];
 		"192.168.122.243" = [
@@ -50,7 +50,7 @@
 		driSupport32Bit = true;
 	};
 
-    hardware.nvidia = (if sys.hardware.nvidia then {
+    hardware.nvidia = (if settings.sys.hardware.nvidia then {
         modesetting.enable = true;
         powerManagement.enable = false;
         powerManagement.finegrained = false;
@@ -61,7 +61,7 @@
 
 	services.xserver = {
 		enable = true;
-		videoDrivers = [ ] ++ (if sys.hardware.nvidia then [ "nvidia" ] else []);
+		videoDrivers = [ ] ++ (if settings.sys.hardware.nvidia then [ "nvidia" ] else []);
 
         windowManager.awesome = {
             enable = true;

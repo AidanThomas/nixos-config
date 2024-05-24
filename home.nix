@@ -1,4 +1,4 @@
-{ pkgs, usr, ... }:
+{ pkgs, settings, ... }:
 let
 	aliases = {
 		switch-system = "sudo nixos-rebuild switch --flake ~/.dotfiles";
@@ -12,15 +12,15 @@ let
 in {
     imports = [ 
         ./terminals/starship.nix
-    ] ++ (if usr.display.wm.name == "hyprland" then [ ./wm/hyprland.nix ] else
-         (if usr.display.wm.name == "awesome" then [ ./wm/awesome.nix ] else []))
-      ++ (if usr.terminal == "kitty" then [ ./terminals/kitty.nix] else []);
+    ] ++ (if settings.usr.display.wm == "hyprland" then [ ./wm/hyprland.nix ] else
+         (if settings.usr.display.wm == "awesome" then [ ./wm/awesome.nix ] else []))
+      ++ (if settings.usr.terminal == "kitty" then [ ./terminals/kitty.nix] else []);
 
 	nixpkgs.config.allowUnfree = true;
     nixpkgs.config.permittedInsecurePackages = [ "electron-25.9.0"];
 
-	home.username = usr.username;
-	home.homeDirectory = "/home/" + usr.username;
+	home.username = settings.usr.username;
+	home.homeDirectory = "/home/" + settings.usr.username;
 
 	# You should not change this value, even if you update Home Manager
 	home.stateVersion = "23.11";
@@ -58,7 +58,7 @@ in {
 	];
 
 	home.file = {
-        "/home/aidant/.config/electron-flags.conf".text = (if usr.display.backend == "hyprland" then ''
+        "/home/aidant/.config/electron-flags.conf".text = (if settings.usr.display.backend == "hyprland" then ''
             --enable-featureUseOzonePlatform --ozone-platform=wayland
         '' else '''');
         "/home/aidant/.wallpapers".source = ./wallpapers;
@@ -71,7 +71,7 @@ in {
 	};
 	xresources = {
 		properties = {
-			"Xft.dpi" = usr.display.dpi;
+			"Xft.dpi" = settings.usr.display.dpi;
 		};
 	};
 	home.pointerCursor = {
@@ -81,7 +81,7 @@ in {
 		# - Qogir-dark
 		name = "Qogir";
 		package = pkgs.qogir-icon-theme;
-		size = usr.theme.cursorSize;
+		size = settings.usr.theme.cursorSize;
 		gtk.enable = true;
 		x11.enable = true;
 	};
@@ -96,7 +96,7 @@ in {
 		cursorTheme = {
 			name = "Qogir";
 			package = pkgs.qogir-icon-theme;
-			size = usr.theme.cursorSize;
+			size = settings.usr.theme.cursorSize;
 		};
 		# Themes:
 		# - la-capitaine-icon-theme

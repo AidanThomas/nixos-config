@@ -13,41 +13,19 @@
         };
 	};
 
-	outputs = {nixpkgs, home-manager, hyprland, ... }:
+	outputs = {nixpkgs, home-manager, ... }:
 	let
 		lib = nixpkgs.lib;
 		system = "x86_64-linux";
 		pkgs = nixpkgs.legacyPackages.${system};
-
-        usr = {
-            username = "aidant";
-            display = {
-                wm = {
-                    name = "awesome";
-                    statusbar = "eww";
-                    wallpaperengine = "awesome";
-                };
-                backend = "x11";
-                dpi = 109; # Calculate using https://dpi.lv/
-            };
-            theme = {
-                cursorSize = 24;
-            };
-            terminal = "kitty";
-        };
-
-        sys = {
-            hostname = "nixos";
-            hardware.nvidia = true;
-        };
+        settings = (import ./users/desktop.nix);
 	in {
 		nixosConfigurations = {
 			nixos = lib.nixosSystem {
 				inherit system;
 				modules = [ ./configuration.nix ];
                 specialArgs = {
-                    inherit sys;
-                    inherit usr;
+                  inherit settings;
                 };
 			};
 		};
@@ -57,11 +35,9 @@
 				inherit pkgs;
 				modules = [ 
                     ./home.nix
-                    # hyprland.homeManagerModules.default
-                    # {wayland.windowManager.hyprland.enable = true;}
                 ];
                 extraSpecialArgs = {
-                    inherit usr;
+                  inherit settings;
                 };
 			};
 		};
