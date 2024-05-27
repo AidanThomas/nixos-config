@@ -37,6 +37,8 @@
       "split_ratio" = 0.52;
       "borderless_monocle" = true;
       "gapless_monocle" = true;
+      "focused_border_color" = "#89b4fa";
+      "normal_border_color" = "#11111b";
     };
 
     startupPrograms =
