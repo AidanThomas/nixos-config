@@ -5,8 +5,12 @@
 }: {
   imports =
     [
+      # Programs
       ../programs/rofi.nix
+
+      # Services
       ../services/picom.nix
+      ../services/dunst.nix
     ]
     ++ (
       if settings.usr.display.statusbar == "eww"
@@ -99,9 +103,7 @@
   };
 
   home.packages =
-    [
-      pkgs.dunst
-    ]
+    []
     ++ (
       if settings.usr.display.wallpaperengine == "feh"
       then [pkgs.feh]
