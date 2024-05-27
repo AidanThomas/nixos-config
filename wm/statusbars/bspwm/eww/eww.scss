@@ -60,7 +60,7 @@ $calendar-highlight-color: $lavender;
 
 //  General
 .status_bar {
-    background-color: rgba($background, 100%);
+    background-color: rgba($background, 0%);
 }
 
 .left-modules {
@@ -72,15 +72,35 @@ $calendar-highlight-color: $lavender;
 }
 
 .right_modules {
-    background-color: rgba($background, 100%);
+    // background-color: rgba($background, 100%);
     // border: 1px $text-color solid;
+}
+
+.controls_widget {
+    border-radius: 6px;
+    background-color: rgba($background, 100%);
+}
+
+.utils_widget {
+    border-radius: 6px;
+    background-color: rgba($background, 100%);
+}
+
+.music_widget {
+    border-radius: 6px;
+    background-color: rgba($background, 100%);
+}
+
+.clock_widget {
+    border-radius: 6px;
+    background-color: rgba($background, 100%);
 }
 
 // Tooltip
 tooltip.background {
     background-color: $background;
     font-size: 18;
-    border-radius: 5px;
+    border-radius: 6px;
     color: $text-color;
 }
 
@@ -190,13 +210,14 @@ tooltip label {
 .bright_icon {
     font-size: 22;
     margin-right: 20px;
+    margin-left: 10px;
     color: $bright-color;
 }
 
 .brightbar trough highlight {
     background-image: linear-gradient(to right, $light-bright-color 30%, $bright-color 50%, $dark-bright-color 100% *50);
     border-radius: 10px;
-    margin-left: 10px;
+    // margin-left: 10px;
 }
 
 // ----------------------
@@ -215,11 +236,14 @@ scale trough {
 
 // Separator widget
 .separ {
-    color: #e4c9af;
+    color: rgba(#e4c9af, 0%);
+    background-color: rgba($background, 0%);
     font-weight: bold;
     font-size: 30;
-    margin-left: -8px;
-    margin-right: -8px;
+    // margin-left: -8px;
+    // margin-right: -8px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 // ----------------------
@@ -229,13 +253,12 @@ scale trough {
     font-size: 30;
     font-weight: normal;
     background-color: $background;
-    margin-left: 10px;
     border-radius: 3px;
 }
 
 .workspace-entry {
-    margin-left: 5px;
     margin-right: 5px;
+    margin-left: 5px;
 }
 
 .empty {
@@ -253,32 +276,47 @@ scale trough {
 // ----------------------
 
 // Song widget - unused
-.song_cover_art {
-    background-size: cover;
-    background-position: center;
-    min-height: 24px;
-    min-width: 24px;
-    margin: 10px;
-    border-radius: 100px;
-}
+// .song_cover_art {
+//     background-size: cover;
+//     background-position: center;
+//     min-height: 24px;
+//     min-width: 24px;
+//     border-radius: 100px;
+// }
 
 .song {
-    color: #a1bdce;
+    color: $text-color;
     font-size: 18px;
     font-weight: bold;
-    margin: 3px 5px 0px 0px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.spotify_icon {
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .song_btn_play {
-    color: #a1bdce;
-    font-size: 28px;
-    margin: 3px 0px 0px 5px;
+    color: $text-color;
+    font-size: 22px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .song_btn_prev, .song_btn_next {
-    color: #bfc9db;
-    font-size: 24px;
-    margin: 3px 0px 0px 5px;
+    color: $text-color;
+    font-size: 28px;
+}
+
+.song_btn_prev {
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.song_btn_next {
+    margin-right: 10px;
+    margin-left: 5px;
 }
 
 // ----------------------
@@ -384,69 +422,69 @@ calendar:indeterminate {
 
 // ----------------------
 
-// .music_pop {
-//     background-color: #0f0f17;
-//     border-radius: 16px;
-// }
+.music_pop {
+    background-color: #0f0f17;
+    border-radius: 16px;
+}
 
-// .music_cover_art {
-//     background-size: cover;
-//     background-position: center;
-//     min-height: 100px;
-//     box-shadow: 5px 5px 5px 5px #06060b;
-//     min-width: 170px;
-//     margin: 20px;
-//     border-radius: 20px;
-// }
+.music_cover_art {
+    background-size: cover;
+    background-position: center;
+    min-height: 100px;
+    box-shadow: 5px 5px 5px 5px #06060b;
+    min-width: 170px;
+    margin: 20px;
+    border-radius: 20px;
+}
 
-// .music {
-//     color: #a1bdce;
-//     font-size: 20px;
-//     font-weight: bold;
-//     margin: 20px 0px 0px -15px;
-// }
+.music {
+    color: #a1bdce;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0px 0px -15px;
+}
 
-// .music_artist {
-//     color: #a1bdce;
-//     font-size: 16px;
-//     font-weight: normal;
-//     margin: 0px 0px 0px 0px;
-// }
+.music_artist {
+    color: #a1bdce;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0px 0px 0px 0px;
+}
 
-// .music_btn_prev, .music_btn_play, .music_btn_next {
-//     font-family: RobotoMono Nerd Font;
-// }
+.music_btn_prev, .music_btn_play, .music_btn_next {
+    font-family: RobotoMono Nerd Font;
+}
 
-// .music_btn_prev {
-//     color: #bbc5d7;
-//     font-size: 32px;
-//     font-weight: normal;
-//     margin: 0px 0px 0px 0px;
-// }
+.music_btn_prev {
+    color: #bbc5d7;
+    font-size: 32px;
+    font-weight: normal;
+    margin: 0px 0px 0px 0px;
+}
 
-// .music_btn_play {
-//     color: #a1bdce;
-//     font-size: 48px;
-//     font-weight: normal;
-//     margin: 0px 0px 0px 0px;
-// }
+.music_btn_play {
+    color: #a1bdce;
+    font-size: 48px;
+    font-weight: normal;
+    margin: 0px 0px 0px 0px;
+}
 
-// .music_btn_next {
-//     color: #bbc5d7;
-//     font-size: 32px;
-//     font-weight: normal;
-//     margin: 0px 0px 0px 0px;
-// }
+.music_btn_next {
+    color: #bbc5d7;
+    font-size: 32px;
+    font-weight: normal;
+    margin: 0px 0px 0px 0px;
+}
 
-// .music_bar scale trough {
-//     all: unset;
-//     background-color: #232232;
-//     box-shadow: 0 6px 5px 2px #06060b;
-//     border-radius: 24px;
-//     min-height: 13px;
-//     min-width: 190px;
-//     margin: -10px 10px 20px 0px;
-// }
+.music_bar scale trough {
+    all: unset;
+    background-color: #232232;
+    box-shadow: 0 6px 5px 2px #06060b;
+    border-radius: 24px;
+    min-height: 13px;
+    min-width: 190px;
+    margin: -10px 10px 20px 0px;
+}
 
 // Audio widget
 .audio-box {

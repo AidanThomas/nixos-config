@@ -12,10 +12,16 @@
 (defpoll memory_used_mb :interval "2m" "~/.config/eww/scripts/mem-ad.sh used")
 (defpoll memory_total_mb :interval "2m" "~/.config/eww/scripts/mem-ad.sh total")
 (defpoll memory_free_mb :interval "2m" "~/.config/eww/scripts/mem-ad.sh free")
+(defpoll song :interval "2s" "~/.config/eww/scripts/music_info.sh --song")
+(defpoll song_artist :interval "2s" "~/.config/eww/scripts/music_info.sh --artist")
+(defpoll current_status :interval "1s" "~/.config/eww/scripts/music_info.sh --time")
+(defpoll song_status :interval "2s" "~/.config/eww/scripts/music_info.sh --status")
+(defpoll cover_art :interval "2s" "$HOME/config/eww/scripts/music_info.sh --cover")
 (defvar br_reveal false)
 (defvar vol_reveal false)
 (defvar wifi_reveal false)
 (defvar time_reveal false)
+(defvar music_reveal false)
 (deflisten workspaces :initial "..." "bash ~/.config/eww/scripts/get-workspaces.sh")
 (deflisten current_workspace :intial "..." "bash ~/.config/eww/scripts/get-active-workspace.sh")
 (deflisten urgent_workspace :intial "..." "bash ~/.config/eww/scripts/get-urgent-workspaces.sh")
@@ -44,13 +50,12 @@
            :halign "end"
            :space-evenly false
            :class "right_modules"
-           (bright)
-           (volume)
-           (wifi)
+           (music)
            (sep)
-           (mem)
-           (bat :capacity "${EWW_BATTERY.BAT0.capacity}"
-                :status "${EWW_BATTERY.BAT0.status}")
+           (controls)
+           (sep)
+           (utils :capacity "${EWW_BATTERY.BAT0.capacity}"
+                  :status "${EWW_BATTERY.BAT0.status}")
            (sep)
            (clock_module))))
 
@@ -58,13 +63,32 @@
  (box :class "module-2" :vexpand true :hexpand false
   (label :class "separ" :text "" :valign "center")))
 
+(defwidget music []
+ (eventbox :class "music_widget"
+           :onhover "eww update music_reveal=true"
+           :onhoverlost "eww update music_reveal=false"
+  (box :class "module-2" :orientation "h" :space-evenly false :hexpand false :vexpand false
+   (box :class "song_cover_art" :vexpand false :hexpand false) ;;:style "background-image: url('${cover_art}');")
+   (button :class "song" :onclick "~/.config/eww/scripts/pop.sh music"
+    (box :orientation "h" :hexpand false :vexpand false :space-evenly false
+     (label :class "song_title" :text song)
+     (image :class "spotify_icon":path "images/spotify.svg" :image-width "30" :image-height "30")
+     (label :class "song_artist" :text song_artist)))
+   (revealer :transition "slideright"
+             ;; :reveal music_reveal
+             :reveal true
+             :duration "350ms"
+    (box :vexpand false :hexpand false :orientation "h"
+     (button :class "song_btn_prev" :onclick "~/.config/eww/scripts/music_info.sh --prev" "󰒮")
+     (button :class "song_btn_play" :onclick "~/.config/eww/scripts/music_info.sh --toggle" song_status)
+     (button :class "song_btn_next" :onclick "~/.config/eww/scripts/music_info.sh --next" "󰒭"))))))
+
 (defwidget _workspaces []
- (eventbox :onscroll ""
-           :class "workspaces-widget"
-           :vexpand false
+ (box :class "workspaces-widget"
+      :vexpand false
   (box :space-evenly false :vexpand false
    (for workspace in workspaces
-    (eventbox :onclick "" :vexpand false
+    (eventbox :onclick "bspc desktop -f ${workspace.name}" :vexpand false
      (box :class "workspace-entry ${workspace.focused ? "current" : ""} ${workspace.occupied ? "occupied" : "empty"}"
           :vexpand false
           :valign "center"
@@ -75,22 +99,28 @@
 (defwidget clock_module []
  (eventbox :onhover "eww update time_reveal=true"
            :onhoverlost "eww update time_reveal=false"
+           :class "clock_widget"
   (box :class "module" :space-evenly false :orientation "h"
    (label :text "${time.hour}" :class "clock_hour")
    ;; (label :text ":" :class "clock_time_sep")
    (label :text "${time.minute}" :class "clock_minute")
    (revealer :transition "slideleft"
-             :reveal time_reveal
+             ;; :reveal time_reveal
+             :reveal true
              :duration "350ms"
     (button :class "clock_date_class"
                :onclick "$HOME/.config/eww/scripts/pop.sh calendar && eww update time_reveal=false" "${time.date}")))))
+
+(defwidget clock []
+ (clock_module))
 
 (defwidget bright []
  (eventbox :onhover "eww update br_reveal=true" :onhoverlost "eww update br_reveal=false"
   (box :space-evenly false :orientation "h"
     (label :text "" :class "bright_icon" :tooltip "brightness")
     (revealer :transition "slideleft"
-              :reveal br_reveal
+              ;; :reveal br_reveal
+              :reveal true
               :duration "350ms"
      (scale :class "brightbar"
             :value brightness_percent
@@ -106,7 +136,8 @@
   (box :class "module-2" :space-evenly false :orientation "h" :spacing "3"
    (button :onclick "~/.config/eww/scripts/pop.sh audio_ctl && eww update vol_reveal=false" :class "volume_icon" "")
    (revealer :transition "slideleft"
-             :reveal vol_reveal
+             ;; :reveal vol_reveal
+             :reveal true
              :duration "350ms"
     (scale :class "volbar"
            :value volume_percent
@@ -126,11 +157,18 @@
            :limit-width 12
            :style "color: ${COL_WLAN};" WLAN_ICON)
    (revealer :transition "slideright"
-             :reveal wifi_reveal
+             ;; :reveal wifi_reveal
+             :reveal true
              :duration "350ms"
       (label :class "module_essid"
              :text ESSID_WLAN
              :orientation "h")))))
+
+(defwidget controls []
+ (box :class "controls_widget" :vexpand false :hexpand false :space-evenly false
+  (bright)
+  (volume)
+  (wifi)))
 
 (defwidget mem []
  (box :class "mem_module" :vexpand false :hexpand false
@@ -159,6 +197,11 @@
            :onclick "$HOME/.config/eww/scripts/pop.sh system"
            :wrap false
            "${status == 'Charging' ? "󰚥" : "󱐋"}"))))
+
+(defwidget utils [capacity status]
+ (box :class "utils_widget" :vexpand false :hexpand false :space-evenly false
+  (mem)
+  (bat :capacity capacity :status status)))
 
 (defwidget audio []
  (box :class "audio-box" :orientation "v" :space-evenly false :vexpand false :hexpand false

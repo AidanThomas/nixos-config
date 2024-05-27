@@ -10,6 +10,7 @@
     pkgs.brightnessctl
     pkgs.socat
     pkgs.jq
+    pkgs.spotify-cli-linux
   ];
 
   home.file = {

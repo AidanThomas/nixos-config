@@ -19,7 +19,7 @@
       "name = 'Notification'"
       "class_g ?= 'Notify-osd'"
       "_GTK_FRAME_EXTENTS@:c"
-      "class_g = 'eww'"
+      "name = 'Eww - statusbar'"
     ];
     shadowOffsets = [(-7) (-7)];
     wintypes = {
@@ -36,6 +36,7 @@
           "window_type = 'desktop'"
           "_GTK_FRAME_EXTENTS@:c"
           "class_g = 'eww'"
+          "name = 'Eww - statusbar'"
         ];
       };
       corner-radius = 6;
