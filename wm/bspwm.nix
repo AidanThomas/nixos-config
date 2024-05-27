@@ -4,7 +4,10 @@
   ...
 }: {
   imports =
-    [../programs/rofi.nix]
+    [
+      ../programs/rofi.nix
+      ../services/picom.nix
+    ]
     ++ (
       if settings.usr.display.statusbar == "eww"
       then [./statusbars/bspwm/eww.nix]
@@ -98,8 +101,6 @@
   home.packages =
     [
       pkgs.dunst
-      pkgs.rofi
-      pkgs.picom
     ]
     ++ (
       if settings.usr.display.wallpaperengine == "feh"
