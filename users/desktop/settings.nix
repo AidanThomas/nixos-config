@@ -1,4 +1,5 @@
 {
+  configName = "desktop";
   usr = {
     username = "aidant";
     display = {

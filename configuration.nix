@@ -4,7 +4,7 @@
   settings,
   ...
 }: {
-  imports = [./hardware-configuration.nix];
+  imports = [./users/${settings.configName}/hardware-configuration.nix];
 
   boot.loader.grub = {
     enable = true;
