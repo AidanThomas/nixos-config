@@ -25,6 +25,7 @@
     wintypes = {
       dock = {shadow = false;};
     };
+    vSync = true;
     settings = {
       blur = {
         method = "dual_kawase";
