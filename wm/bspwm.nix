@@ -69,7 +69,7 @@
 
       #bspwm keys
       "super + q" = "bspc {quit,wm -r}"; # quit/restart
-      "super + {_,shift + }w" = "bspc node -{c,k}"; # close and kill
+      "super + {_,shift + }c" = "bspc node -{c,k}"; # close and kill
       "super + m" = "bspc desktop -l next"; # alternate between tiled and monocle layout
       # Send the newest marked node to the newest preselected node
       "super + y" = "bspc node newest.marked.local -n newest.!automatic.local";
@@ -85,7 +85,7 @@
       # focus/swap
       "super + {_, shift + }{h,j,k,l}" = "bspc node -{f,s} {west,south,north,east}";
       "super + {p,b,comma,period}" = "bspc node -f @{parent,brother,first,second}";
-      "super + {_,shift + }c" = "bspc node -f {next,prev}.local.!hidden.window";
+      "super + {_,shift + }w" = "bspc node -f {next,prev}.local.!hidden.window";
       "super + bracket{left,right}" = "bspc desktop -f {prev,next}.local";
       "super + super + {grave,Tab}" = "bspc {node,desktop} -f last";
       "super + {o,i}" = "bspc wm -h off; bspc node {older,newer} -f; bspc wm -h on";

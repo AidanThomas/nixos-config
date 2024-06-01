@@ -7,6 +7,7 @@
     switch-system = "sudo nixos-rebuild switch --flake ~/.dotfiles";
     switch-home = "home-manager switch --flake ~/.dotfiles";
     develop = "nix develop ~/.dotfiles#development";
+    stable_diffusion = "nix develop ~/.dotfiles#stable_diffusion";
 
     ll = "ls -la";
     ".." = "cd ..";
@@ -18,6 +19,7 @@ in {
   imports =
     [
       ./terminals/starship.nix
+      ./terminals/neofetch.nix
     ]
     ++ (
       if settings.usr.display.wm == "hyprland"
@@ -57,12 +59,11 @@ in {
     pkgs.alejandra
     pkgs.cinnamon.nemo
     pkgs.discord
-    pkgs.neofetch
     pkgs.ripgrep
     pkgs.fd
     pkgs.fzf
     pkgs.obsidian
-    pkgs.discord
+    pkgs.discord # Use discordctl to install BetterDiscord
     pkgs.gimp
     pkgs.spotify
 
@@ -82,6 +83,19 @@ in {
       else '''';
     "/home/aidant/.wallpapers".source = ./wallpapers;
     "/home/aidant/.local/share/applications".source = ./applications;
+    "/home/aidant/.config/BetterDiscord/themes/mocha.theme.css".text = ''
+       /**
+       * @name Catppuccin Mocha
+       * @author winston#0001
+       * @authorId 505490445468696576
+       * @version 0.2.0
+       * @description 🎮 Soothing pastel theme for Discord
+       * @website https://github.com/catppuccin/discord
+       * @invite r6Mdz5dpFc
+       * **/
+
+      @import url("https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css");
+    '';
   };
 
   # Configure X
@@ -166,6 +180,8 @@ in {
       "window.titleBarStyle" = "custom";
     };
   };
+
+  services.caffeine.enable = true;
 
   # Let home manager manage itself
   programs.home-manager.enable = true;

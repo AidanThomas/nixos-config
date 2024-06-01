@@ -48,6 +48,7 @@
 
     devShells.${system} = {
       development = import ./shells/development.nix {inherit pkgs;};
+      stable_diffusion = import ./shells/stable_diffusion.nix {inherit pkgs;};
     };
   };
 }

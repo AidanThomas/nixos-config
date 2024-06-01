@@ -21,7 +21,7 @@
       "_GTK_FRAME_EXTENTS@:c"
       "name = 'Eww - statusbar'"
     ];
-    shadowOffsets = [(-7) (-7)];
+    shadowOffsets = [(-5) (-5)];
     wintypes = {
       dock = {shadow = false;};
     };
