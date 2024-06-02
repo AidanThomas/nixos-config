@@ -38,7 +38,7 @@
           # info "Users" users
           # info "Locale" locale  # This only works on glibc systems.
 
-          info cols
+          # info cols
       }
 
       # Title

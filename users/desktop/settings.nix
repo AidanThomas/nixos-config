@@ -5,7 +5,7 @@
     display = {
       wm = "bspwm";
       monitors = [
-        "DP-0"
+        # "DP-0"
         "DP-2"
         # "DP-4"
       ];
