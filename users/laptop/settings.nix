@@ -1,5 +1,5 @@
 {
-  configName = "desktop";
+  configName = "laptop";
   usr = {
     username = "aidant";
     display = {
@@ -21,6 +21,6 @@
   };
   sys = {
     hostname = "nixos";
-    hardware.nvidia = true;
+    hardware.nvidia = false;
   };
 }

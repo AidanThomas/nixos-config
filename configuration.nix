@@ -72,6 +72,7 @@
       );
 
     displayManager.lightdm.enable = true;
+    desktopManager.gnome.enable = true;
 
     windowManager.awesome.enable =
       if settings.usr.display.wm == "awesome"

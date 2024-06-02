@@ -4,10 +4,7 @@
   ...
 }: let
   aliases = {
-    switch-system = "sudo nixos-rebuild switch --flake ~/.dotfiles";
-    switch-home = "home-manager switch --flake ~/.dotfiles";
     develop = "nix develop ~/.dotfiles#development";
-    stable_diffusion = "nix develop ~/.dotfiles#stable_diffusion";
 
     ll = "ls -la";
     ".." = "cd ..";
@@ -72,6 +69,15 @@ in {
     pkgs.la-capitaine-icon-theme
     pkgs.qogir-theme # GTK theme
     pkgs.qogir-icon-theme # Icons and cursors
+
+    (pkgs.writeShellScriptBin "switch-system" ''
+      echo "Rebuilding nixos config for: ${settings.configName}"
+      sudo nixos-rebuild switch --flake ~/.dotfiles#${settings.configName}
+    '')
+    (pkgs.writeShellScriptBin "switch-home" ''
+      echo "Rebuilding home-manager config for: ${settings.configName}"
+      home-manager switch --flake ~/.dotfiles#${settings.configName}
+    '')
   ];
 
   home.file = {

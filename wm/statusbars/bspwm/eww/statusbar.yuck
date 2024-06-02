@@ -35,7 +35,7 @@
                      :width "99.5%"
                      :height "30px"
                      :anchor "top center")
- :reserve (struts :distance "0px" :side "top")
+ :reserve (struts :distance "42px" :side "top")
  :stacking "fg"
  :exclusive true
  :focusable false
