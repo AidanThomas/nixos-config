@@ -1,8 +1,27 @@
 {
   pkgs,
+  lib,
   settings,
   ...
-}: {
+}: let
+  monitorAttrs =
+    map (monitor: {
+      name = monitor;
+      value = [
+        "1"
+        "2"
+        "3"
+        "4"
+        "5"
+        "6"
+      ];
+    })
+    settings.usr.display.monitors;
+  monitorDetails = lib.listToAttrs (map (monitor: {
+      inherit (monitor) name value;
+    })
+    monitorAttrs);
+in {
   imports =
     [
       # Programs
@@ -20,16 +39,7 @@
 
   xsession.windowManager.bspwm = {
     enable = true;
-    monitors = {
-      DP-2 = [
-        "1"
-        "2"
-        "3"
-        "4"
-        "5"
-        "6"
-      ];
-    };
+    monitors = monitorDetails;
 
     settings = {
       "border_width" = 2;
