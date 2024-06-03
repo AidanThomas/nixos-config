@@ -34,7 +34,7 @@
         inherit system;
         modules = [./configuration.nix];
         specialArgs = {
-          settings = import ./users/desktop/settings.nix;
+          settings = import ./users/laptop/settings.nix;
         };
       };
     };
