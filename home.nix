@@ -10,7 +10,7 @@
     ".." = "cd ..";
     c = "clear";
     cf = "clear && neofetch";
-    sd = "cd && cd $(fd -t directory --hidden | fzf)";
+    sd = "cd && cd $(fd -t directory --hidden --exclude go/ | fzf)";
   };
 in {
   imports =
@@ -63,6 +63,9 @@ in {
     pkgs.discord # Use discordctl to install BetterDiscord
     pkgs.gimp
     pkgs.spotify
+    pkgs.steam
+    pkgs.shutter
+    pkgs.keepassxc
 
     # Theming
     pkgs.capitaine-cursors

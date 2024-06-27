@@ -11,8 +11,8 @@
       "100:class_g = 'firefox'"
       "85:class_g = 'Spotify' && !focused"
       "95:class_g = 'Spotify' && focused"
-      "80:class_g = 'kitty' && !focused"
-      "90:class_g = 'kitty' && focused"
+      "90:class_g = 'kitty' && !focused"
+      "100:class_g = 'kitty' && focused"
     ];
     shadow = true;
     shadowExclude = [
