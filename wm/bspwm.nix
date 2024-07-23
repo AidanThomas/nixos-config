@@ -33,7 +33,7 @@ in {
     ]
     ++ (
       if settings.usr.display.statusbar == "eww"
-      then [./statusbars/bspwm/eww.nix]
+      then [./statusbars/eww.nix]
       else []
     );
 

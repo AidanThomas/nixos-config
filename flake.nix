@@ -25,14 +25,14 @@
     nixosConfigurations = {
       desktop = lib.nixosSystem {
         inherit system;
-        modules = [./configuration.nix];
+        modules = [./users/desktop/configuration.nix];
         specialArgs = {
           settings = import ./users/desktop/settings.nix;
         };
       };
       laptop = lib.nixosSystem {
         inherit system;
-        modules = [./configuration.nix];
+        modules = [./users/laptop/configuration.nix];
         specialArgs = {
           settings = import ./users/laptop/settings.nix;
         };
@@ -43,7 +43,7 @@
       desktop = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          ./home.nix
+          ./users/desktop/home.nix
         ];
         extraSpecialArgs = {
           settings = import ./users/desktop/settings.nix;
@@ -52,7 +52,7 @@
       laptop = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          ./home.nix
+          ./users/laptop/home.nix
         ];
         extraSpecialArgs = {
           settings = import ./users/laptop/settings.nix;

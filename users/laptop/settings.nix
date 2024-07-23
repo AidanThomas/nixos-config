@@ -1,13 +1,14 @@
 {
-  configName = "laptop";
   usr = {
     username = "aidant";
+    kb = {
+      layout = "us";
+      keymap = "us";
+    };
     display = {
       wm = "bspwm";
       monitors = [
-        # "DP-0"
         "DP-2"
-        # "DP-4"
       ];
       statusbar = "eww";
       wallpaperengine = "feh";
@@ -21,6 +22,6 @@
   };
   sys = {
     hostname = "nixos";
-    hardware.nvidia = false;
+    hardware.nvidia = true;
   };
 }

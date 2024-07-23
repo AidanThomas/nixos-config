@@ -4,7 +4,7 @@
   settings,
   ...
 }: {
-  imports = [./users/${settings.configName}/hardware-configuration.nix];
+  imports = [./hardware-configuration.nix];
 
   boot.loader.grub = {
     enable = true;
@@ -49,35 +49,22 @@
     driSupport32Bit = true;
   };
 
-  hardware.nvidia =
-    if settings.sys.hardware.nvidia
-    then {
-      modesetting.enable = true;
-      powerManagement.enable = false;
-      powerManagement.finegrained = false;
-      open = false;
-      nvidiaSettings = false;
-      package = config.boot.kernelPackages.nvidiaPackages.production;
-    }
-    else {};
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = false;
+    nvidiaSettings = false;
+    package = config.boot.kernelPackages.nvidiaPackages.production;
+  };
 
   services.xserver = {
     enable = true;
-    videoDrivers =
-      []
-      ++ (
-        if settings.sys.hardware.nvidia
-        then ["nvidia"]
-        else []
-      );
+    videoDrivers = ["nvidia"];
 
     displayManager.lightdm.enable = true;
     desktopManager.gnome.enable = true;
 
-    windowManager.awesome.enable =
-      if settings.usr.display.wm == "awesome"
-      then true
-      else false;
     windowManager.bspwm.enable =
       if settings.usr.display.wm == "bspwm"
       then true
@@ -100,12 +87,12 @@
 
   services.xserver = {
     xkb = {
-      layout = "gb";
+      layout = settings.usr.kb.layout;
       variant = "";
     };
   };
 
-  console.keyMap = "uk";
+  console.keyMap = settings.usr.kb.keymap;
 
   users.users.aidant = {
     isNormalUser = true;

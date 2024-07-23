@@ -21,17 +21,9 @@ in {
     ++ (
       if settings.usr.display.wm == "hyprland"
       then [./wm/hyprland.nix]
-      else
-        (
-          if settings.usr.display.wm == "awesome"
-          then [./wm/awesome.nix]
-          else
-            (
-              if settings.usr.display.wm == "bspwm"
-              then [./wm/bspwm.nix]
-              else []
-            )
-        )
+      else if settings.usr.display.wm == "bspwm"
+      then [./wm/bspwm.nix]
+      else []
     )
     ++ (
       if settings.usr.terminal == "kitty"
@@ -81,12 +73,12 @@ in {
     pkgs.qogir-icon-theme # Icons and cursors
 
     (pkgs.writeShellScriptBin "switch-system" ''
-      echo "Rebuilding nixos config for: ${settings.configName}"
-      sudo nixos-rebuild switch --flake ~/.dotfiles#${settings.configName}
+      echo "Rebuilding nixos config for: laptop"
+      sudo nixos-rebuild switch --flake ~/.dotfiles#laptop
     '')
     (pkgs.writeShellScriptBin "switch-home" ''
-      echo "Rebuilding home-manager config for: ${settings.configName}"
-      home-manager switch --flake ~/.dotfiles#${settings.configName}
+      echo "Rebuilding home-manager config for: laptop"
+      home-manager switch --flake ~/.dotfiles#laptop
     '')
   ];
 
@@ -120,7 +112,7 @@ in {
   };
   xresources = {
     properties = {
-      "Xft.dpi" = settings.usr.display.dpi;
+      "Xft.dpi" = 109; # Calculate using https://dpi.lv/
     };
   };
   home.pointerCursor = {
@@ -130,7 +122,7 @@ in {
     # - Qogir-dark
     name = "Qogir";
     package = pkgs.qogir-icon-theme;
-    size = settings.usr.theme.cursorSize;
+    size = 24;
     gtk.enable = true;
     x11.enable = true;
   };
@@ -145,7 +137,7 @@ in {
     cursorTheme = {
       name = "Qogir";
       package = pkgs.qogir-icon-theme;
-      size = settings.usr.theme.cursorSize;
+      size = 24;
     };
     # Themes:
     # - la-capitaine-icon-theme
