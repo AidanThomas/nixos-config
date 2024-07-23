@@ -22,20 +22,17 @@
     })
     monitorAttrs);
 in {
-  imports =
-    [
-      # Programs
-      ../programs/rofi.nix
+  imports = [
+    # Programs
+    ../programs/rofi.nix
 
-      # Services
-      ../services/picom.nix
-      ../services/dunst.nix
-    ]
-    ++ (
-      if settings.usr.display.statusbar == "eww"
-      then [./statusbars/eww.nix]
-      else []
-    );
+    # Services
+    ../services/picom.nix
+    ../services/dunst.nix
+
+    # Statusbar
+    ./statusbars/${settings.usr.display.statusbar}.nix
+  ];
 
   xsession.windowManager.bspwm = {
     enable = true;

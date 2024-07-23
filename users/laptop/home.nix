@@ -17,6 +17,7 @@ in {
     [
       ../../terminals/starship.nix
       ../../terminals/neofetch.nix
+      ../../bash.nix
     ]
     ++ (
       if settings.usr.display.wm == "hyprland"

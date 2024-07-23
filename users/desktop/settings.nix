@@ -21,4 +21,16 @@
   sys = {
     hostname = "nixos";
   };
+  importFiles = [
+    # Programs
+    ../../programs/git.nix
+    ../../programs/bash.nix
+
+    # Services
+    ../../services/caffeine.nix
+
+    # Terminal extras
+    ../../terminals/starship.nix
+    ../../terminals/neofetch.nix
+  ];
 }

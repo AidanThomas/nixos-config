@@ -2,37 +2,13 @@
   pkgs,
   settings,
   ...
-}: let
-  aliases = {
-    develop = "nix develop ~/.dotfiles#development";
-
-    ll = "ls -la";
-    ".." = "cd ..";
-    c = "clear";
-    cf = "clear && neofetch";
-    sd = "cd && cd $(fd -t directory --hidden --exclude go/ | fzf)";
-  };
-in {
+}: {
   imports =
     [
-      ../../terminals/starship.nix
-      ../../terminals/neofetch.nix
+      ../../wm/${settings.usr.display.wm}.nix
+      ../../terminals/${settings.usr.terminal}.nix
     ]
-    ++ (
-      if settings.usr.display.wm == "hyprland"
-      then [../../wm/hyprland.nix]
-      else
-        (
-          if settings.usr.display.wm == "bspwm"
-          then [../../wm/bspwm.nix]
-          else []
-        )
-    )
-    ++ (
-      if settings.usr.terminal == "kitty"
-      then [../../terminals/kitty.nix]
-      else []
-    );
+    ++ settings.importFiles;
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
@@ -86,14 +62,8 @@ in {
   ];
 
   home.file = {
-    "/home/aidant/.config/electron-flags.conf".text =
-      if settings.usr.display.backend == "hyprland"
-      then ''
-        --enable-featureUseOzonePlatform --ozone-platform=wayland
-      ''
-      else '''';
-    "/home/aidant/.wallpapers".source = ../../wallpapers;
-    "/home/aidant/.local/share/applications".source = ../../applications;
+    "/home/aidant/.wallpapers".source = ../../symlinks/wallpapers;
+    "/home/aidant/.local/share/applications".source = ../../symlinks/applications;
     "/home/aidant/.config/BetterDiscord/themes/mocha.theme.css".text = ''
        /**
        * @name Catppuccin Mocha
@@ -158,42 +128,6 @@ in {
       package = pkgs.qogir-theme;
     };
   };
-
-  # Configure programs
-  programs.bash = {
-    enable = true;
-    shellAliases = aliases;
-    enableCompletion = true;
-    initExtra = ''
-      EDITOR=nvim
-      clear && neofetch
-    '';
-  };
-
-  programs.git = {
-    enable = true;
-    userEmail = "aidant@agylia.com";
-    userName = "Aidan Thomas";
-    aliases = {
-      cl = "!f(){ git clone git@github.com:\${1} \${2}; };f";
-      lg = "log --oneline --graph --decorate --all";
-    };
-    lfs.enable = true;
-    extraConfig = {
-      init = {
-        defaultBranch = "master";
-      };
-    };
-  };
-
-  programs.vscode = {
-    enable = true;
-    userSettings = {
-      "window.titleBarStyle" = "custom";
-    };
-  };
-
-  services.caffeine.enable = true;
 
   # Let home manager manage itself
   programs.home-manager.enable = true;
