@@ -49,6 +49,13 @@ in {
   home.stateVersion = "23.11";
 
   home.packages = [
+    # Development
+    pkgs.rustup
+    pkgs.go
+    pkgs.gccgo13
+    pkgs.gnumake
+    pkgs.lua-language-server
+
     # Font
     (pkgs.nerdfonts.override {fonts = ["RobotoMono"];})
 
@@ -174,6 +181,7 @@ in {
     userName = "Aidan Thomas";
     aliases = {
       cl = "!f(){ git clone git@github.com:\${1} \${2}; };f";
+      lg = "log --oneline --graph --decorate --all";
     };
     lfs.enable = true;
     extraConfig = {
