@@ -38,12 +38,18 @@
           "_GTK_FRAME_EXTENTS@:c"
           "class_g = 'eww'"
           "name = 'Eww - statusbar'"
+          "name = 'Eww - statusbar0'"
+          "name = 'Eww - statusbar1'"
+          "name = 'Eww - statusbar2'"
         ];
       };
       corner-radius = 6;
       round-corners-exlude = [
         "window_type = 'dock'"
         "window_type = 'desktop'"
+        "name = 'Eww - statusbar0'"
+        "name = 'Eww - statusbar1'"
+        "name = 'Eww - statusbar2'"
       ];
     };
   };
