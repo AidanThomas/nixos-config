@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   settings,
   ...
@@ -22,7 +21,6 @@
       "providers.local.com"
       "services.local.com"
       "admin.local.com"
-      #"aidan.portal-agylia.com"
     ];
   };
 
@@ -49,18 +47,8 @@
     driSupport32Bit = true;
   };
 
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    open = false;
-    nvidiaSettings = false;
-    package = config.boot.kernelPackages.nvidiaPackages.production;
-  };
-
   services.xserver = {
     enable = true;
-    videoDrivers = ["nvidia"];
 
     displayManager.lightdm.enable = true;
     desktopManager.gnome.enable = true;

@@ -48,6 +48,10 @@ in {
       "normal_border_color" = "#11111b";
     };
 
+    extraConfigEarly = ''
+      ./scripts/position_monitors
+    '';
+
     startupPrograms =
       [
         "pgrep -x sxhkd > /dev/null || sxhkd"
@@ -97,6 +101,7 @@ in {
       "super + super + {grave,Tab}" = "bspc {node,desktop} -f last";
       "super + {o,i}" = "bspc wm -h off; bspc node {older,newer} -f; bspc wm -h on";
       "super + {_,shift + }{1-6}" = "bspc {desktop -f,node -d} '^{1-6}'";
+      "super + ctrl + shift + {h,l}" = "bspc node -m {prev,next} --follow";
 
       # preselect
       "super + ctrl + {h,j,k,l}" = "bspc node -p {west,south,north,east}";
@@ -118,4 +123,8 @@ in {
       then [pkgs.feh]
       else []
     );
+
+  home.file = {
+    "/home/aidant/.config/bspwm/scripts".source = ./scripts;
+  };
 }
