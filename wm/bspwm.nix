@@ -48,15 +48,12 @@ in {
       "normal_border_color" = "#11111b";
     };
 
-    extraConfigEarly = ''
-      ./scripts/position_monitors
-    '';
-
     startupPrograms =
       [
         "pgrep -x sxhkd > /dev/null || sxhkd"
         "picom"
         "dunst"
+        "position_monitors"
       ]
       ++ (
         if settings.usr.display.wallpaperengine == "feh"
@@ -95,7 +92,7 @@ in {
       "super + bracket{left,right}" = "bspc desktop -f {prev,next}.local";
       "super + super + {grave,Tab}" = "bspc {node,desktop} -f last";
       "super + {o,i}" = "bspc wm -h off; bspc node {older,newer} -f; bspc wm -h on";
-      "super + {_,shift + }{1-6}" = "bspc {desktop -f,node -d} '^{1-6}'";
+      "super + {_,shift + }{1-6}" = "bspc {desktop -f,node -d} {1-6}.local";
       "super + ctrl + shift + {h,l}" = "bspc node -m {prev,next} --follow";
 
       # preselect
@@ -112,14 +109,10 @@ in {
   };
 
   home.packages =
-    []
+    [pkgs.eww pkgs.jq pkgs.spotify-cli-linux]
     ++ (
       if settings.usr.display.wallpaperengine == "feh"
       then [pkgs.feh]
       else []
     );
-
-  home.file = {
-    "/home/aidant/.config/bspwm/scripts".source = ./scripts;
-  };
 }

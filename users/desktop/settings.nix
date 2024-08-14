@@ -10,6 +10,7 @@
       monitors = [
         "DP-0"
         "DP-2"
+        "DP-4"
       ];
       statusbar = "eww";
       wallpaperengine = "feh";

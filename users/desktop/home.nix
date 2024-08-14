@@ -6,6 +6,7 @@
   imports =
     [
       ../../wm/${settings.usr.display.wm}.nix
+      ../../wm/monitors.nix
       ../../terminals/${settings.usr.terminal}.nix
     ]
     ++ settings.importFiles;

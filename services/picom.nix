@@ -44,12 +44,10 @@
         ];
       };
       corner-radius = 6;
-      round-corners-exlude = [
+      rounded-corners-exclude = [
         "window_type = 'dock'"
         "window_type = 'desktop'"
-        "name = 'Eww - statusbar0'"
-        "name = 'Eww - statusbar1'"
-        "name = 'Eww - statusbar2'"
+        "class_g = 'Eww'"
       ];
     };
   };

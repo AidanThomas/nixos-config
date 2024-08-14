@@ -1,9 +1,9 @@
 #!/run/current-system/sw/bin/bash
 
 spaces (){
-    DESKTOPS=$(bspc query -D --names)
-    OCCUPIED=$(bspc query -D -d .occupied --names)
-    FOCUSED=$(bspc query -D -d .focused --names)
+    DESKTOPS=$(bspc query -m "$1" -D --names)
+    OCCUPIED=$(bspc query -m "$1" -D -d .occupied --names)
+    FOCUSED=$(bspc query -m "$1" -D -d .focused --names)
 
     IS_OCCUPIED=""
     IS_FOCUSED=""
@@ -32,7 +32,7 @@ spaces (){
     echo ${OUTPUT} | jq --slurp -Mc
 }
 
-spaces
+spaces $1
 bspc subscribe desktop node_transfer | while read -r _ ; do
-    spaces
+    spaces $1
 done

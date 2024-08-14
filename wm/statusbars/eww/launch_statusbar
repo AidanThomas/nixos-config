@@ -1,0 +1,24 @@
+#!/run/current-system/sw/bin/bash
+
+EWW=`which eww`
+CFG="/home/aidant/dev/AidanThomas/eww/statusbar"
+
+launch() {
+    ${EWW} open-many statusbar0 statusbar1
+}
+
+close() {
+    ${EWW} close-all
+}
+
+ping() {
+    ${EWW} ping
+}
+
+if [[ "$1" == "--launch" ]]; then
+    launch
+elif [[ "$1" == "--close" ]]; then
+    close
+elif [[ "$1" == "--ping" ]]; then
+    ping
+fi

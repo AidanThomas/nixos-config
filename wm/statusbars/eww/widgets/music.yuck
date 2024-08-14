@@ -1,0 +1,47 @@
+(defpoll song :interval "2s" "scripts/music --song")
+(defpoll song_artist :interval "2s" "scripts/music --artist")
+(defpoll current_status :interval "1s" "scripts/music --time")
+(defpoll song_status :interval "2s" "scripts/music --status")
+(defpoll cover_art :interval "2s" "scripts/music --cover")
+(defpoll paused :interval "2s" "scripts/music --paused")
+(deflisten music_alive :initial false "bash scripts/music_alive")
+(defvar music_reveal0 false)
+(defvar music_reveal1 false)
+
+;; Main widget to be included in statusbar
+(defwidget music [monitor music_reveal]
+  (eventbox :class "music-widget"
+            :onhover "eww update music_reveal${monitor}=true"
+            :onhoverlost "eww update music_reveal${monitor}=false"
+            (box :orientation "h"
+                 :space-evenly false
+                 :hexpand false
+                 :vexpand false
+                 (box :class "song-cover-art"
+                      :vexpand false
+                      :hexpand false)
+                 (button :class "song"
+                         :onclick "scripts/pop --music"
+                         (box :orientation "h"
+                              :hexpand false
+                              :vexpand false
+                              :space-evenly false
+                              (label :class "song-title ${song_status == "" ? "paused" : ""}"
+                                     :text song)
+                              (image :class "spotify-icon"
+                                     :path "images/spotify${song_status == "" ? "_colourless" : ""}.svg"
+                                     :image-width "30"
+                                     :image-height "30")
+                              (label :class "song-artist ${song_status == "" ? "paused" : ""}"
+                                     :text song_artist)))
+                 (revealer :class "player-revealer"
+                           :transition "slideright"
+                           :reveal music_reveal
+                           :duration "350ms"
+                           (box :orientation "h 󰼧"
+                                :space-evenly false
+                                :vexpand false
+                                :hexpand false
+                                (button :class "song-btn-prev" :onclick "scripts/music --prev" "󰼨")
+                                (button :class "song-btn-play" :onclick "scripts/music --toggle" song_status)
+                                (button :class "song-btn-next" :onclick "scripts/music --next" "󰼧"))))))

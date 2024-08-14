@@ -1,1 +1,194 @@
-@use "statusbar"
+@import 'colours';
+
+// Generic settings ===============
+
+* {
+  all: unset;
+  font-family: "RobotoMono Nerd Font";
+}
+
+.statusbar {
+  background-color: $base00;
+}
+
+.container {
+  background-color: $base00;
+  border-radius: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.popup {
+  background-color: $base01;
+  border: 1px solid $base07;
+  font-size: 18px;
+}
+
+scale trough {
+  all: unset;
+  background-color: $base01;
+  min-height: 10px;
+  min-width: 70px;
+}
+
+.separator {
+  font-size: 30px;
+  color: $base0F
+}
+
+// ================================
+
+
+// NixOS icon =====================
+
+.logo {
+  background-color: $base00;
+}
+
+.power-menu {
+  background-color: $base00;
+  border: unset;
+}
+
+.powermenu-button {
+  margin-left: 5px;
+}
+
+// ================================
+
+// Workspaces =====================
+
+
+.workspaces-widget {
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 25px;
+}
+
+.workspace-entry {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.workspace-entry.empty {
+  color: $base04
+}
+
+.workspace-entry.occupied {
+  color: $base05;
+}
+
+.workspace-entry.current {
+  color: $base0D;
+}
+
+
+// =================================
+
+// Spotify widget ==================
+
+.music-widget {
+  font-size: 18px;
+  color: $base05;
+}
+
+.spotify-icon {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.paused {
+  color: $base03
+}
+
+.song-btn-prev,
+.song-btn-next {
+  font-size: 27px;
+}
+
+.song-btn-prev,
+.song-btn-play,
+.song-btn-next {
+  margin-left: 5px;
+  margin-right: 5px;
+  color: $base06
+}
+
+.song-btn-next {
+  margin-right: 0px;
+}
+
+.song-btn-prev {
+  margin-left: 15px;
+}
+
+// =================================
+
+// Notifications widget ============
+
+.notifications {
+  font-size: 22px;
+  color: $base05;
+  margin-right: 5px;
+  margin-left: -5px;
+}
+
+// =================================
+
+// System widget ===================
+
+.settings {
+  font-size: 22px;
+  color: $base05;
+  margin-left: 5px;
+}
+
+.volbar trough highlight {
+  background-image: linear-gradient(to right, #ffffff 30%, #ffffff 50%, #ffffff 100% *50);
+}
+
+.micbar trough highlight {
+  background-image: linear-gradient(to right, #ffffff 30%, #ffffff 50%, #ffffff 100% *50);
+}
+
+.mem-module {
+  background-color: $base01;
+}
+
+.mem-wheel {
+  color: $base09;
+  background-color: $base00;
+}
+
+.mem-icon {
+  color: $base09;
+  font-size: 20;
+  margin: 18px;
+}
+
+// ================================
+
+// Clock widget ====================
+
+.clock-widget {
+  font-size: 20px;
+  color: $base05;
+}
+
+.clock-hour {
+  font-weight: bold;
+}
+
+.clock-minute {
+  margin-right: 5px;
+}
+
+.clock-date {
+  margin-left: 10px;
+  margin-right: 5px;
+  font-style: italic;
+  color: $base04;
+  font-size: 17px;
+}
+
+// ================================
