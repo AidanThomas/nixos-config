@@ -1,6 +1,7 @@
 (defpoll time :interval "1s" "scripts/get_time")
 (defvar time_reveal0 false)
 (defvar time_reveal1 false)
+(defvar time_reveal2 false)
 
 ;; Main widget to be included in statusbar
 (defwidget clock [monitor time_reveal]

@@ -1,5 +1,6 @@
 (deflisten workspaces0 :initial "..." "bash scripts/get_workspaces DP-2")
-(deflisten workspaces1 :initial "..." "bash scripts/get_workspaces DP-0")
+(deflisten workspaces1 :initial "..." "bash scripts/get_workspaces DP-4")
+(deflisten workspaces2 :initial "..." "bash scripts/get_workspaces DP-0")
 
 ;; Main widget to be included in statusbar
 (defwidget workspaces [workspaces]

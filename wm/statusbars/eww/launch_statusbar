@@ -1,18 +1,15 @@
 #!/run/current-system/sw/bin/bash
 
-EWW=`which eww`
-CFG="/home/aidant/dev/AidanThomas/eww/statusbar"
-
 launch() {
-    ${EWW} open-many statusbar0 statusbar1
+    eww open-many statusbar0 statusbar1 statusbar2
 }
 
 close() {
-    ${EWW} close-all
+    eww close-all
 }
 
 ping() {
-    ${EWW} ping
+    eww ping
 }
 
 if [[ "$1" == "--launch" ]]; then

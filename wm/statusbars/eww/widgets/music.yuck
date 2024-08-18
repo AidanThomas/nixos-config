@@ -7,6 +7,7 @@
 (deflisten music_alive :initial false "bash scripts/music_alive")
 (defvar music_reveal0 false)
 (defvar music_reveal1 false)
+(defvar music_reveal2 false)
 
 ;; Main widget to be included in statusbar
 (defwidget music [monitor music_reveal]

@@ -31,7 +31,7 @@ in {
     ../services/dunst.nix
 
     # Statusbar
-    # ./statusbars/${settings.usr.display.statusbar}.nix
+    ./statusbars/${settings.usr.display.statusbar}.nix
   ];
 
   xsession.windowManager.bspwm = {
@@ -58,6 +58,11 @@ in {
       ++ (
         if settings.usr.display.wallpaperengine == "feh"
         then ["feh --bg-scale ~/.wallpapers/dawn-lake.jpg"]
+        else []
+      )
+      ++ (
+        if settings.usr.display.statusbar == "eww"
+        then ["/home/${settings.usr.username}/.config/eww/launch_statusbar --launch"]
         else []
       );
   };
