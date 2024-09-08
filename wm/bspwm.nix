@@ -31,7 +31,7 @@ in {
     ../services/dunst.nix
 
     # Statusbar
-    ./statusbars/${settings.usr.display.statusbar}.nix
+    # ./statusbars/${settings.usr.display.statusbar}.nix
   ];
 
   xsession.windowManager.bspwm = {
@@ -46,6 +46,7 @@ in {
       "gapless_monocle" = true;
       "focused_border_color" = "#89b4fa";
       "normal_border_color" = "#11111b";
+      "focus_follows_pointer" = true;
     };
 
     startupPrograms =
@@ -114,7 +115,7 @@ in {
   };
 
   home.packages =
-    [pkgs.eww pkgs.jq pkgs.spotify-cli-linux]
+    [pkgs.eww pkgs.jq pkgs.spotify-cli-linux pkgs.xtitle]
     ++ (
       if settings.usr.display.wallpaperengine == "feh"
       then [pkgs.feh]
