@@ -21,44 +21,40 @@
     lib = nixpkgs.lib;
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
-  in {
-    nixosConfigurations = {
-      desktop = lib.nixosSystem {
-        inherit system;
-        modules = [./users/desktop/configuration.nix];
-        specialArgs = {
-          settings = import ./users/desktop/settings.nix;
-        };
-      };
-      laptop = lib.nixosSystem {
-        inherit system;
-        modules = [./users/laptop/configuration.nix];
-        specialArgs = {
-          settings = import ./users/laptop/settings.nix;
-        };
-      };
-    };
+    configurations = ["desktop" "laptop"];
 
-    homeConfigurations = {
-      desktop = home-manager.lib.homeManagerConfiguration {
+    nixosConfig = name:
+      lib.nixosSystem {
+        inherit system;
+        modules = [./users/${name}/configuration.nix];
+        specialArgs = {
+          settings = import ./users/${name}/settings.nix;
+        };
+      };
+
+    homeConfig = name:
+      home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          ./users/desktop/home.nix
+          ./users/${name}/home.nix
         ];
         extraSpecialArgs = {
           settings = import ./users/desktop/settings.nix;
         };
       };
-      laptop = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          ./users/laptop/home.nix
-        ];
-        extraSpecialArgs = {
-          settings = import ./users/laptop/settings.nix;
-        };
-      };
-    };
+  in {
+    nixosConfigurations = lib.listToAttrs (map
+      (configName: {
+        name = configName;
+        value = nixosConfig configName;
+      })
+      configurations);
+    homeConfigurations = lib.listToAttrs (map
+      (configName: {
+        name = configName;
+        value = homeConfig configName;
+      })
+      configurations);
 
     devShells.${system} = {
       development = import ./shells/development.nix {inherit pkgs;};
