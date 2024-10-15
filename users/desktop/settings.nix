@@ -23,14 +23,14 @@
   };
   importFiles = [
     # Programs
-    ../../programs/git.nix
-    ../../programs/bash.nix
+    ../../components/programs/git.nix
+    ../../components/programs/bash.nix
 
     # Services
-    ../../services/caffeine.nix
+    ../../components/services/caffeine.nix
 
     # Terminal extras
-    ../../terminals/starship.nix
-    ../../terminals/neofetch.nix
+    ../../components/terminals/starship.nix
+    ../../components/terminals/neofetch.nix
   ];
 }

@@ -5,9 +5,9 @@
 }: {
   imports =
     [
-      ../../wm/${settings.usr.display.wm}.nix
-      ../../wm/monitors.nix
-      ../../terminals/${settings.usr.terminal}.nix
+      ../../components/wm/${settings.usr.display.wm}.nix
+      ../../components/wm/monitors.nix
+      ../../components/terminals/${settings.usr.terminal}.nix
     ]
     ++ settings.importFiles;
 
@@ -63,8 +63,8 @@
   ];
 
   home.file = {
-    "/home/aidant/.wallpapers".source = ../../symlinks/wallpapers;
-    "/home/aidant/.local/share/applications".source = ../../symlinks/applications;
+    "/home/aidant/.wallpapers".source = ../../components/symlinks/wallpapers;
+    "/home/aidant/.local/share/applications".source = ../../components/symlinks/applications;
     "/home/aidant/.config/BetterDiscord/themes/mocha.theme.css".text = ''
        /**
        * @name Catppuccin Mocha

@@ -15,20 +15,20 @@
 in {
   imports =
     [
-      ../../terminals/starship.nix
-      ../../terminals/neofetch.nix
-      ../../bash.nix
+      ../../components/terminals/starship.nix
+      ../../components/terminals/neofetch.nix
+      ../../components/bash.nix
     ]
     ++ (
       if settings.usr.display.wm == "hyprland"
-      then [../../wm/hyprland.nix]
+      then [../../components/wm/hyprland.nix]
       else if settings.usr.display.wm == "bspwm"
-      then [../../wm/bspwm.nix]
+      then [../../components/wm/bspwm.nix]
       else []
     )
     ++ (
       if settings.usr.terminal == "kitty"
-      then [../../terminals/kitty.nix]
+      then [../../components/terminals/kitty.nix]
       else []
     );
 
@@ -90,8 +90,8 @@ in {
         --enable-featureUseOzonePlatform --ozone-platform=wayland
       ''
       else '''';
-    "/home/aidant/.wallpapers".source = ../../wallpapers;
-    "/home/aidant/.local/share/applications".source = ../../applications;
+    "/home/aidant/.wallpapers".source = ../../components/wallpapers;
+    "/home/aidant/.local/share/applications".source = ../../components/applications;
     "/home/aidant/.config/BetterDiscord/themes/mocha.theme.css".text = ''
        /**
        * @name Catppuccin Mocha
