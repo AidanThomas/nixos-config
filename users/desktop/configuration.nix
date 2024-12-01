@@ -13,7 +13,8 @@
     efiSupport = true;
   };
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.loader.timeout = -1;
 
   networking.hostName = settings.sys.hostname;
   networking.hosts = {
@@ -42,11 +43,7 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
+  hardware.graphics.enable = true;
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -61,16 +58,15 @@
     enable = true;
     videoDrivers = ["nvidia"];
 
-    displayManager.lightdm.enable = true;
-    desktopManager.gnome.enable = true;
-
     windowManager.bspwm.enable =
       if settings.usr.display.wm == "bspwm"
       then true
       else false;
   };
 
-  sound.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -125,6 +121,6 @@
     enable = true;
   };
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
   nix.settings.experimental-features = ["nix-command" "flakes"];
 }
