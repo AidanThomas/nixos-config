@@ -57,7 +57,7 @@
       configurations);
 
     devShells.${system} = {
-      development = import ./shells/development.nix {inherit pkgs;};
+      development = import ./components/shells/development.nix {inherit pkgs;};
     };
   };
 }
