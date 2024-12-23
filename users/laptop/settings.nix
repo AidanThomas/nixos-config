@@ -1,4 +1,5 @@
 {
+  name = "laptop";
   usr = {
     username = "aidant";
     kb = {

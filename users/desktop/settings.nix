@@ -1,4 +1,5 @@
 {
+  name = "desktop";
   usr = {
     username = "aidant";
     kb = {
@@ -9,9 +10,9 @@
       wm = "bspwm";
       monitors = [
         "DP-0"
+        "DP-4"
       ];
       statusbar = "eww";
-      wallpaperengine = "feh";
       backend = "x11";
     };
     terminal = "kitty";
@@ -30,5 +31,9 @@
     # Terminal extras
     ../../components/terminals/starship.nix
     ../../components/terminals/neofetch.nix
+  ];
+
+  scripts = [
+    ./scripts/monitors.nix
   ];
 }

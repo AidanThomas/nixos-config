@@ -13,7 +13,6 @@
         "3"
         "4"
         "5"
-        "6"
       ];
     })
     settings.usr.display.monitors;
@@ -31,7 +30,7 @@ in {
     ../services/dunst.nix
 
     # Statusbar
-    # ./statusbars/${settings.usr.display.statusbar}.nix
+    ./statusbars/${settings.usr.display.statusbar}.nix
   ];
 
   xsession.windowManager.bspwm = {
@@ -54,18 +53,17 @@ in {
         "pgrep -x sxhkd > /dev/null || sxhkd"
         "picom"
         "dunst"
-        "position_monitors"
       ]
-      ++ (
-        if settings.usr.display.wallpaperengine == "feh"
-        then ["feh --bg-scale ~/.wallpapers/dawn-lake.jpg"]
-        else []
-      )
       ++ (
         if settings.usr.display.statusbar == "eww"
         then ["/home/${settings.usr.username}/.config/eww/launch_statusbar --launch"]
         else []
       );
+
+    extraConfig = ''
+      position_monitors
+      set_wallpapers
+    '';
   };
 
   services.sxhkd = {
@@ -77,7 +75,7 @@ in {
       "super + ESCAPE" = "pkill -USR1 -x sxhkd"; # Make sxhkd reload config files
 
       #bspwm keys
-      "super + q" = "bspc {quit,wm -r}"; # quit/restart
+      # "super + q" = "bspc {quit,wm -r}"; # quit/restart
       "super + {_,shift + }c" = "bspc node -{c,k}"; # close and kill
       "super + m" = "bspc desktop -l next"; # alternate between tiled and monocle layout
       # Send the newest marked node to the newest preselected node
@@ -114,11 +112,11 @@ in {
     };
   };
 
-  home.packages =
-    [pkgs.eww pkgs.jq pkgs.spotify-cli-linux pkgs.xtitle]
-    ++ (
-      if settings.usr.display.wallpaperengine == "feh"
-      then [pkgs.feh]
-      else []
-    );
+  home.packages = [
+    pkgs.eww
+    pkgs.jq
+    pkgs.spotify-cli-linux
+    pkgs.xtitle
+    pkgs.xwallpaper
+  ];
 }

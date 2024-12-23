@@ -2,14 +2,18 @@
   pkgs,
   settings,
   ...
-}: {
+}: let
+  scripts =
+    map (script: ./scripts/${script})
+    (builtins.attrNames (builtins.readDir ./scripts));
+in {
   imports =
     [
       ../../components/wm/${settings.usr.display.wm}.nix
-      ../../components/wm/monitors.nix
       ../../components/terminals/${settings.usr.terminal}.nix
     ]
-    ++ settings.importFiles;
+    ++ settings.importFiles
+    ++ scripts;
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
@@ -45,6 +49,8 @@
     pkgs.steam
     pkgs.shutter
     pkgs.keepassxc
+    pkgs.pulsemixer
+    pkgs.vscode
 
     # Theming
     pkgs.capitaine-cursors
@@ -96,7 +102,7 @@
     # - Qogir-dark
     name = "Qogir";
     package = pkgs.qogir-icon-theme;
-    size = 24;
+    size = 36;
     gtk.enable = true;
     x11.enable = true;
   };
@@ -111,7 +117,7 @@
     cursorTheme = {
       name = "Qogir";
       package = pkgs.qogir-icon-theme;
-      size = 24;
+      size = 36;
     };
     # Themes:
     # - la-capitaine-icon-theme
