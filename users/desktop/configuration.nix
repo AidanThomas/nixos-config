@@ -64,6 +64,20 @@
       else false;
   };
 
+  # programs.hyprland = {
+  #   enable =
+  #     if settings.usr.display.wm == "hyprland"
+  #     then true
+  #     else false;
+  #   xwayland.enable = true;
+  # };
+
+  # Wayland stuff for running Hyprland
+  # environment.sessionVariables = {
+  #   WLR_NO_HARDWARE_CURSORS = "1";
+  #   NIXOS_OZONE_WL = "1";
+  # };
+
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 

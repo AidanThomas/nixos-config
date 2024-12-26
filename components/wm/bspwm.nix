@@ -56,7 +56,7 @@ in {
       ]
       ++ (
         if settings.usr.display.statusbar == "eww"
-        then ["/home/${settings.usr.username}/.config/eww/launch_statusbar --launch"]
+        then ["eww open statusbar"]
         else []
       );
 

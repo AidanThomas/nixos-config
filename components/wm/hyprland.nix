@@ -4,19 +4,21 @@
   ...
 }: {
   imports = [
-    ./statusbars/${settings.usr.display.statusbar}.nix
+    # ./statusbars/${settings.usr.display.statusbar}.nix
   ];
 
   wayland.windowManager.hyprland = {
     enable = true;
-    xwayland.enable = false;
+    xwayland.enable = true;
     settings = {
-      "monitor" = "Unknown-1,disable";
+      "monitor" = [
+        # "DP-1, 2560x1440@165.00Hz, 0x0, 1"
+        # "DP-3, disable"
+      ];
       "$mod" = "SUPER";
       bind =
         [
           "$mod, RETURN, exec, kitty"
-          "$mod, T, exec, WAYLAND_DISPLAY=1 wezterm"
           "$mod, Q, exec, hyprctl dispatch exit"
           "$mod, R, exec, wofi --show drun"
           "$mod, C, killactive,"
@@ -37,27 +39,27 @@
             )
             10)
         );
-      exec-once =
-        [
-          # "waybar"
-          # "mpvpaper -f -o \"no-audio loop\" eDP-1 ~/.wallpapers/AnimatedCosmereWallpaper.mp4"
-          "swww init && swww img ~/.wallpapers/dawn-lake.jpg"
-        ]
-        ++ (
-          if settings.usr.display.wallpaperengine == "mpvpaper"
-          then ["mpvpaper -f -o \"no-audio loop\" eDP-1 ~/.wallpapers/AnimatedCosmereWallpaper.mp4"]
-          else
-            (
-              if settings.usr.display.wallpaperengine == "swww"
-              then ["sww init && swww img ~/.wallpapers/dawn-lake.jpg"]
-              else []
-            )
-        )
-        ++ (
-          if settings.usr.display.statusbar == "waybar"
-          then ["waybar"]
-          else []
-        );
+      # exec-once =
+      #   [
+      #     # "waybar"
+      #     # "mpvpaper -f -o \"no-audio loop\" eDP-1 ~/.wallpapers/AnimatedCosmereWallpaper.mp4"
+      #     "swww init && swww img ~/.wallpapers/dawn-lake.jpg"
+      #   ]
+      #   ++ (
+      #     if settings.usr.display.wallpaperengine == "mpvpaper"
+      #     then ["mpvpaper -f -o \"no-audio loop\" eDP-1 ~/.wallpapers/AnimatedCosmereWallpaper.mp4"]
+      #     else
+      #       (
+      #         if settings.usr.display.wallpaperengine == "swww"
+      #         then ["sww init && swww img ~/.wallpapers/dawn-lake.jpg"]
+      #         else []
+      #       )
+      #   )
+      #   ++ (
+      #     if settings.usr.display.statusbar == "waybar"
+      #     then ["waybar"]
+      #     else []
+      #   );
 
       general = {
         gaps_out = 10;
@@ -67,19 +69,14 @@
         inactive_opacity = 0.9;
       };
 
-      input = {
-        kb_layout = "gb,us";
-        kb_options = "grp:caps_toggle";
-      };
-
       gestures = {
         workspace_swipe = true;
         workspace_swipe_fingers = 3;
       };
 
       misc = {
-        disable_hyprland_logo = true;
-        disable_splash_rendering = true;
+        disable_hyprland_logo = false;
+        disable_splash_rendering = false;
       };
 
       env = [
@@ -93,23 +90,15 @@
     '';
   };
 
-  home.packages =
-    [
-      pkgs.wl-clipboard
-      pkgs.grim
-      pkgs.slurp
-      pkgs.xdg-desktop-portal-hyprland
-      pkgs.wofi
-      pkgs.dunst
-    ]
-    ++ (
-      if settings.usr.display.wallpaperengine == "mpvpaper"
-      then [pkgs.mpvpaper]
-      else
-        (
-          if settings.usr.display.wallpaperengine == "swww"
-          then [pkgs.swww]
-          else []
-        )
-    );
+  home.packages = [
+    pkgs.wl-clipboard
+    pkgs.grim
+    pkgs.slurp
+    pkgs.xdg-desktop-portal-hyprland
+    pkgs.wofi
+    pkgs.dunst
+    pkgs.egl-wayland
+  ];
+
+  home.sessionVariables.NIXOS_OZONE_WL = "1";
 }

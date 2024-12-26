@@ -43,7 +43,7 @@ in {
     pkgs.fd
     pkgs.fzf
     pkgs.obsidian
-    pkgs.discord # Use discordctl to install BetterDiscord
+    pkgs.discord # Use betterdiscordctl to install BetterDiscord
     pkgs.gimp
     pkgs.spotify
     pkgs.steam
