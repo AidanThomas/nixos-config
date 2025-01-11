@@ -30,7 +30,7 @@
 
     # Terminal extras
     ../../components/terminals/starship.nix
-    ../../components/terminals/neofetch.nix
+    ../../components/terminals/fastfetch.nix
   ];
 
   scripts = [

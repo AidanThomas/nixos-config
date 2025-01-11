@@ -51,6 +51,7 @@ in {
     pkgs.keepassxc
     pkgs.pulsemixer
     pkgs.vscode
+    pkgs.noisetorch
 
     # Theming
     pkgs.capitaine-cursors
