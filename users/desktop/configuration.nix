@@ -18,13 +18,19 @@
 
   networking.hostName = settings.sys.hostname;
   networking.hosts = {
-    "192.168.1.254" = ["router.admin.com"];
-    "192.168.122.243" = [
+    "192.168.1.1" = ["admin.router.com"];
+    "192.168.1.135" = [
+      # "assist.pi.home"
       "providers.local.com"
       "services.local.com"
       "admin.local.com"
     ];
   };
+  networking.nameservers = [
+    "192.168.1.111"
+    "192.168.1.1"
+    "8.8.8.8"
+  ];
 
   networking.networkmanager.enable = true;
 
