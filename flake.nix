@@ -6,19 +6,11 @@
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
     };
-    hyprland = {
-      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
-    };
   };
 
   outputs = {
     nixpkgs,
     home-manager,
-    ghostty,
     ...
   }: let
     lib = nixpkgs.lib;
@@ -31,9 +23,6 @@
         inherit system;
         modules = [
           ./users/${name}/configuration.nix
-          {
-            environment.systemPackages = [ghostty.packages.x86_64-linux.default];
-          }
         ];
         specialArgs = {
           settings = import ./users/${name}/settings.nix;

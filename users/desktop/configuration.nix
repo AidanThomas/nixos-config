@@ -57,7 +57,7 @@
     powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = false;
-    package = config.boot.kernelPackages.nvidiaPackages.production;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
   services.xserver = {
