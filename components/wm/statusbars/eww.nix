@@ -1,7 +1,14 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  settings,
+  ...
+}: {
   programs.eww = {
     enable = true;
-    configDir = ./eww;
+    configDir = pkgs.symlinkJoin {
+      name = "eww";
+      paths = [./eww ../scripts/eww/${settings.usr.display.wm}];
+    };
   };
 
   home.packages = [
@@ -12,12 +19,4 @@
     pkgs.spotify-cli-linux
     pkgs.alsa-utils
   ];
-
-  home.file = {
-    "/home/aidant/.config/networkmanager-dmenu/config.ini".text = ''
-      [dmenu]
-      dmenu_command = rofi -show drun
-    '';
-    "/home/aidant/.config/eww/scripts".source = ../scripts/eww/bspwm/scripts;
-  };
 }
