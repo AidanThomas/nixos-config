@@ -37,7 +37,7 @@ in {
 
     # Extra
     pkgs.alejandra
-    pkgs.cinnamon.nemo
+    pkgs.nemo
     pkgs.discord
     pkgs.ripgrep
     pkgs.fd

@@ -1,0 +1,30 @@
+(defpoll speaker_volume_percent :interval "5s" "amixer sget Master | grep 'Front Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
+(defpoll mic_volume_percent :interval "5s" "amixer sget Capture | grep 'Front Left:' | awk -F '[][]' '{ print $2 }' | tr -d '%'")
+(defpoll speaker_muted :interval "5s" "scripts/audio --get-muted speakers")
+(defpoll mic_muted :interval "5s" "scripts/audio --get-muted microphone")
+(defpoll headphones_active :intial false :interval "5s" "scripts/audio --headphones-active")
+
+(defwidget speakers []
+  (eventbox :onclick "scripts/audio --mute-speakers"
+            :onrightclick "scripts/audio --swap"
+            :onscroll "scripts/audio --change-volume speakers {}"
+            (box :class "speakers-widget"
+                 :orientation "h"
+                 :space-evenly false
+                 (image :path "./images/${headphones_active == true ? "headphones" : "speaker"}${speaker_muted == true ? "-mute" : speaker_volume_percent > 50 && headphones_active == false ? "-high" : speaker_volume_percent > 0 && headphones_active == false ? "-low" : ""}.svg"
+                        :image-height 20
+                        :image-width 20)
+                 (label :class "speaker-text"
+                        :text "${speaker_volume_percent}%"))))
+
+(defwidget mic []
+  (eventbox :onclick "scripts/audio --mute-microphone"
+            :onscroll "scripts/audio --change-volume microphone {}"
+            (box :class "mic-widget"
+                 :orientation "h"
+                 :space-evenly false
+                 (image :path "./images/microphone${mic_muted == true ? "-mute" : ""}.svg"
+                        :image-height 20
+                        :image-width 20)
+                 (label  :class "mic-text"
+                        :text "${mic_volume_percent}%"))))

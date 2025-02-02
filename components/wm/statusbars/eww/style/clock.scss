@@ -1,0 +1,60 @@
+@import '../colours';
+
+.clock-widget {
+  font-size: 20px;
+  color: $base05;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.clock-hour {
+  font-weight: bold;
+}
+
+.clock-date {
+  margin-left: 10px;
+  font-style: italic;
+  color: $base05;
+  font-size: 18px;
+}
+
+.cal {
+  font-size: 18px;
+  border-radius: 5px;
+  border: 1px solid $base05;
+
+  .cal-in {
+    color: $base05;
+
+    .cal {
+      padding: 5px;
+    }
+  }
+}
+
+calendar:selected {
+  color: $base00;
+  background-color: $base0D;
+}
+
+calendar.header {
+  color: $base08;
+  font-weight: bold;
+}
+
+calendar.button {
+  color: $base08;
+}
+
+calendar.button:hover {
+  color: $base0D;
+  background-color: $base04;
+}
+
+calendar.highlight {
+  color: $base0D;
+}
+
+calendar:indeterminate {
+  color: $base03;
+}

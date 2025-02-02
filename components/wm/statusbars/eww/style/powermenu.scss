@@ -1,0 +1,22 @@
+@import '../colours';
+
+.nixos-image {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.power-menu {
+  font-size: 18px;
+  color: $base05;
+  border-radius: 5px;
+  border: 1px solid $base05;
+}
+
+.powermenu-button {
+  margin: 5px;
+}
+
+.powermenu-section:hover {
+  background-color: $base0D;
+  color: $base00;
+}

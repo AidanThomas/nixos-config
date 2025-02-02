@@ -13,7 +13,7 @@
     efiSupport = true;
   };
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages;
   boot.loader.timeout = -1;
 
   networking.hostName = settings.sys.hostname;
@@ -143,6 +143,9 @@
 
   virtualisation.docker = {
     enable = true;
+    daemon.settings = {
+      insecure-registries = ["192.168.1.111:5000"];
+    };
   };
 
   system.stateVersion = "24.05";

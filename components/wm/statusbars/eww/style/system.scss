@@ -1,0 +1,22 @@
+@import '../colours';
+
+.memory-widget, .disk-widget {
+  font-size: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+  color: $base05
+}
+
+.memory-icon {
+  margin-right: 5px;
+  font-size: 20px;
+}
+
+.memory-icon {
+  color: $base09;
+}
+
+.disk-text {
+  margin-left: 5px;
+}
+

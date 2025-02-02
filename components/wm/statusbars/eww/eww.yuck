@@ -1,0 +1,63 @@
+(include "./widgets/audio.yuck")
+(include "./widgets/clock.yuck")
+(include "./widgets/current.yuck")
+(include "./widgets/music.yuck")
+(include "./widgets/nixos.yuck")
+(include "./widgets/notifications.yuck")
+(include "./widgets/system.yuck")
+(include "./widgets/todo.yuck")
+(include "./widgets/workspaces.yuck")
+
+(defwindow statusbar
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "0.4%"
+                      :width "99.8%"
+                      :height "30px"
+                      :anchor "top center")
+  :reserve (struts :distance "40px" :side "top")
+  :stacking "fg"
+  :exclusive false
+  :focusable false
+  (box :class "statusbar"
+       :orientation "h"
+       :hexpand true
+    (box :class "statusbar-left"
+         :halign "start"
+         :space-evenly false
+         (container :extra_class "powermenu" :visible true (nixos))
+         (separator)
+         (container :extra_class "workspaces" :visible true (workspaces))
+         (separator)
+         (container :extra_class "current-title" :visible true (current)))
+    (box :class "statusbar-right"
+         :halign "end"
+         :space-evenly false
+         (container :extra_class "music" :visible music_alive (music))
+         (separator)
+         (container :extra_class "todo" :visible true (todo))
+         (separator)
+         (container :extra_class "disk" :visible true (disk))
+         (separator)
+         (container :extra_class "memory" :visible true (memory))
+         (separator)
+         (container :extra_class "mic" :visible true (mic))
+         (separator)
+         (container :extra_class "speaker" :visible true (speakers))
+         (separator)
+         (container :extra_class "notifications" :visible true (notifications))
+         (separator)
+         (container :extra_class "clock" :visible true (clock)))))
+
+(defwidget container [extra_class visible]
+  (eventbox :class "container ${extra_class}-container"
+            :visible visible
+            :hexpand true :vexpand true
+            :valign "center"
+            :height 30
+            (box :class "container-inner"
+              (children))))
+
+(defwidget separator []
+  (label :class "separator"
+        :text ""))

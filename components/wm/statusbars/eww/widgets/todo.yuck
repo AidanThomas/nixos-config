@@ -1,0 +1,62 @@
+(defpoll todo_tasks :interval "10s" "scripts/todo --get")
+(defpoll todo_count :interval "10s" "scripts/todo --count")
+(defvar todo_input_value "")
+
+;; Main widget to be included in statusbar
+(defwidget todo [] 
+  (eventbox :onclick "scripts/pop --todo"
+    (box :class "todo-widget"
+         :orientation "h"
+         :space-evenly false
+         (image :path "./images/todo.svg"
+                :image-height 20
+                :image-width 20)
+         (label :class "todo-text"
+                :text "${todo_count}"))))
+
+;; Popup widget
+(defwindow todo_list :monitor 0
+                     :geometry (geometry :x "-330px"
+                                         :y "40px"
+                                         :anchor "top right"
+                                         :width "270px"
+                                         :height "60px")
+                     :focusable true
+                     :stacking "fg"
+                     :windowtype "dialog"
+                     :wm-ignore false
+                     (list))
+
+(defwidget list []
+  (box :class "todo-list popup" :orientation "v" :space-evenly false
+    (box :class "todo-list-title" :orientation "h" :space-evenly false :hexpand true
+      (box :hexpand true :class "todo-list-title-text" :halign "start"
+        (label :class "" :text "ToDo:"))
+      (box :hexpand false :class "todo-list-title-button"
+        (eventbox :onclick "scripts/todo --clear" :class "todo-list-title-button"
+          (label :text "Clear"))))
+    (box :orientation "v" :class "todo-list-entries"
+      (for task in todo_tasks
+        (todo_entry :id "${task.id}" :text "${task.value}")))
+    (box :orientation "h" :class "todo-list-new" :space-evenly false :halign "center"
+      (label :text "Create a new task:" :class "todo-list-new-text")
+      (input :value todo_input_value 
+             :class "todo-list-new-input"
+             :onaccept "scripts/todo --add '{}'"))))
+
+(defwidget todo_entry [id text]
+  (eventbox :class "todo-entry"
+    (box :class "todo-entry" :orientation "h" :space-evenly false
+      (box :class "todo-entry-left" :halign "start" :hexpand true
+        (label :class "todo-entry-text" :text "${text}" :truncate false :wrap true :xalign 0))
+      (box :class "todo-entry-right" :halign "end"
+        (box :class "todo-list-move-buttons" :orientation "v"
+          (eventbox :onclick "scripts/todo --move ${id} up" :class "todo-list-button-move-up"
+            (box :class "todo-list-button-move-up"
+              (image :path "./images/up.svg")))
+          (eventbox :onclick "scripts/todo --move ${id} down" :class "todo-list-button-move-down"
+            (box :class "todo-list-button-move-down"
+              (image :path "./images/down.svg"))))
+        (eventbox :onclick "scripts/todo --remove ${id}" :class "todo-list-button-complete"
+          (box :class "todo-list-button-complete"
+            (image :path "./images/check.svg")))))))

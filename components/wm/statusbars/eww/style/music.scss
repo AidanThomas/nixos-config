@@ -1,0 +1,43 @@
+@import '../colours';
+
+.music-widget {
+  font-size: 18px;
+  color: $base05;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.spotify-icon {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.paused {
+  color: $base03;
+}
+
+.song-btn-prev,
+.song-btn-next {
+  font-size: 20px;
+}
+
+.song-btn-play {
+  font-size: 15px;
+}
+
+.song-btn-prev,
+.song-btn-play,
+.song-btn-next {
+  margin-left: 5px;
+  margin-right: 5px;
+  color: $base06;
+}
+
+.song-btn-next {
+  margin-right: 0px;
+
+}
+
+.song-btn-prev {
+  margin-left: 15px;
+}

@@ -1,0 +1,87 @@
+@import '../colours';
+
+.todo-widget {
+  font-size: 18px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.todo-text {
+  color: $base05;
+  margin-left: 5px;
+}
+
+.todo-list {
+  border-radius: 5px;
+  border: 1px solid $base05;
+  font-size: 18px;
+}
+
+.todo-list-title {
+  color: $base05;
+  font-weight: bold;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed $base05;
+}
+
+.todo-list-title-text {
+  margin-left: 5px;
+  color: $base0C;
+}
+
+.todo-list-title-button {
+  margin-right: 5px;
+  font-weight: normal;
+  color: $base08;
+  border-radius: 5px;
+}
+
+.todo-list-title-button:hover {
+  background-color: $base03;
+}
+
+.todo-entry {
+  color: $base05;
+  padding: 5px;
+}
+
+.todo-entry:hover {
+  background-color: $base03;
+  color: $base00;
+}
+
+.todo-list-new {
+  color: $base05;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: 1px dashed $base05;
+}
+
+.todo-list-new-input {
+  background-color: $base02;
+  color: $base05;
+}
+
+.todo-list-new-text {
+  color: $base0C;
+}
+
+.todo-list-move-buttons {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.todo-list-button-move-up,
+.todo-list-button-move-down,
+.todo-list-button-complete {
+  border-radius: 3px;
+}
+
+.todo-list-button-move-up:hover,
+.todo-list-button-move-down:hover,
+.todo-list-button-complete:hover {
+  background-color: $base04;
+}

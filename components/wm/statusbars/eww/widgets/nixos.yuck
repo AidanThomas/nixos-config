@@ -1,0 +1,41 @@
+;; Main widget to include in statusbar
+(defwidget nixos []
+  (eventbox :class "nixos-button"
+            :onclick "scripts/pop --powermenu"
+            (image :class "nixos-image"
+                   :path "images/nixos.png"
+                   :halign "center"
+                   :valign "center"
+                   :image-height "25"
+                   :image-width "25")))
+
+;; Popup widget
+(defwindow power_menu :monitor 0
+                      :geometry (geometry :x "2px"
+                                          :y "42px"
+                                          :anchor "top left")
+                      (power_menu))
+
+(defwidget power_menu []
+  (box :class "power-menu popup"
+       :orientation "v"
+       :space-evenly false
+       :vexpand false
+       (power_menu_entry :name "logout"
+                         :label "󰍃 Logout"
+                         :action "scripts/pop --powermenu && bspc quit")
+       (power_menu_entry :name "reboot"
+                         :label "󰜉 Reboot"
+                         :action "scripts/pop --powermenu && reboot")
+       (power_menu_entry :name "shutdown"
+                         :label "󰐥 Shutdown"
+                         :action "scripts/pop --powermenu && shutdown now")))
+
+(defwidget power_menu_entry [name label action]
+  (eventbox :class "powermenu-section" :onclick "${action}"
+    (box :class "${name}-button powermenu-button"
+         :halign "start"
+        (label :class "${name}-label powermenu-label"
+               :xalign 0
+               :width 100
+               :text label))))

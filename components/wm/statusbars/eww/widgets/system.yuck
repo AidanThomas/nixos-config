@@ -1,0 +1,18 @@
+(defwidget memory []
+  (box :class "memory-widget"
+       :orientation "h"
+       :space-evenly false
+       (label :class "memory-icon"
+              :text "󰇅")
+       (label :class "memory-text"
+              :text "${round(EWW_RAM.used_mem_perc, 0)}%")))
+
+(defwidget disk []
+  (box :class "disk-widget"
+       :orientation "h"
+       :space-evenly false
+       (image :path "./images/disk.svg"
+              :image-height 20
+              :image-width 20)
+       (label :class "disk-text"
+              :text "${round(EWW_DISK["/"].used_perc,0)}%")))

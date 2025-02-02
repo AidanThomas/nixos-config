@@ -1,0 +1,15 @@
+#!/run/current-system/sw/bin/bash
+
+check_alive() {
+    MESSAGE=$(spotifycli --song)
+    if [[ -z $MESSAGE ]]; then
+        echo false
+    else
+        echo true
+    fi
+}
+
+check_alive
+bspc subscribe report | while read -r _; do
+    check_alive
+done

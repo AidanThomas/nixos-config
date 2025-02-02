@@ -1,0 +1,43 @@
+@import 'colours';
+
+* {
+  all: unset;
+  font-family: 'RobotoMono Nerd Font';
+}
+
+.statusbar {
+  background-color: rgba($base00, 0);
+}
+
+.container {
+  border-radius: 5px;
+  background-color: $base00;
+}
+
+.separator {
+  color: rgba($base00, 0)
+}
+
+.container-inner {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.container:hover {
+  background-color: $base04;
+  border: 1px solid $base05;
+}
+
+.popup {
+  background-color: $base00;
+}
+
+@import 'style/powermenu';
+@import 'style/workspaces';
+@import 'style/current';
+@import 'style/music';
+@import 'style/todo';
+@import 'style/system';
+@import 'style/audio';
+@import 'style/notifications';
+@import 'style/clock';
