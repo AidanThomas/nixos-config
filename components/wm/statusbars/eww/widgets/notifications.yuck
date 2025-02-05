@@ -1,11 +1,12 @@
-(defvar notifications_count "0")
-
+(deflisten notifications_count :initial "0" "bash scripts/notifications --listen")
+(defpoll notifications_dnd :interval "5s" "bash scripts/notifications --get-dnd")
 ;; Main widget to be inlucded in statusbar
 (defwidget notifications []
-  (eventbox :onclick "scripts/pop --notifications"
+  (eventbox :onclick "scripts/notifications --toggle"
+            :onrightclick "scripts/notifications --dnd"
     (box :class "notifications-widget"
          :space-evenly false
-      (image :path "./images/notifications-alert.svg"
+      (image :path "./images/notifications${notifications_dnd ? "-mute" : notifications_count > 0 ? "-alert" : ""}.svg"
              :image-width 20
              :image-height 20
              :class "notifications-icon")
@@ -31,6 +32,7 @@
     (box :class "notification-entry-left" :halign "start" :hexpand true
       (label :class "notification-entry-text" :text "${text}" :truncate false :wrap true :xalign 0))
     (box :class "notification-entry-right" :halign "end"
-      (eventbox :onclick ""
+      (eventbox :onclick "scripts/notifications --toggle"
+                :onrightclick "scripts/notifications --dnd"
         (box :class "notification-entry-delete"
           (image :path "./images/notifications.svg"))))))

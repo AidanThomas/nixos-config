@@ -7,13 +7,13 @@
       keymap = "us";
     };
     display = {
-      wm = "bspwm";
+      wm = "hyprland";
       monitors = [
         "DP-0"
         "DP-4"
       ];
       statusbar = "eww";
-      backend = "x11";
+      backend = "wayland";
     };
     terminal = "kitty";
   };

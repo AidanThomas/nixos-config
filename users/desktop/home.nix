@@ -44,6 +44,7 @@ in {
     pkgs.fzf
     pkgs.obsidian
     pkgs.discord # Use betterdiscordctl to install BetterDiscord
+    pkgs.webcord
     pkgs.gimp
     pkgs.spotify
     pkgs.steam

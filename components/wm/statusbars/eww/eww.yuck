@@ -17,7 +17,7 @@
                       :anchor "top center")
   :reserve (struts :distance "40px" :side "top")
   :stacking "fg"
-  :exclusive false
+  :exclusive true
   :focusable false
   (box :class "statusbar"
        :orientation "h"

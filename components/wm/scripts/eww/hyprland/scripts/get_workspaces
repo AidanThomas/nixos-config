@@ -1,0 +1,11 @@
+#!/run/current-system/sw/bin/bash
+
+workspaces() {
+    ACTIVE_ID=`hyprctl -j activeworkspace | jq ".id"`
+    hyprctl -j workspaces | jq -Mc "map(. | select(.monitorID == 0) | {name: .name, occupied: true, focused: (.id == ${ACTIVE_ID})}) | sort_by(.name)"
+}
+
+workspaces
+socat -U - UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r line; do
+    workspaces
+done

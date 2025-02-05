@@ -2,6 +2,8 @@
   config,
   pkgs,
   settings,
+  inputs,
+  system,
   ...
 }: {
   imports = [./hardware-configuration.nix];
@@ -70,19 +72,23 @@
       else false;
   };
 
-  # programs.hyprland = {
-  #   enable =
-  #     if settings.usr.display.wm == "hyprland"
-  #     then true
-  #     else false;
-  #   xwayland.enable = true;
-  # };
+  programs.hyprland =
+    if settings.usr.display.wm == "hyprland"
+    then {
+      enable = true;
+      package = inputs.hyprland.packages.${system}.hyprland;
+      xwayland.enable = true;
+    }
+    else {};
 
   # Wayland stuff for running Hyprland
-  # environment.sessionVariables = {
-  #   WLR_NO_HARDWARE_CURSORS = "1";
-  #   NIXOS_OZONE_WL = "1";
-  # };
+  environment.sessionVariables =
+    if settings.usr.display.wm == "hyprland"
+    then {
+      WLR_NO_HARDWARE_CURSORS = "1";
+      NIXOS_OZONE_WL = "1";
+    }
+    else {};
 
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;

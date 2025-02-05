@@ -1,27 +1,44 @@
 {
   pkgs,
   settings,
+  inputs,
   ...
 }: {
   imports = [
-    # ./statusbars/${settings.usr.display.statusbar}.nix
+    ./statusbars/${settings.usr.display.statusbar}.nix
+    ../services/hyprpaper.nix
+    ../services/swaync.nix
   ];
 
   wayland.windowManager.hyprland = {
     enable = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     xwayland.enable = true;
     settings = {
       "monitor" = [
-        # "DP-1, 2560x1440@165.00Hz, 0x0, 1"
-        # "DP-3, disable"
+        "DP-1, 2560x1440@165.00Hz, 0x0, 1"
+        "DP-1, addreserved, 0, 0, 0, 0"
+        "DP-3, 2560x1440@165.00Hz, 2560x-820, 1, transform, 3"
       ];
       "$mod" = "SUPER";
       bind =
         [
           "$mod, RETURN, exec, kitty"
-          "$mod, Q, exec, hyprctl dispatch exit"
           "$mod, R, exec, wofi --show drun"
           "$mod, C, killactive,"
+          "$mod, F, fullscreen, 0"
+          "$mod, M, fullscreen, 1"
+          "$mod, S, togglefloating, active"
+          ",mouse_left,workspace,-1"
+          ",mouse_right,workspace,+1"
+          "$mod, H, movefocus, l"
+          "$mod, J, movefocus, d"
+          "$mod, K, movefocus, u"
+          "$mod, L, movefocus, r"
+          "$mod&SHIFT, H, movewindow, l"
+          "$mod&SHIFT, J, movewindow, d"
+          "$mod&SHIFT, K, movewindow, u"
+          "$mod&SHIFT, L, movewindow, r"
         ]
         ++ (
           # workspaces
@@ -39,34 +56,26 @@
             )
             10)
         );
-      # exec-once =
-      #   [
-      #     # "waybar"
-      #     # "mpvpaper -f -o \"no-audio loop\" eDP-1 ~/.wallpapers/AnimatedCosmereWallpaper.mp4"
-      #     "swww init && swww img ~/.wallpapers/dawn-lake.jpg"
-      #   ]
-      #   ++ (
-      #     if settings.usr.display.wallpaperengine == "mpvpaper"
-      #     then ["mpvpaper -f -o \"no-audio loop\" eDP-1 ~/.wallpapers/AnimatedCosmereWallpaper.mp4"]
-      #     else
-      #       (
-      #         if settings.usr.display.wallpaperengine == "swww"
-      #         then ["sww init && swww img ~/.wallpapers/dawn-lake.jpg"]
-      #         else []
-      #       )
-      #   )
-      #   ++ (
-      #     if settings.usr.display.statusbar == "waybar"
-      #     then ["waybar"]
-      #     else []
-      #   );
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
+      ];
+      exec-once = [
+        "eww open statusbar"
+        "swaync"
+      ];
 
       general = {
         gaps_out = 10;
+        layout = "dwindle";
+        resize_corner = 3;
+        resize_on_border = true;
       };
 
       decoration = {
         inactive_opacity = 0.9;
+        rounding = 5;
+        dim_inactive = false;
       };
 
       gestures = {
@@ -78,6 +87,31 @@
         disable_hyprland_logo = false;
         disable_splash_rendering = false;
       };
+
+      opengl = {
+        nvidia_anti_flicker = true;
+      };
+
+      windowrulev2 = [
+        "monitor DP-3,class:discord"
+        "monitor DP-3,class:WebCord"
+        "opacity 1.0 override, class:firefox"
+        "noblur, class:firefox"
+      ];
+
+      workspace = [
+        "1,monitor:DP-1"
+        "2,monitor:DP-1"
+        "3,monitor:DP-1"
+        "4,monitor:DP-1"
+        "5,monitor:DP-1"
+        "6,monitor:DP-1"
+        "7,monitor:DP-1"
+        "8,monitor:DP-1"
+        "9,monitor:DP-1"
+        "10,monitor:DP-1"
+        "11,monitor:DP-3"
+      ];
 
       env = [
         "ELECTRON_OZONE_PLATFORM_HINT,auto"
@@ -96,8 +130,8 @@
     pkgs.slurp
     pkgs.xdg-desktop-portal-hyprland
     pkgs.wofi
-    pkgs.dunst
     pkgs.egl-wayland
+    pkgs.spotify-cli-linux
   ];
 
   home.sessionVariables.NIXOS_OZONE_WL = "1";

@@ -1,0 +1,10 @@
+#!/run/current-system/sw/bin/bash
+
+info() {
+    hyprctl activewindow -j | jq -Mc "{class: .class, title: .title}"
+}
+
+info
+socat -U - UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r line; do
+    info
+done

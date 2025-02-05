@@ -5,14 +5,17 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
   };
 
   outputs = {
     nixpkgs,
     home-manager,
+    hyprland,
     ...
-  }: let
+  } @ inputs: let
     lib = nixpkgs.lib;
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
@@ -26,6 +29,8 @@
         ];
         specialArgs = {
           settings = import ./users/${name}/settings.nix;
+          inherit system;
+          inherit inputs;
         };
       };
 
@@ -37,6 +42,7 @@
         ];
         extraSpecialArgs = {
           settings = import ./users/desktop/settings.nix;
+          inherit inputs;
         };
       };
   in {
