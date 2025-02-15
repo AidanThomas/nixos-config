@@ -6,6 +6,9 @@
 }: {
   imports = [
     ./statusbars/${settings.usr.display.statusbar}.nix
+
+    ../programs/hyprlock.nix
+
     ../services/hyprpaper.nix
     ../services/swaync.nix
   ];
@@ -39,6 +42,8 @@
           "$mod&SHIFT, J, movewindow, d"
           "$mod&SHIFT, K, movewindow, u"
           "$mod&SHIFT, L, movewindow, r"
+
+          "$mod&SHIFT, S, exec, hyprshot -m region"
         ]
         ++ (
           # workspaces
@@ -59,6 +64,9 @@
       bindm = [
         "$mod, mouse:272, movewindow"
         "$mod, mouse:273, resizewindow"
+      ];
+      bindn = [
+        ",Escape, fullscreenstate, 0"
       ];
       exec-once = [
         "eww open statusbar"
@@ -115,6 +123,8 @@
 
       env = [
         "ELECTRON_OZONE_PLATFORM_HINT,auto"
+        "LIBVA_DRIVER_NAME,nvidia"
+        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
       ];
     };
     extraConfig = ''
@@ -132,6 +142,7 @@
     pkgs.wofi
     pkgs.egl-wayland
     pkgs.spotify-cli-linux
+    pkgs.hyprshot
   ];
 
   home.sessionVariables.NIXOS_OZONE_WL = "1";

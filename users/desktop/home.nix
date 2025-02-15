@@ -47,7 +47,6 @@ in {
     pkgs.webcord
     pkgs.gimp
     pkgs.spotify
-    pkgs.steam
     pkgs.shutter
     pkgs.keepassxc
     pkgs.pulsemixer
@@ -71,6 +70,12 @@ in {
   ];
 
   home.file = {
+    "/home/aidant/.config/electron-flags.conf".text =
+      if settings.usr.display.backend == "wayland"
+      then ''
+        --enable-featureUseOzonePlatform --ozone-platform=wayland
+      ''
+      else '''';
     "/home/aidant/.wallpapers".source = ../../components/symlinks/wallpapers;
     "/home/aidant/.local/share/applications".source = ../../components/symlinks/applications;
     "/home/aidant/.config/BetterDiscord/themes/mocha.theme.css".text = ''

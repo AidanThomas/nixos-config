@@ -57,18 +57,8 @@
       "keyColor": "white",
     },
     {
-      "type": "de",
-      "key": " DE",
-      "keyColor": "blue",
-    },
-    {
       "type": "wm",
-      "key": "│ ├ ",
-      "keyColor": "blue",
-    },
-    {
-      "type": "lm",
-      "key": "│ ├󰧨 ",
+      "key": " WM",
       "keyColor": "blue",
     },
     {
@@ -99,16 +89,6 @@
     {
       "type": "gpu",
       "key": "│ ├󰍛 ",
-      "keyColor": "green",
-    },
-    {
-      "type": "disk",
-      "key": "│ ├ ",
-      "keyColor": "green",
-    },
-    {
-      "type": "memory",
-      "key": "│ ├󰑭 ",
       "keyColor": "green",
     },
     {

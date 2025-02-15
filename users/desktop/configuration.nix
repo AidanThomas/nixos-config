@@ -90,8 +90,9 @@
     }
     else {};
 
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  services.displayManager = {
+    sddm.enable = true;
+  };
 
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -146,6 +147,7 @@
   ];
 
   programs.dconf.enable = true;
+  programs.steam.enable = true;
 
   virtualisation.docker = {
     enable = true;
