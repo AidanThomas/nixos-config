@@ -68,6 +68,15 @@
       bindn = [
         ",Escape, fullscreenstate, 0"
       ];
+      bindle = [
+        ", XF86AudioRaiseVolume, exec, ~/.config/eww/scripts/audio --change-volume speakers up"
+        ", XF86AudioLowerVolume, exec, ~/.config/eww/scripts/audio --change-volume speakers down --down"
+      ];
+      bindl = [
+        ", XF86AudioPlay, exec, playerctl -p spotify play-pause"
+        ", XF86AudioNext, exec, playerctl -p spotify next"
+        ", XF86AudioPrev, exec, playerctl -p spotify previous"
+      ];
       exec-once = [
         "eww open statusbar"
         "swaync"
@@ -143,6 +152,7 @@
     pkgs.egl-wayland
     pkgs.spotify-cli-linux
     pkgs.hyprshot
+    pkgs.playerctl
   ];
 
   home.sessionVariables.NIXOS_OZONE_WL = "1";
