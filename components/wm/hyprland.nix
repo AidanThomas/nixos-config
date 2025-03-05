@@ -71,6 +71,7 @@
       bindle = [
         ", XF86AudioRaiseVolume, exec, ~/.config/eww/scripts/audio --change-volume speakers up"
         ", XF86AudioLowerVolume, exec, ~/.config/eww/scripts/audio --change-volume speakers down --down"
+        ", XF86AudioMute, exec, ~/.config/eww/scripts/audio --mute-speakers"
       ];
       bindl = [
         ", XF86AudioPlay, exec, playerctl -p spotify play-pause"
@@ -117,11 +118,11 @@
       ];
 
       workspace = [
-        "1,monitor:DP-1"
-        "2,monitor:DP-1"
+        "1,monitor:DP-1, defaultName:terminal, persistent:true"
+        "2,monitor:DP-1, defaultName:browser, persistent:true"
         "3,monitor:DP-1"
         "4,monitor:DP-1"
-        "5,monitor:DP-1"
+        "5,monitor:DP-1, defaultName:music, persistent:true"
         "6,monitor:DP-1"
         "7,monitor:DP-1"
         "8,monitor:DP-1"
