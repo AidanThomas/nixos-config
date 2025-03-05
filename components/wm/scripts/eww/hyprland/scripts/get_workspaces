@@ -2,7 +2,7 @@
 
 workspaces() {
     ACTIVE_ID=`hyprctl -j activeworkspace | jq ".id"`
-    hyprctl -j workspaces | jq -Mc "map(. | select(.monitorID == 0) | {name: .name, occupied: true, focused: (.id == ${ACTIVE_ID})}) | sort_by(.name)"
+    hyprctl -j workspaces | jq -Mc "map(. | select(.monitorID == 0) | {id: .id, name: .name, occupied: (.windows > 0), focused: (.id == ${ACTIVE_ID})}) | sort_by(.id)"
 }
 
 workspaces

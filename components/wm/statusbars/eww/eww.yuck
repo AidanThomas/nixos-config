@@ -21,7 +21,7 @@
   :focusable false
   (box :class "statusbar"
        :orientation "h"
-       :hexpand true
+       :space-evenly true
     (box :class "statusbar-left"
          :halign "start"
          :space-evenly false
@@ -29,12 +29,15 @@
          (separator)
          (container :extra_class "workspaces" :visible true (workspaces))
          (separator)
-         (container :extra_class "current-title" :visible true (current)))
+         (container :extra_class "current-title" :visible true (current))
+         (separator)
+         (container :extra_class "music" :visible music_alive (music)))
+    (box :class "statusbar-center"
+         :halign "center"
+         :space-evenly false)
     (box :class "statusbar-right"
          :halign "end"
          :space-evenly false
-         (container :extra_class "music" :visible music_alive (music))
-         (separator)
          (container :extra_class "todo" :visible true (todo))
          (separator)
          (container :extra_class "disk" :visible true (disk))

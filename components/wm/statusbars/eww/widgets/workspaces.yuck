@@ -6,10 +6,10 @@
        :vexpand false
        (box :space-evenly false :vexpand false
          (for workspace in workspaces
-           (eventbox :onclick "bspc desktop -f ${workspace.name}" :vexpand false
+           (eventbox :onclick "hyprctl dispatch focusworkspaceoncurrentmonitor ${workspace.name}" :vexpand false
              (box :class "workspace-entry ${workspace.focused ? "current": ""} ${workspace.occupied ? "occupied" : "empty"}"
                   :vexpand false
                   :valign "center"
                   :hexpand false
                   (label :class "workspace-icon"
-                         :text "${workspace.focused ? "" : ""}")))))))
+                         :text "${workspace.name == "terminal" ? "" : workspace.name == "browser" ? "󰈹" : workspace.name == "music" ? "󰓇" : workspace.focused ? "" : ""}")))))))
