@@ -8,12 +8,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    hyprpanel = {
+      url = "github:jas-singhfsu/hyprpanel";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     nixpkgs,
     home-manager,
     hyprland,
+    hyprpanel,
     ...
   } @ inputs: let
     lib = nixpkgs.lib;
@@ -36,7 +41,10 @@
 
     homeConfig = name:
       home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [inputs.hyprpanel.overlay];
+        };
         modules = [
           ./users/${name}/home.nix
         ];
