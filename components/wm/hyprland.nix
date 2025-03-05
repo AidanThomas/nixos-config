@@ -8,9 +8,10 @@
     ./statusbars/${settings.usr.display.statusbar}.nix
 
     ../programs/hyprlock.nix
+    ../programs/hyprpanel.nix
 
     ../services/hyprpaper.nix
-    ../services/swaync.nix
+    # ../services/swaync.nix
   ];
 
   wayland.windowManager.hyprland = {
@@ -113,6 +114,10 @@
       windowrulev2 = [
         "monitor DP-3,class:discord"
         "monitor DP-3,class:WebCord"
+        "workspace browser, class:firefox"
+        "workspace terminal, class:kitty"
+        "workspace music, class:spotify"
+        "workspace files, class:nemo"
         "opacity 1.0 override, class:firefox"
         "noblur, class:firefox"
       ];
@@ -120,7 +125,7 @@
       workspace = [
         "1,monitor:DP-1, defaultName:terminal, persistent:true"
         "2,monitor:DP-1, defaultName:browser, persistent:true"
-        "3,monitor:DP-1"
+        "3,monitor:DP-1, defaultName:files, persistent:true"
         "4,monitor:DP-1"
         "5,monitor:DP-1, defaultName:music, persistent:true"
         "6,monitor:DP-1"
