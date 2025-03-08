@@ -3,41 +3,65 @@
 
   programs.hyprpanel = {
     enable = true;
-    systemd.enable = true;
     overwrite.enable = true;
-    theme = "gruvbox_split";
-    override = {
-      theme.bar.menus.text = "#123ABC";
-    };
+    theme = "catppuccin_mocha";
     layout = {
       "bar.layouts" = {
         "0" = {
-          left = ["dashboard" "workspaces"];
-          middle = ["media"];
-          right = ["volume" "systray" "notifications"];
+          left = ["dashboard" "workspaces" "windowtitle"];
+          middle = ["media" "cava"];
+          right = ["storage" "ram" "systray" "microphone" "volume" "notifications" "clock"];
+        };
+        "1" = {
+          left = [];
+          middle = [];
+          right = [];
         };
       };
     };
     settings = {
-      bar.launcher.autoDetectIcon = true;
-      bar.workspaces.show_icons = true;
-
-      menus.clock = {
-        time = {
-          military = true;
-          hideSeconds = true;
+      bar = {
+        launcher = {
+          autoDetectIcon = true;
         };
-        weather.unit = "metric";
-      };
 
-      menus.dashboard.directories.enabled = false;
-      menus.dashboard.stats.enable_gpu = true;
+        workspaces = {
+          ignored = "11";
+          showWsIcons = true;
+          # workspaceIconMap = {
+          #   "1" = "k";
+          # };
+        };
 
-      theme.bar.transparent = true;
+        windowtitle = {
+        };
 
-      theme.font = {
-        name = "RobotoMono Nerd Font";
-        size = "16px";
+        media = {
+          format = "{title: - }{artist}";
+          show_active_only = true;
+        };
+
+        customModules.cava = {
+          showIcon = false;
+          stereo = true;
+        };
+
+        customModules.storage = {
+          round = true;
+        };
+
+        customModules.ram = {
+          round = true;
+        };
+
+        notifications = {
+          show_total = true;
+        };
+
+        clock = {
+          format = "%H%M   %a %_d  %b";
+          showIcon = false;
+        };
       };
     };
   };
