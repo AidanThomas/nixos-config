@@ -7,6 +7,7 @@
 (include "./widgets/system.yuck")
 (include "./widgets/todo.yuck")
 (include "./widgets/workspaces.yuck")
+(include "./widgets/visualizer.yuck")
 
 (defwindow statusbar
   :monitor 0
@@ -31,10 +32,11 @@
          (separator)
          (container :extra_class "current-title" :visible true (current))
          (separator)
-         (container :extra_class "music" :visible music_alive (music)))
+         (container :extra_class "visualizer" :visible true (visualizer)))
     (box :class "statusbar-center"
          :halign "center"
-         :space-evenly false)
+         :space-evenly false
+         (container :halign "center" :extra_class "music" :visible music_alive (music)))
     (box :class "statusbar-right"
          :halign "end"
          :space-evenly false

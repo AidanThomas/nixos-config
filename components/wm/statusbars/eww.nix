@@ -18,5 +18,6 @@
     pkgs.jq
     pkgs.spotify-cli-linux
     pkgs.alsa-utils
+    pkgs.cava
   ];
 }

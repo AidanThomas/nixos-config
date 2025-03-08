@@ -1,0 +1,104 @@
+#!/run/current-system/sw/bin/bash
+
+
+SINKS=`wpctl status -k | awk '/^Audio$/,/^$/' | awk '/Sinks:/,/^ │  $/'`
+SOURCES=`wpctl status -k | awk '/^Audio$/,/^$/' | awk '/Sources:/,/^ │  $/'`
+
+get_active() {
+    echo "$1" | grep "*" | grep -Eo '\s[0-9]+\.\s' | tr -d '. '
+}
+
+SPEAKERS=`get_active "$SINKS"`
+MICROPHONE=`get_active "$SOURCES"`
+
+HEADPHONES_NAME="Avantree DG60"
+SPEAKERS_NAME="ALC1220 Analog"
+HEADPHONES_ID=`echo "$SINKS" | grep "$HEADPHONES_NAME" | grep -Eo '[0-9]+\. ' | tr -d '. '`
+SPEAKERS_ID=`echo "$SINKS" | grep "$SPEAKERS_NAME" | grep -Eo '[0-9]+\. ' | tr -d '. '`
+
+get_muted() {
+    if [[ "$1" == "speakers" ]]; then
+        MUTED=`echo "$SINKS" | grep "*" | grep "MUTED"`
+    elif [[ "$1" == "microphone" ]]; then
+        MUTED=`echo "$SOURCES" | grep "*" | grep "MUTED"`
+    fi
+
+    if [[ -z $MUTED ]]; then
+        echo false
+    else
+        echo true
+    fi
+}
+
+mute() {
+    if [[ "$1" == "speakers" ]]; then
+        MUTED=`get_muted speakers`
+        if [[ "$MUTED" == "true" ]]; then
+            eww update speaker_muted=false
+        else
+            eww update speaker_muted=true
+        fi
+        wpctl set-mute "$SPEAKERS" toggle
+    elif [[ "$1" == "microphone" ]]; then
+        MUTED=`get_muted microphone`
+        if [[ "$MUTED" == "true" ]]; then
+            eww update mic_muted=false
+        else
+            eww update mic_muted=true
+        fi
+        wpctl set-mute "$MICROPHONE" toggle
+    fi
+}
+
+change_volume() {
+    SUFFIX=""
+    if [[ "$2" == "up" ]]; then
+        SUFFIX="+"
+    elif [[ "$2" == "down" ]]; then
+        SUFFIX="-"
+    fi
+
+    if [[ "$1" == "speakers" ]]; then
+        wpctl set-volume "$SPEAKERS" 5%"$SUFFIX"
+        VOLUME=`wpctl get-volume "$SPEAKERS" | awk -F' ' '{ print $2*100 }'`
+        eww update speaker_volume_percent="$VOLUME"
+    elif [[ "$1" == "microphone" ]]; then
+        wpctl set-volume "$MICROPHONE" 5%"$SUFFIX"
+        VOLUME=`wpctl get-volume "$MICROPHONE" | awk -F' ' '{ print $2*100 }'`
+        eww update mic_volume_percent="$VOLUME"
+    fi
+}
+
+swap_output() {
+    CURRENT=`get_active "$SINKS"`
+    if [[ "$CURRENT" == "$HEADPHONES_ID" ]]; then
+        wpctl set-default "$SPEAKERS_ID"
+        eww update headphones_active=false
+    elif [[ "$CURRENT" == "$SPEAKERS_ID" ]]; then
+        wpctl set-default "$HEADPHONES_ID"
+        eww update headphones_active=true
+    fi
+}
+
+headphones_active() {
+    CURRENT=`get_active "$SINKS"`
+    if [[ "$CURRENT" == *"$HEADPHONES_ID"* ]]; then
+        echo true
+    else
+        echo false
+    fi
+}
+
+if [[ "$1" == "--mute-speakers" ]]; then
+    mute speakers
+elif [[ "$1" == "--mute-microphone" ]]; then
+    mute microphone
+elif [[ "$1" == "--change-volume" ]]; then
+    change_volume $2 $3
+elif [[ "$1" == "--get-muted" ]]; then
+    get_muted $2
+elif [[ "$1" == "--swap" ]]; then
+    swap_output
+elif [[ "$1" == "--headphones-active" ]]; then
+    headphones_active
+fi

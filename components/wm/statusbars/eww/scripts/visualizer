@@ -1,0 +1,39 @@
+#!/run/current-system/sw/bin/bash
+
+# ▁   0 .. 125
+# ▂ 126 .. 250
+# ▃ 251 .. 375
+# ▄ 376 .. 500
+# ▅ 501 .. 625
+# ▆ 626 .. 750
+# ▇ 751 .. 875
+# █ 876 .. 1000
+
+parse() {
+    OUT=""
+    for i in `echo $1 | sed 's/;/ /g'`; do
+        if ((i >= 0 && i < 126)); then
+            OUT="$OUT▁"
+        elif ((i >= 126 && i < 251)); then
+            OUT="$OUT▂"
+        elif ((i >= 251 && i < 376)); then
+            OUT="$OUT▃"
+        elif ((i >= 376 && i < 501)); then
+            OUT="$OUT▄"
+        elif ((i >= 501 && i < 626)); then
+            OUT="$OUT▅"
+        elif ((i >= 626 && i < 751)); then
+            OUT="$OUT▆"
+        elif ((i >= 751 && i < 876)); then
+            OUT="$OUT▇"
+        elif ((i >= 876)); then
+            OUT="$OUT█"
+        fi
+    done
+    echo $OUT
+}
+
+cava -p ./scripts/config/cavaconf | while read -r line; do
+    parse $line
+done
+
