@@ -1,7 +1,5 @@
 (defpoll speaker_volume_percent :interval "5s" "amixer sget Master | grep 'Front Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
 (defpoll mic_volume_percent :interval "5s" "amixer sget Capture | grep 'Front Left:' | awk -F '[][]' '{ print $2 }' | tr -d '%'")
-(defpoll speaker_muted :interval "5s" "scripts/audio --get-muted speakers")
-(defpoll mic_muted :interval "5s" "scripts/audio --get-muted microphone")
 (defpoll headphones_active :intial false :interval "5s" "scripts/audio --headphones-active")
 
 (defwidget speakers []

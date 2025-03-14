@@ -1,0 +1,11 @@
+#!/run/current-system/sw/bin/bash
+
+if [[ "$1" == "--shutdown" ]]; then
+    systemctl poweroff
+elif [[ "$1" == "--restart" ]]; then
+    systemctl reboot
+elif [[ "$1" == "--logout" ]]; then
+    hyprctl dispatch exit
+elif [[ "$1" == "--sleep" ]]; then
+    systemctl suspend
+fi

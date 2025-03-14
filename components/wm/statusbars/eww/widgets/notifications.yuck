@@ -1,5 +1,4 @@
 (deflisten notifications_count :initial "0" "bash scripts/notifications --listen")
-(defpoll notifications_dnd :interval "5s" "bash scripts/notifications --get-dnd")
 ;; Main widget to be inlucded in statusbar
 (defwidget notifications []
   (eventbox :onclick "scripts/notifications --toggle"
