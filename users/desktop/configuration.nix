@@ -28,11 +28,6 @@
       "admin.local.com"
     ];
   };
-  networking.nameservers = [
-    "192.168.1.111"
-    "192.168.1.1"
-    "8.8.8.8"
-  ];
 
   networking.networkmanager.enable = true;
 
