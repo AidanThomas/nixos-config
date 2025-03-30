@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-unstable,
   settings,
   ...
 }: let
@@ -24,50 +25,55 @@ in {
   # You should not change this value, even if you update Home Manager
   home.stateVersion = "24.05";
 
-  home.packages = [
-    # Development
-    pkgs.rustup
-    pkgs.go
-    pkgs.gccgo13
-    pkgs.gnumake
-    pkgs.lua-language-server
+  home.packages =
+    [
+      # Development
+      pkgs.rustup
+      pkgs.go
+      pkgs.gccgo13
+      pkgs.gnumake
+      pkgs.lua-language-server
 
-    # Font
-    (pkgs.nerdfonts.override {fonts = ["RobotoMono"];})
+      # Font
+      (pkgs.nerdfonts.override {fonts = ["RobotoMono"];})
 
-    # Extra
-    pkgs.alejandra
-    pkgs.nemo
-    pkgs.discord
-    pkgs.ripgrep
-    pkgs.fd
-    pkgs.fzf
-    pkgs.obsidian
-    pkgs.discord # Use betterdiscordctl to install BetterDiscord
-    pkgs.webcord
-    pkgs.gimp
-    pkgs.spotify
-    pkgs.shutter
-    pkgs.keepassxc
-    pkgs.pulsemixer
-    pkgs.vscode
-    pkgs.noisetorch
+      # Extra
+      pkgs.alejandra
+      pkgs.nemo
+      pkgs.discord
+      pkgs.ripgrep
+      pkgs.fd
+      pkgs.fzf
+      pkgs.obsidian
+      pkgs.discord # Use betterdiscordctl to install BetterDiscord
+      pkgs.webcord
+      pkgs.gimp
+      pkgs.spotify
+      pkgs.shutter
+      pkgs.keepassxc
+      pkgs.pulsemixer
+      pkgs.vscode
+      pkgs.noisetorch
 
-    # Theming
-    pkgs.capitaine-cursors
-    pkgs.la-capitaine-icon-theme
-    pkgs.qogir-theme # GTK theme
-    pkgs.qogir-icon-theme # Icons and cursors
+      # Theming
+      pkgs.capitaine-cursors
+      pkgs.la-capitaine-icon-theme
+      pkgs.qogir-theme # GTK theme
+      pkgs.qogir-icon-theme # Icons and cursors
 
-    (pkgs.writeShellScriptBin "switch-system" ''
-      echo "Rebuilding nixos config for: desktop"
-      sudo nixos-rebuild switch --flake ~/.dotfiles#desktop
-    '')
-    (pkgs.writeShellScriptBin "switch-home" ''
-      echo "Rebuilding home-manager config for: desktop"
-      home-manager switch --flake ~/.dotfiles#desktop
-    '')
-  ];
+      (pkgs.writeShellScriptBin "switch-system" ''
+        echo "Rebuilding nixos config for: desktop"
+        sudo nixos-rebuild switch --flake ~/.dotfiles#desktop
+      '')
+      (pkgs.writeShellScriptBin "switch-home" ''
+        echo "Rebuilding home-manager config for: desktop"
+        home-manager switch --flake ~/.dotfiles#desktop
+      '')
+    ]
+    ## Unstable packages
+    ++ [
+      pkgs-unstable.neovim
+    ];
 
   home.file = {
     "/home/aidant/.config/electron-flags.conf".text =

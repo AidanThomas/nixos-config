@@ -8,7 +8,6 @@
     ./statusbars/${settings.usr.display.statusbar}.nix
 
     ../programs/hyprlock.nix
-    ../programs/hyprpanel.nix
 
     ../services/hyprpaper.nix
     ../services/swaync.nix

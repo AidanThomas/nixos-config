@@ -134,7 +134,7 @@
   nixpkgs.config.allowUnfreePredicate = _: true;
 
   environment.systemPackages = [
-    pkgs.neovim
+    pkgs.vim
     pkgs.wget
     pkgs.git
     pkgs.firefox

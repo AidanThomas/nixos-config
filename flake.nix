@@ -3,27 +3,31 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-    hyprpanel = {
-      url = "github:jas-singhfsu/hyprpanel";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = {
     nixpkgs,
+    nixpkgs-unstable,
     home-manager,
     hyprland,
-    hyprpanel,
     ...
   } @ inputs: let
     lib = nixpkgs.lib;
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = import nixpkgs {
+      inherit system;
+      overlays = import ./overlays;
+    };
+    pkgs-unstable = import nixpkgs-unstable {
+      inherit system;
+      overlays = import ./overlays;
+    };
     configurations = ["desktop" "laptop"];
 
     nixosConfig = name:
@@ -41,16 +45,14 @@
 
     homeConfig = name:
       home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [inputs.hyprpanel.overlay];
-        };
+        inherit pkgs;
         modules = [
           ./users/${name}/home.nix
         ];
         extraSpecialArgs = {
           settings = import ./users/desktop/settings.nix;
           inherit inputs;
+          inherit pkgs-unstable;
         };
       };
   in {
