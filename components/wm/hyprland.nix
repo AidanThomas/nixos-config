@@ -66,9 +66,6 @@
         "$mod, mouse:272, movewindow"
         "$mod, mouse:273, resizewindow"
       ];
-      bindn = [
-        ",Escape, fullscreenstate, 0"
-      ];
       bindle = [
         ", XF86AudioRaiseVolume, exec, ~/.config/eww/scripts/audio --change-volume speakers up"
         ", XF86AudioLowerVolume, exec, ~/.config/eww/scripts/audio --change-volume speakers down --down"
