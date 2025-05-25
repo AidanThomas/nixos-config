@@ -1,6 +1,0 @@
-(deflisten cava_label :initial "" "bash scripts/visualizer")
-
-;; Main widget to be included in statusbar
-(defwidget visualizer []
-  (box :class "visualizer-widget"
-    (label :text cava_label)))
