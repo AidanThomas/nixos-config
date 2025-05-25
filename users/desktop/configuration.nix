@@ -20,13 +20,6 @@
 
   networking.hostName = settings.sys.hostname;
   networking.hosts = {
-    "192.168.1.1" = ["admin.router.com"];
-    "192.168.1.135" = [
-      # "assist.pi.home"
-      "providers.local.com"
-      "services.local.com"
-      "admin.local.com"
-    ];
   };
 
   networking.networkmanager.enable = true;
