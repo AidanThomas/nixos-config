@@ -8,6 +8,7 @@
     ./statusbars/${settings.usr.display.statusbar}.nix
 
     ../programs/hyprlock.nix
+    ../programs/rofi.nix
 
     ../services/hyprpaper.nix
     ../services/swaync.nix
@@ -28,7 +29,7 @@
       bind =
         [
           "$mod, RETURN, exec, kitty"
-          "$mod, R, exec, wofi --show drun"
+          "$mod, R, exec, rofi -show drun"
           "$mod, C, killactive,"
           "$mod, F, fullscreen, 0"
           "$mod, M, fullscreen, 1"
@@ -151,7 +152,6 @@
     pkgs.grim
     pkgs.slurp
     pkgs.xdg-desktop-portal-hyprland
-    pkgs.wofi
     pkgs.egl-wayland
     pkgs.spotify-cli-linux
     pkgs.hyprshot
