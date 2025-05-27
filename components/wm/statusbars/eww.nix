@@ -5,7 +5,7 @@
 }: let
   ewwConfig = fetchGit {
     url = "https://github.com/AidanThomas/eww-config";
-    rev = "629cfba1ad50bf53e72c64a4b8f4eaa87077c64c";
+    rev = "97a9e71a6dc2536a0cf4e1e41f715b8d67cc928b";
   };
 in {
   programs.eww = {
