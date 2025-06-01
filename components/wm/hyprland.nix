@@ -34,8 +34,8 @@
           "$mod, F, fullscreen, 0"
           "$mod, M, fullscreen, 1"
           "$mod, S, togglefloating, active"
-          ",mouse_left,workspace,-1"
-          ",mouse_right,workspace,+1"
+          # ",mouse_left,workspace,-1"
+          # ",mouse_right,workspace,+1"
           "$mod, H, movefocus, l"
           "$mod, J, movefocus, d"
           "$mod, K, movefocus, u"
@@ -132,6 +132,11 @@
         "9,monitor:DP-1"
         "10,monitor:DP-1"
         "11,monitor:DP-3"
+      ];
+
+      layerrule = [
+        "noanim, hyprpicker"
+        "noanim, selection"
       ];
 
       env = [
