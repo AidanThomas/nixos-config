@@ -40,20 +40,19 @@ in {
       # Extra
       pkgs.alejandra
       pkgs.nemo
-      pkgs.discord
       pkgs.ripgrep
       pkgs.fd
       pkgs.fzf
       pkgs.obsidian
       pkgs.discord # Use betterdiscordctl to install BetterDiscord
-      pkgs.webcord
       pkgs.gimp
       pkgs.spotify
       pkgs.shutter
       pkgs.keepassxc
       pkgs.pulsemixer
-      pkgs.vscode
       pkgs.noisetorch
+      pkgs.runelite
+      pkgs.lutris
 
       # Theming
       pkgs.capitaine-cursors
@@ -73,6 +72,7 @@ in {
     ## Unstable packages
     ++ [
       pkgs-unstable.neovim
+      pkgs-unstable.quickshell
     ];
 
   home.file = {

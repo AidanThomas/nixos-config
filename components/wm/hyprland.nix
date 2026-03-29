@@ -115,6 +115,7 @@
         "workspace browser, class:firefox"
         "workspace terminal, class:kitty"
         "workspace music, class:spotify"
+        "workspace steam, class:steam.*"
         "workspace files, class:nemo"
         "opacity 1.0 override, class:firefox"
         "noblur, class:firefox"
@@ -123,8 +124,8 @@
       workspace = [
         "1,monitor:DP-1, defaultName:terminal, persistent:true"
         "2,monitor:DP-1, defaultName:browser, persistent:true"
-        "3,monitor:DP-1, defaultName:files, persistent:true"
-        "4,monitor:DP-1"
+        "3,monitor:DP-1, defaultName:steam, persistent:true"
+        "4,monitor:DP-1, defaultName:files, persistent:true"
         "5,monitor:DP-1, defaultName:music, persistent:true"
         "6,monitor:DP-1"
         "7,monitor:DP-1"
