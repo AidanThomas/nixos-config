@@ -38,7 +38,6 @@ in {
 
       # Font
       pkgs.nerd-fonts.roboto-mono
-      pkgs.ghostty
       pkgs.zed-editor
 
       # Extra

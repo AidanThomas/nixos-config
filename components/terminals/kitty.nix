@@ -1,4 +1,10 @@
 {...}: {
+  imports = [
+    ./fastfetch.nix
+    ./starship.nix
+    ./tmux.nix
+  ];
+
   programs.kitty = {
     enable = true;
     font = {

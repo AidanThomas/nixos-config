@@ -35,7 +35,7 @@ in {
       "$mod" = "SUPER";
       bind =
         [
-          "$mod, RETURN, exec, kitty"
+          "$mod, RETURN, exec, ${settings.usr.terminal}"
           "$mod, R, exec, rofi -show drun"
           "$mod, C, killactive,"
           "$mod, F, fullscreen, 0"

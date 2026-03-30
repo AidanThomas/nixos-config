@@ -25,7 +25,7 @@
       statusbar = "eww";
       backend = "wayland";
     };
-    terminal = "kitty";
+    terminal = "ghostty";
   };
   sys = {
     hostname = "nixos";
@@ -37,9 +37,5 @@
 
     # Services
     ../../components/services/caffeine.nix
-
-    # Terminal extras
-    ../../components/terminals/starship.nix
-    ../../components/terminals/fastfetch.nix
   ];
 }
