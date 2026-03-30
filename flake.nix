@@ -50,7 +50,7 @@
           ./users/${name}/home.nix
         ];
         extraSpecialArgs = {
-          settings = import ./users/desktop/settings.nix;
+          settings = import ./users/${name}/settings.nix;
           inherit inputs;
           inherit pkgs-unstable;
         };
