@@ -18,6 +18,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     xwayland.enable = true;
     settings = {
       "monitor" = [
@@ -95,10 +96,7 @@
         dim_inactive = false;
       };
 
-      gestures = {
-        workspace_swipe = true;
-        workspace_swipe_fingers = 3;
-      };
+      gesture = ["3, horizontal, workspace"];
 
       misc = {
         disable_hyprland_logo = false;
@@ -109,16 +107,18 @@
         nvidia_anti_flicker = true;
       };
 
-      windowrulev2 = [
-        "monitor DP-3,class:discord"
-        "monitor DP-3,class:WebCord"
-        "workspace browser, class:firefox"
-        "workspace terminal, class:kitty"
-        "workspace music, class:spotify"
-        "workspace steam, class:steam.*"
-        "workspace files, class:nemo"
-        "opacity 1.0 override, class:firefox"
-        "noblur, class:firefox"
+      windowrule = [
+        "match:class discord, monitor DP-3"
+        "match:class WebCord, monitor DP-3"
+
+        "match:class firefox, workspace name:browser"
+        "match:class kitty, workspace name:terminal"
+        "match:class spotify, workspace name:music"
+        "match:class steam.*, workspace name:steam"
+        "match:class nemo, workspace name:files"
+
+        "match:class firefox, opacity 1.0 override"
+        "match:class firefox, no_blur on"
       ];
 
       workspace = [
@@ -136,8 +136,8 @@
       ];
 
       layerrule = [
-        "noanim, hyprpicker"
-        "noanim, selection"
+        "no_anim on, match:namespace hyprpicker"
+        "no_anim on, match:namespace selection"
       ];
 
       env = [
@@ -145,6 +145,11 @@
         "LIBVA_DRIVER_NAME,nvidia"
         "__GLX_VENDOR_LIBRARY_NAME,nvidia"
       ];
+
+      input = {
+        repeat_delay = 250; # ms before repeat starts
+        repeat_rate = 40; # repeats per second
+      };
     };
     extraConfig = ''
       xwayland {
@@ -157,7 +162,6 @@
     pkgs.wl-clipboard
     pkgs.grim
     pkgs.slurp
-    pkgs.xdg-desktop-portal-hyprland
     pkgs.egl-wayland
     pkgs.spotify-cli-linux
     pkgs.hyprshot

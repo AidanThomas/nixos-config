@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   programs.rofi = {
     enable = true;
-    font = "RobotoMono Nerd Font 12";
+    # font = "RobotoMono Nerd Font 12";
     terminal = "${pkgs.kitty}/bin/kitty";
     theme = ./themes/rofi/catppuccin.rasi;
     extraConfig = {

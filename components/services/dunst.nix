@@ -19,7 +19,7 @@
         frame_color = "#89b4fa";
         separator_color = "frame";
         progress_bar = true;
-        font = "RobotoMono Nerd Font";
+        # font = "RobotoMono Nerd Font";
         frame_width = 1;
         corner_radius = 6;
       };

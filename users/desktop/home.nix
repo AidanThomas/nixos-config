@@ -25,6 +25,8 @@ in {
   # You should not change this value, even if you update Home Manager
   home.stateVersion = "24.05";
 
+  fonts.fontconfig.enable = true;
+
   home.packages =
     [
       # Development
@@ -35,7 +37,9 @@ in {
       pkgs.lua-language-server
 
       # Font
-      (pkgs.nerdfonts.override {fonts = ["RobotoMono"];})
+      pkgs.nerd-fonts.roboto-mono
+      pkgs.ghostty
+      pkgs.zed-editor
 
       # Extra
       pkgs.alejandra
