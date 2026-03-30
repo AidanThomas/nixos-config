@@ -3,7 +3,17 @@
   settings,
   inputs,
   ...
-}: {
+}: let
+  mkMonitorConfig = m:
+    if (m.primary or false)
+    then "${m.name}, ${m.mode}, 0x0, 1"
+    else if m.position == "right"
+    then
+      if m.vertical
+      then "${m.name}, ${m.mode}, 2560x-820, 1, transform, 3"
+      else throw "Only vertical monitor is supported"
+    else throw "Unknown monitor role: ${m.role}";
+in {
   imports = [
     ./statusbars/${settings.usr.display.statusbar}.nix
 
@@ -21,11 +31,7 @@
     portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     xwayland.enable = true;
     settings = {
-      "monitor" = [
-        "DP-1, 2560x1440@165.00Hz, 0x0, 1"
-        "DP-1, addreserved, 0, 0, 0, 0"
-        "DP-3, 2560x1440@165.00Hz, 2560x-820, 1, transform, 3"
-      ];
+      "monitor" = map mkMonitorConfig settings.usr.display.monitors;
       "$mod" = "SUPER";
       bind =
         [

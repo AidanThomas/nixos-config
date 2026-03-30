@@ -9,8 +9,18 @@
     display = {
       wm = "hyprland";
       monitors = [
-        "DP-0"
-        "DP-4"
+        {
+          name = "DP-1";
+          mode = "2560x1440@165.00Hz";
+          primary = true;
+        }
+        {
+          name = "DP-3";
+          role = "right-vertical";
+          mode = "2560x1440@165.00Hz";
+          position = "right";
+          vertical = true;
+        }
       ];
       statusbar = "eww";
       backend = "wayland";
@@ -31,9 +41,5 @@
     # Terminal extras
     ../../components/terminals/starship.nix
     ../../components/terminals/fastfetch.nix
-  ];
-
-  scripts = [
-    ./scripts/monitors.nix
   ];
 }

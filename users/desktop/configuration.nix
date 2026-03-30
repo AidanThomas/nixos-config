@@ -58,6 +58,11 @@
       if settings.usr.display.wm == "bspwm"
       then true
       else false;
+
+    xkb = {
+      layout = settings.usr.kb.layout;
+      variant = "";
+    };
   };
 
   programs.hyprland =
@@ -98,13 +103,6 @@
 
   environment.shells = with pkgs; [bash zsh];
   users.defaultUserShell = pkgs.bash;
-
-  services.xserver = {
-    xkb = {
-      layout = settings.usr.kb.layout;
-      variant = "";
-    };
-  };
 
   console.keyMap = settings.usr.kb.keymap;
 

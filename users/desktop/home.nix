@@ -80,15 +80,15 @@ in {
     ];
 
   home.file = {
-    "/home/aidant/.config/electron-flags.conf".text =
+    ".config/electron-flags.conf".text =
       if settings.usr.display.backend == "wayland"
       then ''
-        --enable-featureUseOzonePlatform --ozone-platform=wayland
+        --enable-features=UseOzonePlatform --ozone-platform=wayland
       ''
       else '''';
-    "/home/aidant/.wallpapers".source = ../../components/symlinks/wallpapers;
-    "/home/aidant/.local/share/applications".source = ../../components/symlinks/applications;
-    "/home/aidant/.config/BetterDiscord/themes/mocha.theme.css".text = ''
+    ".wallpapers".source = ../../components/symlinks/wallpapers;
+    ".local/share/applications".source = ../../components/symlinks/applications;
+    ".config/BetterDiscord/themes/mocha.theme.css".text = ''
        /**
        * @name Catppuccin Mocha
        * @author winston#0001
