@@ -35,17 +35,18 @@ in {
       pkgs.gccgo13
       pkgs.gnumake
       pkgs.lua-language-server
+      pkgs.alejandra
 
       # Font
       pkgs.nerd-fonts.roboto-mono
       pkgs.zed-editor
 
       # Extra
-      pkgs.alejandra
       pkgs.nemo
       pkgs.ripgrep
       pkgs.fd
       pkgs.fzf
+      pkgs.unzip
       pkgs.obsidian
       pkgs.discord # Use betterdiscordctl to install BetterDiscord
       pkgs.gimp
