@@ -32,6 +32,7 @@
 
       set -g mouse on
       set-option -g allow-rename off
+      set -sg escape-time 0
 
       bind -n M-c new-window -c "#{pane_current_path}";
       bind -n M-n next-window
