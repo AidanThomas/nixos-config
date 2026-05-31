@@ -21,6 +21,19 @@
   networking.hostName = settings.sys.hostname;
   networking.hosts = {
   };
+  networking.firewall.allowedTCPPorts = [3000];
+  networking.nat = {
+    enable = true;
+    internalInterfaces = ["ens3"];
+    externalInterface = "wg0";
+    forwardPorts = [
+      {
+        sourcePort = 3000;
+        proto = "tcp";
+        destination = "192.168.0.6:3000";
+      }
+    ];
+  };
 
   networking.networkmanager.enable = true;
 
@@ -100,6 +113,8 @@
     jack.enable = true;
   };
   programs.noisetorch.enable = true;
+
+  services.mozillavpn.enable = true;
 
   environment.shells = with pkgs; [bash zsh];
   users.defaultUserShell = pkgs.bash;

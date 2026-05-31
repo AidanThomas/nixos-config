@@ -2,7 +2,7 @@
   programs.tmux = {
     enable = true;
     clock24 = true;
-    terminal = "screen-256color";
+    terminal = "tmux-256color";
     baseIndex = 1;
 
     plugins = with pkgs.tmuxPlugins; [
@@ -33,6 +33,9 @@
       set -g mouse on
       set-option -g allow-rename off
       set -sg escape-time 0
+
+      # Allow italics
+      set -as terminal-overrides ',*:sitm=\E[3m'
 
       bind -n M-c new-window -c "#{pane_current_path}";
       bind -n M-n next-window
