@@ -36,6 +36,7 @@ in {
       pkgs.gnumake
       pkgs.lua-language-server
       pkgs.alejandra
+      pkgs.tree-sitter
 
       # Font
       pkgs.nerd-fonts.roboto-mono
