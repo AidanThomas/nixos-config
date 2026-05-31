@@ -34,6 +34,7 @@
     # Programs
     ../../components/programs/git.nix
     ../../components/programs/bash.nix
+    ../../components/programs/codex.nix
 
     # Services
     ../../components/services/caffeine.nix
