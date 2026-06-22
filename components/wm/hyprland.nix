@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  pkgs-unstable,
   settings,
   inputs,
   ...
@@ -43,6 +44,7 @@
     pkgs.spotify-cli-linux
     pkgs.hyprshot
     pkgs.playerctl
+    pkgs-unstable.hyprshutdown
   ];
 
   home.sessionVariables.NIXOS_OZONE_WL = "1";
