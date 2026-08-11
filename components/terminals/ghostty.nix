@@ -11,10 +11,10 @@
     enableZshIntegration = true;
     installVimSyntax = true;
     settings = {
-      font-family = "RobotoMono Nerd Font";
-      font-family-bold = "RobotoMono Nerd Fond Bd";
-      font-family-italic = "RobotoMono Nerd Font It";
-      font-family-bold-italic = "RobotoMono Nerd Font Bd It";
+      font-family = "\"RobotoMono Nerd Font\"";
+      font-family-bold = "\"RobotoMono Nerd Font Bd\"";
+      font-family-italic = "\"RobotoMono Nerd Font It\"";
+      font-family-bold-italic = "\"RobotoMono Nerd Font Bd It\"";
       font-size = 12;
       theme = "Catppuccin Mocha";
       background = "#11111b";

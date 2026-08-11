@@ -13,7 +13,6 @@
     ../programs/rofi.nix
 
     ../services/hyprpaper.nix
-    ../services/swaync.nix
     ../services/swayosd.nix
   ];
 
