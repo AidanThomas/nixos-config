@@ -78,6 +78,7 @@ in {
     ++ [
       pkgs-unstable.neovim
       pkgs-unstable.quickshell
+      pkgs-unstable.kdePackages.qtdeclarative
     ];
 
   home.file = {
