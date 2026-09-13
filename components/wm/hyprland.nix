@@ -7,7 +7,7 @@
   ...
 }: {
   imports = [
-    ./statusbars/${settings.usr.display.statusbar}.nix
+    # ./statusbars/${settings.usr.display.statusbar}.nix
 
     ../programs/hyprlock.nix
     ../programs/rofi.nix
@@ -43,6 +43,7 @@
     pkgs.spotify-cli-linux
     pkgs.hyprshot
     pkgs.playerctl
+    pkgs.cava
     pkgs-unstable.hyprshutdown
   ];
 

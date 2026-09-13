@@ -102,6 +102,7 @@
 
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
+  security.pam.services.hyprlock = {};
   services.pipewire = {
     enable = true;
     alsa = {
