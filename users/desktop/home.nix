@@ -2,6 +2,7 @@
   pkgs,
   pkgs-unstable,
   settings,
+  config,
   ...
 }: let
   scripts =
@@ -153,6 +154,7 @@ in {
       name = "Qogir-Dark";
       package = pkgs.qogir-theme;
     };
+    gtk4.theme = config.gtk.theme;
   };
 
   # Let home manager manage itself
