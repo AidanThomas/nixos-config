@@ -41,6 +41,7 @@ in {
 
       # Font
       pkgs.nerd-fonts.roboto-mono
+      pkgs.protomolecule
       pkgs.zed-editor
 
       # Extra

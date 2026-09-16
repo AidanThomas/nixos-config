@@ -98,9 +98,14 @@
 
   services.displayManager = {
     sddm.enable = true;
+    defaultSession = "hyprland";
+    autoLogin = {
+      enable = true;
+      user = "aidant";
+    };
   };
 
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   security.pam.services.hyprlock = {};
   services.pipewire = {
