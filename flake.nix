@@ -8,7 +8,16 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    # Hyprland plugins are ABI-sensitive, so keep this paired with the
+    # compatible HyprGlass revision below.
+    hyprland = {
+      url = "git+https://github.com/hyprwm/Hyprland?rev=efb50993780079460b0cbed1363e2166a2de1d9f&submodules=1";
+    };
+    hyprglass = {
+      # HyprGlass 0.8.0 targets Hyprland 0.56.2.
+      url = "github:hyprnux/hyprglass/77636c5711ed572ca199a84d06146ccac0951786";
+      flake = false;
+    };
   };
 
   outputs = {

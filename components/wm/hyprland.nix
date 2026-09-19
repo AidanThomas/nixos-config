@@ -4,7 +4,31 @@
   pkgs-unstable,
   inputs,
   ...
-}: {
+}: let
+  system = pkgs.stdenv.hostPlatform.system;
+  hyprland = inputs.hyprland.packages.${system}.hyprland.override {
+    glaze-hyprland = pkgs.glaze;
+  };
+  hyprlandPlugins = pkgs.hyprlandPlugins.override {inherit hyprland;};
+  hyprglass = hyprlandPlugins.mkHyprlandPlugin {
+    pluginName = "hyprglass";
+    version = "unstable-${inputs.hyprglass.shortRev or "unknown"}";
+    src = inputs.hyprglass;
+
+    installPhase = ''
+      runHook preInstall
+      install -Dm755 hyprglass.so "$out/lib/libhyprglass.so"
+      runHook postInstall
+    '';
+
+    meta = {
+      description = "Liquid Glass window decoration effect for Hyprland";
+      homepage = "https://github.com/hyprnux/hyprglass";
+      license = pkgs.lib.licenses.bsd3;
+      platforms = pkgs.lib.platforms.linux;
+    };
+  };
+in {
   imports = [
     # ./statusbars/${settings.usr.display.statusbar}.nix
 
@@ -18,19 +42,20 @@
   wayland.windowManager.hyprland = {
     enable = true;
     configType = "lua";
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    package = hyprland;
+    portalPackage = inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland;
     xwayland.enable = true;
     extraConfig = ''
-      # Main Hyprland config is managed by hyprland.lua
+      -- Keep plugin loading in the Nix-generated entry point so the store path
+      -- is retained in the Home Manager closure. Loading causes Hyprland to
+      -- re-evaluate the config, at which point its Lua API is available.
+      hl.plugin.load("${hyprglass}/lib/libhyprglass.so")
+      dofile("${config.home.homeDirectory}/dev/AidanThomas/hyprland-config/hyprland.lua")
     '';
   };
 
-  xdg.dataFile."hypr/stubs".source = "${inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland}/share/hypr/stubs";
+  xdg.dataFile."hypr/stubs".source = "${hyprland}/share/hypr/stubs";
 
-  xdg.configFile."hypr/hyprland.lua".source =
-    config.lib.file.mkOutOfStoreSymlink
-    "${config.home.homeDirectory}/dev/AidanThomas/hyprland-config/hyprland.lua";
   xdg.configFile."hypr/lua".source =
     config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/dev/AidanThomas/hyprland-config/lua";

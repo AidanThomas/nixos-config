@@ -82,7 +82,9 @@
     if settings.usr.display.wm == "hyprland"
     then {
       enable = true;
-      package = inputs.hyprland.packages.${system}.hyprland;
+      package = inputs.hyprland.packages.${system}.hyprland.override {
+        glaze-hyprland = pkgs.glaze;
+      };
       xwayland.enable = true;
     }
     else {};
