@@ -117,8 +117,46 @@
     audio.enable = true;
     pulse.enable = true;
     jack.enable = true;
+
+    # NoiseTorch's GUI extracts its LADSPA plugin to /tmp, which PipeWire
+    # 1.6 no longer permits PulseAudio clients to load.  Load the packaged
+    # plugin directly in PipeWire instead and expose a filtered microphone.
+    extraLadspaPackages = [pkgs.rnnoise-plugin.ladspa];
+    extraConfig.pipewire."99-input-denoising" = {
+      "context.modules" = [
+        {
+          name = "libpipewire-module-filter-chain";
+          args = {
+            "node.description" = "NoiseTorch Microphone for HyperX QuadCast S Source";
+            "media.name" = "NoiseTorch Microphone for HyperX QuadCast S Source";
+            "filter.graph" = {
+              nodes = [
+                {
+                  type = "ladspa";
+                  name = "rnnoise";
+                  plugin = "librnnoise_ladspa";
+                  label = "noise_suppressor_stereo";
+                  control = {
+                    "VAD Threshold (%)" = 50.0;
+                  };
+                }
+              ];
+            };
+            "audio.position" = ["FL" "FR"];
+            "capture.props" = {
+              "node.name" = "capture.rnnoise_source";
+              "node.passive" = true;
+            };
+            "playback.props" = {
+              "node.name" = "input.rnnoise_source";
+              "media.class" = "Audio/Source";
+            };
+          };
+        }
+      ];
+    };
   };
-  programs.noisetorch.enable = true;
+  programs.noisetorch.enable = false;
 
   services.mozillavpn.enable = true;
 

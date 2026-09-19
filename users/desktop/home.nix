@@ -57,7 +57,6 @@ in {
       pkgs.shutter
       pkgs.keepassxc
       pkgs.pulsemixer
-      pkgs.noisetorch
       pkgs.runelite
       pkgs.lutris
 
