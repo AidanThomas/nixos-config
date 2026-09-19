@@ -38,6 +38,7 @@ in {
       pkgs.lua-language-server
       pkgs.alejandra
       pkgs.tree-sitter
+      pkgs.sqlc
 
       # Font
       pkgs.nerd-fonts.roboto-mono
