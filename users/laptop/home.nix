@@ -14,8 +14,7 @@ in {
       ../../components/wm/${settings.usr.display.wm}.nix
       ../../components/terminals/${settings.usr.terminal}.nix
     ]
-    ++ settings.importFiles
-    ++ scripts;
+    ++ settings.importFiles;
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
