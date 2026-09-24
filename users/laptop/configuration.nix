@@ -76,7 +76,17 @@
     }
     else {};
 
+  services.displayManager = {
+    sddm.enable = true;
+    defaultSession = "hyprland";
+    autoLogin = {
+      enable = true;
+      user = "aidant";
+    };
+  };
+
   services.pulseaudio.enable = false;
+  security.pam.services.hyprlock = {};
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
