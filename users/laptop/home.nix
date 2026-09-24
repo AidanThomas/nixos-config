@@ -1,36 +1,21 @@
 {
   pkgs,
+  pkgs-unstable,
   settings,
+  config,
   ...
 }: let
-  aliases = {
-    develop = "nix develop ~/.dotfiles#development";
-
-    ll = "ls -la";
-    ".." = "cd ..";
-    c = "clear";
-    cf = "clear && neofetch";
-    sd = "cd && cd $(fd -t directory --hidden --exclude go/ | fzf)";
-  };
+  scripts =
+    map (script: ./scripts/${script})
+    (builtins.attrNames (builtins.readDir ./scripts));
 in {
   imports =
     [
-      ../../components/terminals/starship.nix
-      ../../components/terminals/neofetch.nix
-      ../../components/bash.nix
+      ../../components/wm/${settings.usr.display.wm}.nix
+      ../../components/terminals/${settings.usr.terminal}.nix
     ]
-    ++ (
-      if settings.usr.display.wm == "hyprland"
-      then [../../components/wm/hyprland.nix]
-      else if settings.usr.display.wm == "bspwm"
-      then [../../components/wm/bspwm.nix]
-      else []
-    )
-    ++ (
-      if settings.usr.terminal == "kitty"
-      then [../../components/terminals/kitty.nix]
-      else []
-    );
+    ++ settings.importFiles
+    ++ scripts;
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
@@ -41,58 +26,72 @@ in {
   # You should not change this value, even if you update Home Manager
   home.stateVersion = "23.11";
 
-  home.packages = [
-    # Development
-    pkgs.rustup
-    pkgs.go
-    pkgs.gccgo13
-    pkgs.gnumake
-    pkgs.lua-language-server
+  fonts.fontconfig.enable = true;
 
-    # Font
-    (pkgs.nerdfonts.override {fonts = ["RobotoMono"];})
+  home.packages =
+    [
+      # Development
+      pkgs.rustup
+      pkgs.go
+      pkgs.gccgo13
+      pkgs.gnumake
+      pkgs.lua-language-server
+      pkgs.alejandra
+      pkgs.tree-sitter
+      pkgs.sqlc
 
-    # Extra
-    pkgs.alejandra
-    pkgs.cinnamon.nemo
-    pkgs.discord
-    pkgs.ripgrep
-    pkgs.fd
-    pkgs.fzf
-    pkgs.obsidian
-    pkgs.discord # Use betterdiscordctl to install BetterDiscord
-    pkgs.gimp
-    pkgs.spotify
-    pkgs.steam
-    pkgs.shutter
-    pkgs.keepassxc
-    pkgs.ghostty
+      # Font
+      pkgs.nerd-fonts.roboto-mono
+      pkgs.protomolecule
+      pkgs.zed-editor
 
-    # Theming
-    pkgs.capitaine-cursors
-    pkgs.la-capitaine-icon-theme
-    pkgs.qogir-theme # GTK theme
-    pkgs.qogir-icon-theme # Icons and cursors
+      # Extra
+      pkgs.nemo
+      pkgs.ripgrep
+      pkgs.fd
+      pkgs.fzf
+      pkgs.unzip
+      pkgs.obsidian
+      pkgs.discord # Use betterdiscordctl to install BetterDiscord
+      pkgs.gimp
+      pkgs.spotify
+      pkgs.shutter
+      pkgs.keepassxc
+      pkgs.pulsemixer
+      pkgs.runelite
+      pkgs.lutris
 
-    (pkgs.writeShellScriptBin "switch-system" ''
-      echo "Rebuilding nixos config for: laptop"
-      sudo nixos-rebuild switch --flake ~/.dotfiles#laptop
-    '')
-    (pkgs.writeShellScriptBin "switch-home" ''
-      echo "Rebuilding home-manager config for: laptop"
-      home-manager switch --flake ~/.dotfiles#laptop
-    '')
-  ];
+      # Theming
+      pkgs.capitaine-cursors
+      pkgs.la-capitaine-icon-theme
+      pkgs.qogir-theme # GTK theme
+      pkgs.qogir-icon-theme # Icons and cursors
+
+      (pkgs.writeShellScriptBin "switch-system" ''
+        echo "Rebuilding nixos config for: laptop"
+        sudo nixos-rebuild switch --flake ~/.dotfiles#laptop
+      '')
+      (pkgs.writeShellScriptBin "switch-home" ''
+        echo "Rebuilding home-manager config for: laptop"
+        home-manager switch --flake ~/.dotfiles#laptop
+      '')
+    ]
+    # Unstable packages
+    ++ [
+      pkgs-unstable.neovim
+      pkgs-unstable.quickshell
+      pkgs-unstable.kdePackages.qtdeclarative
+    ];
 
   home.file = {
     ".config/electron-flags.conf".text =
-      if settings.usr.display.backend == "hyprland"
+      if settings.usr.display.backend == "wayland"
       then ''
         --enable-features=UseOzonePlatform --ozone-platform=wayland
       ''
       else '''';
-    ".wallpapers".source = ../../components/wallpapers;
-    ".local/share/applications".source = ../../components/applications;
+    ".wallpapers".source = ../../components/symlinks/wallpapers;
+    ".local/share/applications".source = ../../components/symlinks/applications;
     ".config/BetterDiscord/themes/mocha.theme.css".text = ''
        /**
        * @name Catppuccin Mocha
@@ -156,43 +155,8 @@ in {
       name = "Qogir-Dark";
       package = pkgs.qogir-theme;
     };
+    gtk4.theme = config.gtk.theme;
   };
-
-  # Configure programs
-  programs.bash = {
-    enable = true;
-    shellAliases = aliases;
-    enableCompletion = true;
-    initExtra = ''
-      EDITOR=nvim
-      clear && neofetch
-    '';
-  };
-
-  programs.git = {
-    enable = true;
-    userEmail = "aidant@agylia.com";
-    userName = "Aidan Thomas";
-    aliases = {
-      cl = "!f(){ git clone git@github.com:\${1} \${2}; };f";
-      lg = "log --oneline --graph --decorate --all";
-    };
-    lfs.enable = true;
-    extraConfig = {
-      init = {
-        defaultBranch = "master";
-      };
-    };
-  };
-
-  programs.vscode = {
-    enable = true;
-    userSettings = {
-      "window.titleBarStyle" = "custom";
-    };
-  };
-
-  services.caffeine.enable = true;
 
   # Let home manager manage itself
   programs.home-manager.enable = true;

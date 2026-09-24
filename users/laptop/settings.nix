@@ -7,22 +7,22 @@
       keymap = "us";
     };
     display = {
-      wm = "bspwm";
-      monitors = [
-        "DP-2"
-      ];
+      wm = "hyprland";
       statusbar = "eww";
-      wallpaperengine = "feh";
-      backend = "x11";
-      dpi = 109; # Calculate using https://dpi.lv/
+      backend = "wayland";
     };
-    theme = {
-      cursorSize = 24;
-    };
-    terminal = "kitty";
+    terminal = "ghostty";
   };
   sys = {
     hostname = "nixos";
-    hardware.nvidia = true;
   };
+  importFiles = [
+    # Programs
+    ../../components/programs/git.nix
+    ../../components/programs/bash.nix
+    ../../components/programs/codex.nix
+
+    # Services
+    ../../components/services/caffeine.nix
+  ];
 }

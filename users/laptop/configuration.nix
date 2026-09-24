@@ -1,6 +1,8 @@
 {
   pkgs,
   settings,
+  inputs,
+  system,
   ...
 }: {
   imports = [./hardware-configuration.nix];
@@ -13,17 +15,12 @@
   };
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages;
+  boot.loader.timeout = -1;
 
   networking.hostName = settings.sys.hostname;
   networking.hosts = {
-    "192.168.1.254" = ["router.admin.com"];
-    "192.168.122.243" = [
-      "providers.local.com"
-      "services.local.com"
-      "admin.local.com"
-    ];
   };
-
+  networking.firewall.allowedTCPPorts = [3000];
   networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/London";
@@ -41,44 +38,62 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
+  hardware.graphics.enable = true;
 
   services.xserver = {
     enable = true;
 
     displayManager.lightdm.enable = true;
-    desktopManager.gnome.enable = true;
 
     windowManager.bspwm.enable =
       if settings.usr.display.wm == "bspwm"
       then true
       else false;
-  };
 
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # jack.enable = true;
-  };
-
-  environment.shells = with pkgs; [bash zsh];
-  users.defaultUserShell = pkgs.bash;
-
-  services.xserver = {
     xkb = {
       layout = settings.usr.kb.layout;
       variant = "";
     };
   };
+
+  programs.hyprland =
+    if settings.usr.display.wm == "hyprland"
+    then {
+      enable = true;
+      package = inputs.hyprland.packages.${system}.hyprland.override {
+        glaze-hyprland = pkgs.glaze;
+      };
+      xwayland.enable = true;
+    }
+    else {};
+
+  # Wayland stuff for running Hyprland
+  environment.sessionVariables =
+    if settings.usr.display.wm == "hyprland"
+    then {
+      WLR_NO_HARDWARE_CURSORS = "1";
+      NIXOS_OZONE_WL = "1";
+    }
+    else {};
+
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  security.pam.services.hyprlock = {};
+  services.pipewire = {
+    enable = true;
+    alsa = {
+      enable = true;
+      support32Bit = true;
+    };
+    audio.enable = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
+
+  services.mozillavpn.enable = true;
+
+  environment.shells = with pkgs; [bash zsh];
+  users.defaultUserShell = pkgs.bash;
 
   console.keyMap = settings.usr.kb.keymap;
 
@@ -109,9 +124,13 @@
   ];
 
   programs.dconf.enable = true;
+  programs.steam.enable = true;
 
   virtualisation.docker = {
     enable = true;
+    daemon.settings = {
+      insecure-registries = ["192.168.1.111:5000"];
+    };
   };
 
   system.stateVersion = "23.11";
