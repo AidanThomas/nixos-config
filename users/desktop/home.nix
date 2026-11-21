@@ -8,6 +8,21 @@
   scripts =
     map (script: ./scripts/${script})
     (builtins.attrNames (builtins.readDir ./scripts));
+
+  quickshellWithLottie = pkgs.symlinkJoin {
+    name = "quickshell-with-lottie";
+    paths = [pkgs-unstable.quickshell];
+    nativeBuildInputs = [pkgs.makeWrapper];
+    postBuild = let
+      qtlottie = pkgs-unstable.kdePackages.qtlottie;
+    in ''
+      for executable in quickshell qs; do
+        wrapProgram "$out/bin/$executable" \
+          --prefix NIXPKGS_QT6_QML_IMPORT_PATH : "${qtlottie}/lib/qt-6/qml" \
+          --prefix QT_PLUGIN_PATH : "${qtlottie}/lib/qt-6/plugins"
+      done
+    '';
+  };
 in {
   imports =
     [
@@ -79,7 +94,7 @@ in {
     ## Unstable packages
     ++ [
       pkgs-unstable.neovim
-      pkgs-unstable.quickshell
+      quickshellWithLottie
       pkgs-unstable.kdePackages.qtdeclarative
     ];
 
